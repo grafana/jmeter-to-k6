@@ -8,6 +8,8 @@ const element = sinon.spy()
 mockRequire('element', element)
 const elements = require('elements')
 
+function el () { return { type: 'element' } }
+
 test.beforeEach(t => {
   merge.resetHistory()
   element.resetHistory()
@@ -19,12 +21,12 @@ test.serial('element 0', t => {
 })
 
 test.serial('element 1', t => {
-  elements([ {} ])
+  elements([ el() ])
   t.true(element.calledOnce)
 })
 
 test.serial('element 3', t => {
-  elements([ {}, {}, {} ])
+  elements([ el(), el(), el() ])
   t.true(element.calledThrice)
 })
 
@@ -34,12 +36,12 @@ test.serial('merge 0', t => {
 })
 
 test.serial('merge 1', t => {
-  elements([ {} ])
+  elements([ el() ])
   t.true(merge.calledOnce)
 })
 
 test.serial('merge 3', t => {
-  elements([ {}, {}, {} ])
+  elements([ el(), el(), el() ])
   t.true(merge.calledThrice)
 })
 

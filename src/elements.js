@@ -10,6 +10,7 @@ const element = require('./element')
  */
 function elements (nodes) {
   const result = { options: {}, imports: new Set(), logic: '' }
+  nodes = nodes.filter(node => node.type === 'element')
   for (const node of nodes) merge(result, element(node))
   return result
 }
