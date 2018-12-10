@@ -10,14 +10,14 @@ test.beforeEach(t => {
   jmeterTestPlan.resetHistory()
 })
 
-test('unrecognized', t => {
+test.serial('unrecognized', t => {
   const node = { name: 'BadElement' }
   t.throws(() => {
     element(node)
   }, /Unrecognized element: /)
 })
 
-test('jmeterTestPlan', t => {
+test.serial('jmeterTestPlan', t => {
   const node = { name: 'jmeterTestPlan' }
   element(node)
   t.true(jmeterTestPlan.calledOnce)

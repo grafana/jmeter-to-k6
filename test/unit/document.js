@@ -21,13 +21,13 @@ test.beforeEach(t => {
   element.reset()
 })
 
-test('root', t => {
+test.serial('root', t => {
   document(tree)
   t.true(element.calledOnce)
   t.deepEqual(element.firstCall.args[0], tree.children[0])
 })
 
-test('return', t => {
+test.serial('return', t => {
   const token = Symbol('TestToken')
   element.returns(token)
   const result = document(tree)
