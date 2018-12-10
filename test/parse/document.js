@@ -16,7 +16,7 @@ test.beforeEach(t => {
   t.context.tree = parseXml(xml)
 })
 
-test('element', t => {
+test.serial('element', t => {
   document(t.context.tree)
   t.true(element.calledOnce)
 })
