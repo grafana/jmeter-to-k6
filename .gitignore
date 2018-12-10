@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# npm files
+.npm/
+package-lock.json
+npm-debug.log
+
+# Generated documentation
+api/
+
+# Build dir
+build/
+_build/
