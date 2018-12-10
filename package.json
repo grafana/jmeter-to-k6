@@ -2,5 +2,11 @@
     "name": "jmeter-to-k6",
     "version": "0.1.0-dev",
     "description": "Convert JMeter JMX files to k6 JavaScript",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "keywords": [
+        "load-test",
+        "load-testing",
+        "server-load",
+        "performance"
+    ]
 }
