@@ -1,4 +1,5 @@
 {
     "name": "jmeter-to-k6",
-    "version": "0.1.0-dev"
+    "version": "0.1.0-dev",
+    "description": "Convert JMeter JMX files to k6 JavaScript"
 }
