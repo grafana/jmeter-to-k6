@@ -9,5 +9,6 @@
         "server-load",
         "performance"
     ],
-    "homepage": "https://github.com/loadimpact/jmeter-to-k6"
+    "homepage": "https://github.com/loadimpact/jmeter-to-k6",
+    "repository": "github:loadimpact/jmeter-to-k6"
 }
