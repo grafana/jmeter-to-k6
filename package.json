@@ -16,6 +16,9 @@
         "lib": "src",
         "test": "test"
     },
+    "dependencies": {
+        "@rgrove/parse-xml": "^1.1.1"
+    },
     "devDependencies": {
         "cross-env": "^5.2.0",
         "jsdoc": "^3.5.5",
@@ -27,8 +30,5 @@
         "lint-js": "standard",
         "lint": "npm-run-all lint-js",
         "doc": "jsdoc -c .jsdoc.json --pedantic"
-    },
-    "dependencies": {
-        "@rgrove/parse-xml": "^1.1.1"
     }
 }
