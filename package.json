@@ -11,5 +11,9 @@
     ],
     "homepage": "https://github.com/loadimpact/jmeter-to-k6",
     "repository": "github:loadimpact/jmeter-to-k6",
-    "bugs": "https://github.com/loadimpact/jmeter-to-k6/issues"
+    "bugs": "https://github.com/loadimpact/jmeter-to-k6/issues",
+    "directories": {
+        "lib": "src",
+        "test": "test"
+    }
 }
