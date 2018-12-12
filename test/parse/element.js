@@ -1,11 +1,7 @@
 import test from 'ava'
-import mockRequire from 'mock-require'
-import sinon from 'sinon'
 import parseXml from '@rgrove/parse-xml'
-
-const jmeterTestPlan = sinon.spy()
-mockRequire('element/jmeterTestPlan', jmeterTestPlan)
-const document = require('document')
+import jmeterTestPlan from 'sink/element/jmeterTestPlan'
+import document from 'document'
 
 test.beforeEach(t => {
   jmeterTestPlan.resetHistory()
