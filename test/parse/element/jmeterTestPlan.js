@@ -1,11 +1,7 @@
 import test from 'ava'
-import mockRequire from 'mock-require'
-import sinon from 'sinon'
 import parseXml from '@rgrove/parse-xml'
-
-const elements = sinon.spy()
-mockRequire('elements', elements)
-const document = require('document')
+import elements from 'sink/elements'
+import document from 'document'
 
 test.beforeEach(t => {
   elements.resetHistory()
