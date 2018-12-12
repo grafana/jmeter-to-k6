@@ -1,11 +1,7 @@
 import test from 'ava'
-import mockRequire from 'mock-require'
-import sinon from 'sinon'
 import element from 'sink/element'
-
-const merge = sinon.spy()
-mockRequire('merge', merge)
-const elements = require('elements')
+import merge from 'sink/merge'
+import elements from 'elements'
 
 function el () { return { type: 'element' } }
 
