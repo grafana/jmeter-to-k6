@@ -1,10 +1,6 @@
 import test from 'ava'
-import mockRequire from 'mock-require'
-import sinon from 'sinon'
-
-const element = sinon.stub()
-mockRequire('element', element)
-const document = require('document')
+import element from 'stub/element'
+import document from 'document'
 
 const tree = {
   type: 'document',
