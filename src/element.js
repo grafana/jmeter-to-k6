@@ -1,3 +1,5 @@
+module.exports = (...args) => { return element(...args) }
+
 const jmeterTestPlan = require('./element/jmeterTestPlan')
 
 /**
@@ -13,5 +15,3 @@ function element (node) {
     default: throw new Error('Unrecognized element: ' + node.name)
   }
 }
-
-module.exports = element
