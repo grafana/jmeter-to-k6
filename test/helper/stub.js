@@ -1,3 +1,4 @@
+const loadUncached = require('./load')
 const mockRequire = require('mock-require')
 const sinon = require('sinon')
 
@@ -13,10 +14,9 @@ const sinon = require('sinon')
  * @return {function} Stubbed procedure.
  */
 function stub (path) {
-  const original = require(path)
+  const original = loadUncached(path)
   const stubbed = sinon.stub({ original }, 'original')
   mockRequire(path, stubbed)
-  mockRequire.reRequire(path)
   return stubbed
 }
 
