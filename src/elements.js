@@ -1,3 +1,5 @@
+module.exports = (...args) => { return elements(...args) }
+
 const merge = require('./merge')
 const element = require('./element')
 
@@ -14,5 +16,3 @@ function elements (nodes) {
   for (const node of nodes) merge(result, element(node))
   return result
 }
-
-module.exports = elements
