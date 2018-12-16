@@ -35,8 +35,7 @@
         "lint": "npm-run-all lint-js",
         "doc": "jsdoc -c .jsdoc.json --pedantic",
         "test-unit": "cross-env NODE_PATH=src:test ava test/unit",
-        "test-parse": "cross-env NODE_PATH=src:test ava test/parse",
-        "test": "npm-run-all test-unit test-parse",
+        "test": "npm-run-all test-unit",
         "test-hoc": "cross-env NODE_PATH=src:test ava"
     }
 }
