@@ -5,9 +5,9 @@
  * @param {ConvertResult} update - Changes to merge.
  */
 function merge (base, update) {
-  Object.assign(base.options, update.options)
-  for (const item of update.imports) base.imports.add(item)
-  base.logic += update.logic
+  if (update.options) Object.assign(base.options, update.options)
+  if (update.imports) for (const item of update.imports) base.imports.add(item)
+  if (update.logic) base.logic += update.logic
 }
 
 module.exports = merge
