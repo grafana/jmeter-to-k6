@@ -18,3 +18,7 @@ Translation behavior for each element.
 | version | Version string. | Ignore. |
 | properties | Version string. | Ignore. |
 | jmeter | Version string. | Ignore. |
+
+## hashTree
+
+No attributes or properties.
