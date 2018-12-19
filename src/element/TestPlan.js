@@ -1,9 +1,10 @@
+const variables = require('../common/variables')
 const merge = require('../merge')
 const elements = require('../elements')
 const text = require('../text')
 
 function TestPlan (node) {
-  const result = { options: {}, logic: '' }
+  const result = { options: {}, vars: new Map(), logic: '' }
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
@@ -36,6 +37,13 @@ function property (node, result) {
 ${comments}
 */
 `
+      break
+    case 'user_defined_variables':
+      const collection = node.children.find(
+        item => item.name === 'collectionProp'
+      )
+      const variablesResult = variables(collection)
+      merge(result, variablesResult)
       break
     default: throw new Error('Unrecognized TestPlan property: ' + name)
   }

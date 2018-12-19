@@ -1,1 +1,6 @@
-module.exports = { options: {}, imports: new Set(), logic: '' }
+module.exports = {
+  options: {},
+  imports: new Set(),
+  vars: new Map(),
+  logic: ''
+}
