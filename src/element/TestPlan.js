@@ -17,9 +17,10 @@ function TestPlan (node) {
 
 function attribute (node, key, result) {
   switch (key) {
-    case 'guiclass': break
-    case 'testclass': break
-    case 'enabled': break
+    case 'guiclass':
+    case 'testclass':
+    case 'enabled':
+      break
     case 'testname':
       const name = node.attributes[key]
       result.logic += '// ' + name + '\n'
