@@ -1,13 +1,8 @@
 Translation behavior for each element.
 
-## xml
+## hashTree
 
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| version | XML version string. | Ignore. |
-| encoding | Character encoding. | Ignore. |
+No attributes or properties.
 
 ## jmeterTestPlan
 
@@ -18,10 +13,6 @@ Translation behavior for each element.
 | version | Version string. | Ignore. |
 | properties | Version string. | Ignore. |
 | jmeter | Version string. | Ignore. |
-
-## hashTree
-
-No attributes or properties.
 
 ## TestPlan
 
@@ -44,3 +35,12 @@ No attributes or properties.
 | serialize_threadgroups | bool | Serialize thread groups. | ? |
 | user_defined_variables | element | Defines variables. | Variables. |
 | user_define_classpath | string | ? | Ignore. |
+
+## xml
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| version | XML version string. | Ignore. |
+| encoding | Character encoding. | Ignore. |
