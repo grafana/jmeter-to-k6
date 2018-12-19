@@ -20,6 +20,22 @@ An `elementProp` node representing a variable.
 | desc | string | Human description. Single line. | Render as comment. |
 | metadata | string | Seemingly always `=`. | Ignore. |
 
+## {variables}
+
+A `collectionProp` node representing a set of variables.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| name | Seemingly always `Arguments.arguments`. | Ignore. |
+
+**Child**
+
+| Element | Description | Action |
+| ------- | ----------- | ------ |
+| elementProp | A variable. | Render as variable. |
+
 ## hashTree
 
 No attributes or properties.
