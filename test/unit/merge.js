@@ -30,9 +30,9 @@ test('add import', t => {
 
 test('add var', t => {
   const base = { vars: new Map() }
-  const update = { vars: new Map([ [ 'a', '1' ] ]) }
+  const update = { vars: new Map([ [ 'a', { value: '1' } ] ]) }
   merge(base, update)
-  t.deepEqual(base, { vars: new Map([ [ 'a', '1' ] ]) })
+  t.deepEqual(base, { vars: new Map([ [ 'a', { value: '1' } ] ]) })
 })
 
 test('add logic', t => {
@@ -74,10 +74,13 @@ test('merge import', t => {
 })
 
 test('merge var', t => {
-  const base = { vars: new Map([ [ 'a', '1' ] ]) }
-  const update = { vars: new Map([ [ 'b', '2' ] ]) }
+  const base = { vars: new Map([ [ 'a', { value: '1' } ] ]) }
+  const update = { vars: new Map([ [ 'b', { value: '2' } ] ]) }
   merge(base, update)
-  t.deepEqual(base, { vars: new Map([ [ 'a', '1' ], [ 'b', '2' ] ]) })
+  t.deepEqual(base, { vars: new Map([
+    [ 'a', { value: '1' } ],
+    [ 'b', { value: '2' } ]
+  ]) })
 })
 
 test('merge logic', t => {

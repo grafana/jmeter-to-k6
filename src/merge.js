@@ -1,3 +1,5 @@
+const isEqual = require('lodash.isequal')
+
 /**
  * Merge conversion results
  *
@@ -12,14 +14,15 @@ function merge (base, update) {
 }
 
 function mergeVariables (base, update) {
-  for (const [ key, value ] of update.vars) mergeVariable(base, key, value)
+  for (const [ key, spec ] of update.vars) mergeVariable(base, key, spec)
 }
 
-function mergeVariable (base, key, value) {
-  if (base.vars.has(key) && base.vars.get(key) !== value) {
-    throw new Error('Redefinition of variable: ' + key)
+function mergeVariable (base, key, spec) {
+  if (base.vars.has(key)) {
+    if (isEqual(base.vars.get(key), spec)) return
+    else throw new Error('Redefinition of variable: ' + key)
   }
-  base.vars.set(key, value)
+  base.vars.set(key, spec)
 }
 
 module.exports = merge
