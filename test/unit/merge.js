@@ -66,6 +66,13 @@ test('merge import', t => {
   )
 })
 
+test('merge declare', t => {
+  const base = { declares: '' }
+  const update = { declares: 'let a;\n' }
+  merge(base, update)
+  t.deepEqual(base, { declares: 'let a;\n' })
+})
+
 test('merge logic', t => {
   const base = { options: {}, imports: new Set(), logic: 'const a = 5\n' }
   const update = { options: {}, imports: new Set(), logic: 'const b = 6\n' }
