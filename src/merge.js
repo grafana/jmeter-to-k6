@@ -29,10 +29,7 @@ function mergeVariables (base, update) {
 }
 
 function mergeVariable (base, key, spec) {
-  if (base.vars.has(key)) {
-    if (isEqual(base.vars.get(key), spec)) return
-    else throw new Error('Redefinition of variable: ' + key)
-  }
+  // JMeter specifies redefinition valid, final definition has precedence
   base.vars.set(key, spec)
 }
 
