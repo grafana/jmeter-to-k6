@@ -2,6 +2,7 @@ module.exports = (...args) => { return elements(...args) }
 
 const merge = require('./merge')
 const element = require('./element')
+const makeResult = require('./result')
 
 /**
  * Convert child elements
@@ -11,12 +12,7 @@ const element = require('./element')
  * @return {ConvertResult}
  */
 function elements (nodes) {
-  const result = {
-    options: {},
-    imports: new Set(),
-    vars: new Map(),
-    logic: ''
-  }
+  const result = makeResult()
   nodes = nodes.filter(node => node.type === 'element')
   for (const node of nodes) merge(result, element(node))
   return result

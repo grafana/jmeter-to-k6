@@ -2,9 +2,10 @@ const variables = require('../common/variables')
 const merge = require('../merge')
 const elements = require('../elements')
 const text = require('../text')
+const makeResult = require('../result')
 
 function TestPlan (node) {
-  const result = { options: {}, vars: new Map(), logic: '' }
+  const result = makeResult()
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
