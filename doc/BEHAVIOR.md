@@ -1,5 +1,25 @@
 Translation behavior for each element.
 
+## {variable}
+
+An `elementProp` node representing a variable.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| name | Name. | Ignore. Name property used instead. |
+| elementType | Seemingly always `Argument`. | Ignore. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| name | string | Name. | Encode to valid string. Render as name. |
+| value | string | Value. | Encode to valid string. Render as value. |
+| desc | string | Human description. Single line. | Render as comment. |
+| metadata | string | Seemingly always `=`. | Ignore. |
+
 ## hashTree
 
 No attributes or properties.
