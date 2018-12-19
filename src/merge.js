@@ -7,10 +7,21 @@ const isEqual = require('lodash.isequal')
  * @param {ConvertResult} update - Changes to merge.
  */
 function merge (base, update) {
-  if (update.options) Object.assign(base.options, update.options)
+  if (update.options) mergeOptions(base.options, update.options)
   if (update.imports) for (const item of update.imports) base.imports.add(item)
   if (update.vars) mergeVariables(base, update)
   if (update.logic) base.logic += update.logic
+}
+
+function mergeOptions (base, update) {
+  for (const key of Object.keys(update)) {
+    if (Array.isArray(update[key])) {
+      if (!(key in base)) base[key] = []
+      base[key].push(...update[key])
+    } else if (key in base) {
+      throw new Error('Redefinition of option: ' + key)
+    } else base[key] = update[key]
+  }
 }
 
 function mergeVariables (base, update) {
