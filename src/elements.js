@@ -11,7 +11,12 @@ const element = require('./element')
  * @return {ConvertResult}
  */
 function elements (nodes) {
-  const result = { options: {}, imports: new Set(), declares: '', logic: '' }
+  const result = {
+    options: {},
+    imports: new Set(),
+    vars: new Map(),
+    logic: ''
+  }
   nodes = nodes.filter(node => node.type === 'element')
   for (const node of nodes) merge(result, element(node))
   return result
