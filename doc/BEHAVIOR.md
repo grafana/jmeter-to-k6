@@ -50,6 +50,31 @@ No attributes or properties.
 | properties | Version string. | Ignore. |
 | jmeter | Version string. | Ignore. |
 
+## SetupThreadGroup
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment in setup logic. |
+| on_sample_error | string | ? | ? |
+| main_controller | element | ? | ? |
+| num_threads | string | Thread count. | ? |
+| ramp_time | string | Ramp time to thread count. | ? |
+| scheduler | bool | ? | ? |
+| duration | string | ? | ? |
+| delay | string | ? | ? |
+| delayedStart | bool | ? | ? |
+
 ## TestPlan
 
 **Attribute**
@@ -87,7 +112,7 @@ No attributes or properties.
 
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
-| comments | string | Freeform comments. | Ignore. |
+| comments | string | Freeform comments. | Comment in VU logic. |
 | on_sample_error | string | ? | ? |
 | main_controller | element | ? | ? |
 | num_threads | string | Thread count. | Option stages, VU count. |
