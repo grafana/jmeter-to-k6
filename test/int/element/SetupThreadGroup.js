@@ -33,8 +33,8 @@ test('comment', t => {
   const tree = parseXml(xml)
   const result = document(tree)
   t.is(result.setup, `
+
 /*
 Prepare resource
-*/
-`)
+*/`)
 })

@@ -40,10 +40,10 @@ function property (node, result) {
     case 'comments': {
       const comments = text(node.children)
       result.setup += `
+
 /*
 ${comments}
-*/
-`
+*/`
       break
     }
   }

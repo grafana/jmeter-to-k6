@@ -26,7 +26,7 @@ test('name', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.is(result.init, '// White Zinc Fox\n')
+  t.is(result.init, '// White Zinc Fox')
 })
 
 test('comments', t => {
@@ -45,13 +45,13 @@ fourth line</stringProp>
   const tree = parseXml(xml)
   const result = document(tree)
   t.is(result.init, `
+
 /*
 first line
 second line
 
 fourth line
-*/
-`)
+*/`)
 })
 
 test('variables', t => {

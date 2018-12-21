@@ -41,10 +41,10 @@ function property (node, result) {
     case 'comments': {
       const comments = text(node.children)
       result.logic += `
+
 /*
 ${comments}
-*/
-`
+*/`
       break
     }
     case 'num_threads': {
