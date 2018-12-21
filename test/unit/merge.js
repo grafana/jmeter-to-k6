@@ -35,6 +35,13 @@ test('add var', t => {
   t.deepEqual(base, { vars: new Map([ [ 'a', { value: '1' } ] ]) })
 })
 
+test('add init', t => {
+  const base = { init: '' }
+  const update = { init: '// Test search page\n' }
+  merge(base, update)
+  t.deepEqual(base, { init: '// Test search page\n' })
+})
+
 test('add setup', t => {
   const base = { setup: '' }
   const update = { setup: 'let a = 5\n' }
@@ -99,6 +106,13 @@ test('merge var', t => {
     [ 'a', { value: '1' } ],
     [ 'b', { value: '2' } ]
   ]) })
+})
+
+test('merge init', t => {
+  const base = { init: '// Test search page\n' }
+  const update = { init: '// Runs 500 threads\n' }
+  merge(base, update)
+  t.deepEqual(base, { init: '// Test search page\n// Runs 500 threads\n' })
 })
 
 test('merge setup', t => {

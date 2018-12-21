@@ -8,6 +8,7 @@ function merge (base, update) {
   if (update.options) mergeOptions(base.options, update.options)
   if (update.imports) for (const item of update.imports) base.imports.add(item)
   if (update.vars) mergeVariables(base, update)
+  if (update.init) base.init += update.init
   if (update.setup) base.setup += update.setup
   if (update.prolog) base.prolog += update.prolog
   if (update.users) base.users.push(...update.users)
