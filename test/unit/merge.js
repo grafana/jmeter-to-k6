@@ -35,6 +35,13 @@ test('add var', t => {
   t.deepEqual(base, { vars: new Map([ [ 'a', { value: '1' } ] ]) })
 })
 
+test('add setup', t => {
+  const base = { setup: '' }
+  const update = { setup: 'let a = 5\n' }
+  merge(base, update)
+  t.deepEqual(base, { setup: 'let a = 5\n' })
+})
+
 test('add prolog', t => {
   const base = { prolog: '' }
   const update = { prolog: 'let a = 5\n' }
@@ -92,6 +99,13 @@ test('merge var', t => {
     [ 'a', { value: '1' } ],
     [ 'b', { value: '2' } ]
   ]) })
+})
+
+test('merge setup', t => {
+  const base = { setup: 'let a = 5\n' }
+  const update = { setup: 'let b = 6\n' }
+  merge(base, update)
+  t.deepEqual(base, { setup: 'let a = 5\nlet b = 6\n' })
 })
 
 test('merge prolog', t => {

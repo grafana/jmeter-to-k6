@@ -3,6 +3,7 @@ function makeResult () {
     options: {},
     imports: new Set(),
     vars: new Map(),
+    setup: '',
     prolog: '',
     users: []
   }
