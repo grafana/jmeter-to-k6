@@ -50,6 +50,31 @@ No attributes or properties.
 | properties | Version string. | Ignore. |
 | jmeter | Version string. | Ignore. |
 
+## PostThreadGroup
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment in teardown logic. |
+| on_sample_error | string | ? | ? |
+| main_controller | element | ? | ? |
+| num_threads | string | Thread count. | ? |
+| ramp_time | string | Ramp time to thread count. | ? |
+| scheduler | bool | ? | ? |
+| duration | string | ? | ? |
+| delay | string | ? | ? |
+| delayedStart | bool | ? | ? |
+
 ## SetupThreadGroup
 
 **Attribute**
