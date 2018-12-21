@@ -1,6 +1,5 @@
 import test from 'ava'
 import parseXml from '@rgrove/parse-xml'
-import empty from 'helper/empty'
 import document from 'document'
 
 test('minimal', t => {
