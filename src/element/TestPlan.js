@@ -23,7 +23,7 @@ function attribute (node, key, result) {
       break
     case 'testname': {
       const name = node.attributes[key]
-      result.prolog += '// ' + name + '\n'
+      result.init += '// ' + name + '\n'
       break
     }
     default: throw new Error('Unrecognized TestPlan attribute: ' + key)
@@ -35,7 +35,7 @@ function property (node, result) {
   switch (name) {
     case 'comments': {
       const comments = text(node.children)
-      result.prolog += `
+      result.init += `
 /*
 ${comments}
 */
