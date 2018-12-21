@@ -14,10 +14,12 @@
     "bugs": "https://github.com/loadimpact/jmeter-to-k6/issues",
     "directories": {
         "lib": "src",
+        "bin": "bin",
         "test": "test"
     },
     "dependencies": {
-        "@rgrove/parse-xml": "^1.1.1"
+        "@rgrove/parse-xml": "^1.1.1",
+        "yargs": "^12.0.5"
     },
     "devDependencies": {
         "ava": "^1.0.0-rc.2",
