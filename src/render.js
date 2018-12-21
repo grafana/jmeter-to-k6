@@ -7,6 +7,7 @@
  */
 function render (result) {
   return (
+    renderInit(result.init) +
     renderOptions(result.options)
   )
 }
@@ -28,6 +29,11 @@ function renderOption (options, key) {
     }
     default: throw new Error('Unrecognized option: ' + key)
   }
+}
+
+function renderInit (init) {
+  if (!init) return ''
+  return init + '\n'
 }
 
 module.exports = render

@@ -1,6 +1,6 @@
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
-    <TestPlan>
+    <TestPlan testname="Search page test">
       <ThreadGroup>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">2</stringProp>
