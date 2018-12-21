@@ -72,6 +72,31 @@ No attributes or properties.
 | user_defined_variables | element | Defines variables. | Variables. |
 | user_define_classpath | string | ? | Ignore. |
 
+## ThreadGroup
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Ignore. |
+| on_sample_error | string | ? | ? |
+| main_controller | element | ? | ? |
+| num_threads | string | Thread count. | Option stages, VU count. |
+| ramp_time | string | Ramp time to thread count. | Option stages, duration. |
+| scheduler | bool | ? | ? |
+| duration | string | ? | ? |
+| delay | string | ? | ? |
+| delayedStart | bool | ? | ? |
+
 ## xml
 
 **Attribute**
