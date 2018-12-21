@@ -1,5 +1,5 @@
 const merge = require('../merge')
-const elements = require('elements')
+const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
 
