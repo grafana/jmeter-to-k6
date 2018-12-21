@@ -31,8 +31,15 @@ function attribute (node, key, result) {
 function property (node, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'comments':
+    case 'comments': {
+      const comments = text(node.children)
+      result.logic += `
+/*
+${comments}
+*/
+`
       break
+    }
     case 'num_threads': {
       const valueString = text(node.children)
       const value = Number.parseInt(valueString, 10)
