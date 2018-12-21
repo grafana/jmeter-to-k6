@@ -10,7 +10,7 @@ test.beforeEach(t => {
   elements.resetHistory()
 })
 
-test('elements', t => {
+test.serial('elements', t => {
   const node = { children: Symbol('TestToken') }
   jmeterTestPlan(node)
   t.true(elements.calledOnce)

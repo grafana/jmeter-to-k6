@@ -6,7 +6,7 @@ test.beforeEach(t => {
   elements.resetHistory()
 })
 
-test('elements', t => {
+test.serial('elements', t => {
   const node = { children: Symbol('TestToken') }
   hashTree(node)
   t.true(elements.calledOnce)
