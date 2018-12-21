@@ -17,8 +17,7 @@
         "test": "test"
     },
     "dependencies": {
-        "@rgrove/parse-xml": "^1.1.1",
-        "lodash.isequal": "^4.5.0"
+        "@rgrove/parse-xml": "^1.1.1"
     },
     "devDependencies": {
         "ava": "^1.0.0-rc.2",
