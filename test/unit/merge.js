@@ -35,14 +35,25 @@ test('add var', t => {
   t.deepEqual(base, { vars: new Map([ [ 'a', { value: '1' } ] ]) })
 })
 
-test('add logic', t => {
-  const base = { options: {}, imports: new Set(), logic: '' }
-  const update = { options: {}, imports: new Set(), logic: 'const a = 5\n' }
+test('add prolog', t => {
+  const base = { prolog: '' }
+  const update = { prolog: 'let a = 5\n' }
   merge(base, update)
-  t.deepEqual(
-    base,
-    { options: {}, imports: new Set(), logic: 'const a = 5\n' }
-  )
+  t.deepEqual(base, { prolog: 'let a = 5\n' })
+})
+
+test('add logic', t => {
+  const base = {}
+  const update = { logic: 'let a = 5\n' }
+  merge(base, update)
+  t.deepEqual(base, { logic: 'let a = 5\n' })
+})
+
+test('add user logic', t => {
+  const base = { users: [] }
+  const update = { logic: 'let a = 5\n', user: true }
+  merge(base, update)
+  t.deepEqual(base, { users: [ 'let a = 5\n' ] })
 })
 
 test('merge option', t => {
@@ -83,16 +94,16 @@ test('merge var', t => {
   ]) })
 })
 
-test('merge logic', t => {
-  const base = { options: {}, imports: new Set(), logic: 'const a = 5\n' }
-  const update = { options: {}, imports: new Set(), logic: 'const b = 6\n' }
+test('merge prolog', t => {
+  const base = { prolog: 'let a = 5\n' }
+  const update = { prolog: 'let b = 6\n' }
   merge(base, update)
-  t.deepEqual(
-    base,
-    {
-      options: {},
-      imports: new Set(),
-      logic: 'const a = 5\nconst b = 6\n'
-    }
-  )
+  t.deepEqual(base, { prolog: 'let a = 5\nlet b = 6\n' })
+})
+
+test('merge logic', t => {
+  const base = { logic: 'let a = 5\n' }
+  const update = { logic: 'let b = 6\n' }
+  merge(base, update)
+  t.deepEqual(base, { logic: 'let a = 5\nlet b = 6\n' })
 })

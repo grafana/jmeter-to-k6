@@ -1,5 +1,3 @@
-const isEqual = require('lodash.isequal')
-
 /**
  * Merge conversion results
  *
@@ -10,7 +8,8 @@ function merge (base, update) {
   if (update.options) mergeOptions(base.options, update.options)
   if (update.imports) for (const item of update.imports) base.imports.add(item)
   if (update.vars) mergeVariables(base, update)
-  if (update.logic) base.logic += update.logic
+  if (update.prolog) base.prolog += update.prolog
+  if ('logic' in update) mergeLogic(base, update)
 }
 
 function mergeOptions (base, update) {
@@ -31,6 +30,14 @@ function mergeVariables (base, update) {
 function mergeVariable (base, key, spec) {
   // JMeter specifies redefinition valid, final definition has precedence
   base.vars.set(key, spec)
+}
+
+function mergeLogic (base, update) {
+  if (update.user) base.users.push(update.logic)
+  else {
+    if (!('logic' in base)) base.logic = ''
+    base.logic += update.logic
+  }
 }
 
 module.exports = merge

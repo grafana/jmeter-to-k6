@@ -26,7 +26,7 @@ test.serial('name', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.is(result.logic, '// White Zinc Fox\n')
+  t.is(result.prolog, '// White Zinc Fox\n')
 })
 
 test.serial('comments', t => {
@@ -44,7 +44,7 @@ fourth line</stringProp>
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.is(result.logic, `
+  t.is(result.prolog, `
 /*
 first line
 second line

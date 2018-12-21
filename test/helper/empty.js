@@ -2,5 +2,6 @@ module.exports = {
   options: {},
   imports: new Set(),
   vars: new Map(),
-  logic: ''
+  prolog: '',
+  users: []
 }
