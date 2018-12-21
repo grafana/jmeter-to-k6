@@ -3,7 +3,7 @@ import parseXml from '@rgrove/parse-xml'
 import empty from 'helper/empty'
 import document from 'document'
 
-test.serial('empty', t => {
+test('empty', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -16,7 +16,7 @@ test.serial('empty', t => {
   t.deepEqual(result, empty)
 })
 
-test.serial('name', t => {
+test('name', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -29,7 +29,7 @@ test.serial('name', t => {
   t.is(result.prolog, '// White Zinc Fox\n')
 })
 
-test.serial('comments', t => {
+test('comments', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -54,7 +54,7 @@ fourth line
 `)
 })
 
-test.serial('variables', t => {
+test('variables', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
