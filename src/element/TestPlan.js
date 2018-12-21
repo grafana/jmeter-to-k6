@@ -21,10 +21,11 @@ function attribute (node, key, result) {
     case 'testclass':
     case 'enabled':
       break
-    case 'testname':
+    case 'testname': {
       const name = node.attributes[key]
       result.prolog += '// ' + name + '\n'
       break
+    }
     default: throw new Error('Unrecognized TestPlan attribute: ' + key)
   }
 }
@@ -32,7 +33,7 @@ function attribute (node, key, result) {
 function property (node, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'comments':
+    case 'comments': {
       const comments = text(node.children)
       result.prolog += `
 /*
@@ -40,13 +41,15 @@ ${comments}
 */
 `
       break
-    case 'user_defined_variables':
+    }
+    case 'user_defined_variables': {
       const collection = node.children.find(
         item => item.name === 'collectionProp'
       )
       const variablesResult = variables(collection)
       merge(result, variablesResult)
       break
+    }
     default: throw new Error('Unrecognized TestPlan property: ' + name)
   }
 }
