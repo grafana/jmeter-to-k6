@@ -31,6 +31,13 @@ function attribute (node, key, result) {
 function property (node, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'on_sample_error':
+    case 'main_controller':
+    case 'scheduler':
+    case 'duration':
+    case 'delay':
+    case 'delayedStart':
+      break
     case 'comments': {
       const comments = text(node.children)
       result.logic += `
