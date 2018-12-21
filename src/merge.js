@@ -12,6 +12,7 @@ function merge (base, update) {
   if (update.setup) base.setup += update.setup
   if (update.prolog) base.prolog += update.prolog
   if (update.users) base.users.push(...update.users)
+  if (update.teardown) base.teardown += update.teardown
   if ('logic' in update) mergeLogic(base, update)
 }
 

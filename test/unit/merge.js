@@ -70,6 +70,13 @@ test('add user logic', t => {
   t.deepEqual(base, { users: [ 'let a = 5\n' ] })
 })
 
+test('add teardown', t => {
+  const base = { teardown: '' }
+  const update = { teardown: 'resource.close()\n' }
+  merge(base, update)
+  t.deepEqual(base, { teardown: 'resource.close()\n' })
+})
+
 test('merge option', t => {
   const base = { options: { option1: true }, imports: new Set(), logic: '' }
   const update = { options: { option2: true }, imports: new Set(), logic: '' }
@@ -134,4 +141,11 @@ test('merge logic', t => {
   const update = { logic: 'let b = 6\n' }
   merge(base, update)
   t.deepEqual(base, { logic: 'let a = 5\nlet b = 6\n' })
+})
+
+test('merge teardown', t => {
+  const base = { teardown: 'resource1.close()\n' }
+  const update = { teardown: 'resource2.close()\n' }
+  merge(base, update)
+  t.deepEqual(base, { teardown: 'resource1.close()\nresource2.close()\n' })
 })

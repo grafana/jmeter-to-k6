@@ -5,5 +5,6 @@ module.exports = {
   init: '',
   setup: '',
   prolog: '',
-  users: []
+  users: [],
+  teardown: ''
 }

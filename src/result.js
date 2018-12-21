@@ -6,7 +6,8 @@ function makeResult () {
     init: '',
     setup: '',
     prolog: '',
-    users: []
+    users: [],
+    teardown: ''
   }
 }
 
