@@ -1,3 +1,5 @@
+module.exports = (...args) => { return property(...args) }
+
 const text = require('./text')
 
 function property (node) {
@@ -25,5 +27,3 @@ function decodeBool (value) {
 }
 
 function decodeString (value) { return value || null }
-
-module.exports = property
