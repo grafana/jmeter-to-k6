@@ -1,6 +1,6 @@
 import test from 'ava'
 import parseXml from '@rgrove/parse-xml'
-import property from 'property'
+import property from 'common/property'
 
 test('string empty', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

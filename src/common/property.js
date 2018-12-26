@@ -1,6 +1,6 @@
 module.exports = (...args) => { return property(...args) }
 
-const text = require('./text')
+const text = require('../text')
 
 function property (node) {
   const name = node.attributes.name.split('.').pop()
