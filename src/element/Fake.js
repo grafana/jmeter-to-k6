@@ -1,5 +1,5 @@
 // Null element for use in tests
-function Fake (node) {
+function Fake (node, defaults = []) {
   return { logic: '// Fake\n' }
 }
 

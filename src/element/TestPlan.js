@@ -4,14 +4,14 @@ const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
 
-function TestPlan (node) {
+function TestPlan (node, defaults = []) {
   const result = makeResult()
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els))
+  merge(result, elements(els, defaults))
   return result
 }
 

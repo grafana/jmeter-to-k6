@@ -1,7 +1,7 @@
 const elements = require('../elements')
 
-function jmeterTestPlan (node) {
-  return elements(node.children)
+function jmeterTestPlan (node, defaults = []) {
+  return elements(node.children, defaults)
 }
 
 module.exports = jmeterTestPlan

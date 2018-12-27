@@ -3,7 +3,7 @@ const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
 
-function ThreadGroup (node) {
+function ThreadGroup (node, defaults = []) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.options.stages = [ {} ]
@@ -13,7 +13,7 @@ function ThreadGroup (node) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els))
+  merge(result, elements(els, defaults))
   result.user = true
   return result
 }

@@ -11,9 +11,9 @@ const makeResult = require('./result')
  *
  * @return {ConvertResult}
  */
-function elements (nodes) {
+function elements (nodes, defaults = []) {
   const result = makeResult()
   nodes = nodes.filter(node => node.type === 'element')
-  for (const node of nodes) merge(result, element(node))
+  for (const node of nodes) merge(result, element(node, defaults))
   return result
 }

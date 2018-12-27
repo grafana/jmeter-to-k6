@@ -3,7 +3,7 @@ const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
 
-function PostThreadGroup (node) {
+function PostThreadGroup (node, defaults = []) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
@@ -11,7 +11,7 @@ function PostThreadGroup (node) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els))
+  merge(result, elements(els, defaults))
   return result
 }
 

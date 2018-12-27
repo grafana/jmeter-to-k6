@@ -7,14 +7,14 @@ test.beforeEach(t => {
 })
 
 test.serial('unrecognized', t => {
-  const node = { name: 'BadElement' }
+  const node = { name: 'BadElement', children: [] }
   t.throws(() => {
     element(node)
   }, /Unrecognized element: /)
 })
 
 test.serial('jmeterTestPlan', t => {
-  const node = { name: 'jmeterTestPlan' }
+  const node = { name: 'jmeterTestPlan', children: [] }
   element(node)
   t.true(jmeterTestPlan.calledOnce)
 })
