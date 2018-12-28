@@ -100,6 +100,38 @@ No attributes or properties.
 | delay | string | ? | ? |
 | delayedStart | bool | ? | ? |
 
+## SteppingThreadGroup
+
+* Translates to `stages` option with ramp ups for each group. Default
+  `SteppingThreadGroup` behavior seems to have all threads in a group starting
+  at once, so this is an approximation.
+* Stepped thread stopping not translated. No obvious counterpart in k6.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment in prolog. |
+| on_sample_error | string | ? | ? |
+| num_threads | string | Ultimate thread count. | Calculate step count. |
+| Threads initial delay | string | ? | ? |
+| Start users count | string | Step thread count. | Option stages, VU count. |
+| Start users period | string | Step interval. | Option stages, duration. |
+| Stop users count | string | End step thread count. | ? |
+| Stop users period | string | End step interval. | ? |
+| flighttime | string | ? | ? |
+| main_controller | element | ? | ? |
+| rampUp | string | ? | ? |
+
 ## TestPlan
 
 **Attribute**
