@@ -13,6 +13,12 @@ Attributes shared by multiple elements. Specifies default actions.
 | testname | Human name. | Ignore. |
 | enabled | Boolean. | Skip if `false`. |
 
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Ignore. |
+
 ## {variable}
 
 An `elementProp` node representing a variable.
@@ -55,7 +61,6 @@ A `collectionProp` node representing a set of variables.
 
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
-| comments | string | Freeform comments. | Ignore. |
 | servers | collection | ? | Ignore. |
 | clearEachIteration | bool | ? | Ignore. |
 | isCustomResolver | bool | ? | Ignore. |
@@ -142,7 +147,7 @@ No attributes or properties.
 
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
-| comments | string | Contents freeform comments. | Comment. |
+| comments | string | Contents freeform comments. | Comment in init logic. |
 | functional_mode | bool | Enable data saving. | ? |
 | tearDown_on_shutdown | bool | Run teardown after shutdown. | ? |
 | serialize_threadgroups | bool | Serialize thread groups. | ? |
