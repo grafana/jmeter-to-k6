@@ -10,13 +10,18 @@ const ind = require('./ind')
  */
 function render (result) {
   return [
-    renderConstants(result.constants),
     renderInit(result.init),
+    renderConstants(result.constants),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(result.prolog, result.users, result.options.stages),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
+}
+
+function renderInit (init) {
+  if (!init) return ''
+  else return init
 }
 
 function renderConstants (constants) {
@@ -38,11 +43,6 @@ function renderHeaders (headers) {
   const entries = {}
   for (const [ key, value ] of headers) entries[key] = value
   return entries
-}
-
-function renderInit (init) {
-  if (!init) return ''
-  else return init
 }
 
 function renderOptions (options) {
