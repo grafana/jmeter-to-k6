@@ -10,6 +10,7 @@ function merge (base, update) {
   if (update.vars) mergeVariables(base, update)
   if (update.constants) mergeConstants(base, update)
   if (update.defaults) base.defaults.push(...update.defaults)
+  if (update.cookies) mergeCookies(base, update)
   if (update.init) base.init += update.init
   if (update.setup) base.setup += update.setup
   if (update.prolog) base.prolog += update.prolog
@@ -71,6 +72,10 @@ function mergeHeaders (base, update) {
     if (base.has(key)) throw new Error('Redefinition of header: ' + key)
     base.set(key, value)
   }
+}
+
+function mergeCookies (base, update) {
+  for (const [ key, value ] of update.cookies) base.cookies.set(key, value)
 }
 
 function mergeLogic (base, update) {

@@ -1,16 +1,20 @@
 module.exports = (...args) => { return element(...args) }
 
-const DNSCacheManager = require('./element/DNSCacheManager')
 const extractDefaults = require('./common/defaults')
-const Fake = require('./element/Fake')
-const hashTree = require('./element/hashTree')
-const HeaderManager = require('./element/HeaderManager')
-const jmeterTestPlan = require('./element/jmeterTestPlan')
-const PostThreadGroup = require('./element/PostThreadGroup')
-const SetupThreadGroup = require('./element/SetupThreadGroup')
-const SteppingThreadGroup = require('./element/SteppingThreadGroup')
-const TestPlan = require('./element/TestPlan')
-const ThreadGroup = require('./element/ThreadGroup')
+const route = {
+  CookieManager: require('./element/CookieManager'),
+  DNSCacheManager: require('./element/DNSCacheManager'),
+  Fake: require('./element/Fake'),
+  hashTree: require('./element/hashTree'),
+  HeaderManager: require('./element/HeaderManager'),
+  jmeterTestPlan: require('./element/jmeterTestPlan'),
+  'kg.apc.jmeter.threads.SteppingThreadGroup':
+    require('./element/SteppingThreadGroup'),
+  PostThreadGroup: require('./element/PostThreadGroup'),
+  SetupThreadGroup: require('./element/SetupThreadGroup'),
+  TestPlan: require('./element/TestPlan'),
+  ThreadGroup: require('./element/ThreadGroup')
+}
 
 /**
  * Convert element
@@ -20,19 +24,8 @@ const ThreadGroup = require('./element/ThreadGroup')
  * @return {ConvertResult}
  */
 function element (node, defaults = []) {
+  const { name } = node
+  if (!route[name]) throw new Error('Unrecognized element: ' + name)
   defaults = extractDefaults(node, defaults)
-  switch (node.name) {
-    case 'DNSCacheManager': return DNSCacheManager(node, defaults)
-    case 'Fake': return Fake(node, defaults)
-    case 'hashTree': return hashTree(node, defaults)
-    case 'HeaderManager': return HeaderManager(node, defaults)
-    case 'jmeterTestPlan': return jmeterTestPlan(node, defaults)
-    case 'kg.apc.jmeter.threads.SteppingThreadGroup':
-      return SteppingThreadGroup(node, defaults)
-    case 'PostThreadGroup': return PostThreadGroup(node, defaults)
-    case 'SetupThreadGroup': return SetupThreadGroup(node, defaults)
-    case 'TestPlan': return TestPlan(node, defaults)
-    case 'ThreadGroup': return ThreadGroup(node, defaults)
-    default: throw new Error('Unrecognized element: ' + node.name)
-  }
+  return route[name](node, defaults)
 }

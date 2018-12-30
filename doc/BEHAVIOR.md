@@ -55,6 +55,16 @@ A `collectionProp` node representing a set of variables.
 | ------- | ----------- | ------ |
 | elementProp | A variable. | Render as variable. |
 
+## CookieManager
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| cookies | collection | A priori cookies. | Add to initial cookie jar. |
+| clearEachIteration | bool | ?  | Ignore. |
+| policy | string | ? | Ignore. |
+
 ## DNSCacheManager
 
 **Property**

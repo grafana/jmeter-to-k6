@@ -14,7 +14,12 @@ function render (result) {
     renderConstants(result.constants),
     renderOptions(result.options),
     renderSetup(result.setup),
-    renderLogic(result.prolog, result.users, result.options.stages),
+    renderLogic(
+      result.cookies,
+      result.prolog,
+      result.users,
+      result.options.stages
+    ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
 }
@@ -70,7 +75,7 @@ ${ind(setup)}
 }`
 }
 
-function renderLogic (prolog, users, stages) {
+function renderLogic (cookies, prolog, users, stages) {
   const sections = []
   for (let i = 0; i < users.length; i++) {
     const [ start, end ] = userRange(i, stages)
@@ -82,12 +87,37 @@ ${ind(logic)}
   sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
   const main = sections.join(` else `)
   const body = [
+    renderCookies(cookies),
     prolog,
     main
   ].filter(item => item).join('\n\n')
   return `export default function (data) {
 ${ind(body)}
 }`
+}
+
+function renderCookies (cookies) {
+  if (!cookies.size) return ''
+  const rendered = [ `const jar = http.cookieJar()` ]
+  for (const [ name, spec ] of cookies) rendered.push(renderCookie(name, spec))
+  return rendered.join('\n')
+}
+
+function renderCookie (name, spec) {
+  const address =
+    'http' + (spec.secure ? 's' : '') + '://' +
+    spec.domain +
+    (spec.path || '')
+  const attributes = {}
+  if (spec.domain) attributes.domain = spec.domain
+  if (spec.path) attributes.path = spec.path
+  if ('secure' in spec) attributes.secure = spec.secure
+  return (
+    `jar.set(${JSON.stringify(address)}` +
+    `, ${JSON.stringify(name)}` +
+    `, ${JSON.stringify(spec.value)}` +
+    `, ${JSON.stringify(attributes)})`
+  )
 }
 
 function userRange (i, stages) {
