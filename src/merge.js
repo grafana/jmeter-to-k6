@@ -18,13 +18,25 @@ function merge (base, update) {
 }
 
 function mergeOptions (base, update) {
-  for (const key of Object.keys(update)) {
-    if (Array.isArray(update[key])) {
-      if (!(key in base)) base[key] = []
-      base[key].push(...update[key])
-    } else if (key in base) {
-      throw new Error('Redefinition of option: ' + key)
-    } else base[key] = update[key]
+  for (const key of Object.keys(update)) mergeOption(base, update, key)
+}
+
+function mergeOption (base, update, key) {
+  switch (key) {
+    case 'linger':
+    case 'paused':
+      if (key in base) throw new Error('Redefinition of option: ' + key)
+      base[key] = update[key]
+      break
+    case 'hosts':
+      if (!base.hosts) base.hosts = {}
+      Object.assign(base.hosts, update.hosts)
+      break
+    case 'stages':
+      if (!base.stages) base.stages = []
+      base.stages.push(...update.stages)
+      break
+    default: throw new Error('Unrecognized option: ' + key)
   }
 }
 

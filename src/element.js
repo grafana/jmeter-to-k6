@@ -1,5 +1,6 @@
 module.exports = (...args) => { return element(...args) }
 
+const DNSCacheManager = require('./element/DNSCacheManager')
 const extractDefaults = require('./common/defaults')
 const Fake = require('./element/Fake')
 const hashTree = require('./element/hashTree')
@@ -20,6 +21,7 @@ const ThreadGroup = require('./element/ThreadGroup')
 function element (node, defaults = []) {
   defaults = extractDefaults(node, defaults)
   switch (node.name) {
+    case 'DNSCacheManager': return DNSCacheManager(node, defaults)
     case 'Fake': return Fake(node, defaults)
     case 'hashTree': return hashTree(node, defaults)
     case 'jmeterTestPlan': return jmeterTestPlan(node, defaults)

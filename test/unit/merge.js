@@ -10,11 +10,11 @@ test('empty', t => {
 
 test('add option', t => {
   const base = { options: {}, imports: new Set(), logic: '' }
-  const update = { options: { option1: true }, imports: new Set(), logic: '' }
+  const update = { options: { linger: true }, imports: new Set(), logic: '' }
   merge(base, update)
   t.deepEqual(
     base,
-    { options: { option1: true }, imports: new Set(), logic: '' }
+    { options: { linger: true }, imports: new Set(), logic: '' }
   )
 })
 
@@ -78,13 +78,13 @@ test('add teardown', t => {
 })
 
 test('merge option', t => {
-  const base = { options: { option1: true }, imports: new Set(), logic: '' }
-  const update = { options: { option2: true }, imports: new Set(), logic: '' }
+  const base = { options: { linger: true }, imports: new Set(), logic: '' }
+  const update = { options: { paused: true }, imports: new Set(), logic: '' }
   merge(base, update)
   t.deepEqual(
     base,
     {
-      options: { option1: true, option2: true },
+      options: { linger: true, paused: true },
       imports: new Set(),
       logic: ''
     }

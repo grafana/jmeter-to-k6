@@ -36,6 +36,27 @@ A `collectionProp` node representing a set of variables.
 | ------- | ----------- | ------ |
 | elementProp | A variable. | Render as variable. |
 
+## DNSCacheManager
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Ignore. |
+| servers | collection | ? | Ignore. |
+| clearEachIteration | bool | ? | Ignore. |
+| isCustomResolver | bool | ? | Ignore. |
+| hosts | collection | Static host table. | Option `hosts`. |
+
 ## hashTree
 
 No attributes or properties.
@@ -124,8 +145,8 @@ No attributes or properties.
 | on_sample_error | string | ? | ? |
 | num_threads | string | Ultimate thread count. | Calculate step count. |
 | Threads initial delay | string | ? | ? |
-| Start users count | string | Step thread count. | Option stages, VU count. |
-| Start users period | string | Step interval. | Option stages, duration. |
+| Start users count | string | Step thread count. | Option `stages`, VU count. |
+| Start users period | string | Step interval. | Option `stages`, duration. |
 | Stop users count | string | End step thread count. | ? |
 | Stop users period | string | End step interval. | ? |
 | flighttime | string | ? | ? |
@@ -172,8 +193,8 @@ No attributes or properties.
 | comments | string | Freeform comments. | Comment in VU logic. |
 | on_sample_error | string | ? | ? |
 | main_controller | element | ? | ? |
-| num_threads | string | Thread count. | Option stages, VU count. |
-| ramp_time | string | Ramp time to thread count. | Option stages, duration. |
+| num_threads | string | Thread count. | Option `stages`, VU count. |
+| ramp_time | string | Ramp time to thread count. | Option `stages`, duration. |
 | scheduler | bool | ? | ? |
 | duration | string | ? | ? |
 | delay | string | ? | ? |

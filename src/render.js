@@ -35,10 +35,8 @@ ${ind(sections.join(',\n'))}
 
 function renderOption (options, key) {
   switch (key) {
-    case 'stages': {
-      const stages = options[key]
-      return 'stages: ' + JSON.stringify(expand(stages), 4)
-    }
+    case 'hosts': return JSON.stringify(options.hosts)
+    case 'stages': return JSON.stringify(expand(options.stages))
     default: throw new Error('Unrecognized option: ' + key)
   }
 }
