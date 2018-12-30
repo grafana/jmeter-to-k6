@@ -10,12 +10,34 @@ const ind = require('./ind')
  */
 function render (result) {
   return [
+    renderConstants(result.constants),
     renderInit(result.init),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(result.prolog, result.users, result.options.stages),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
+}
+
+function renderConstants (constants) {
+  const rendered = {}
+  for (const [ key, value ] of constants) {
+    rendered[key] = renderConstant(key, value)
+  }
+  return `const constants = ${JSON.stringify(rendered)}`
+}
+
+function renderConstant (key, value) {
+  switch (key) {
+    case 'headers': return renderHeaders(value)
+    default: throw new Error('Unrecognized constant: ' + key)
+  }
+}
+
+function renderHeaders (headers) {
+  const entries = {}
+  for (const [ key, value ] of headers) entries[key] = value
+  return entries
 }
 
 function renderInit (init) {

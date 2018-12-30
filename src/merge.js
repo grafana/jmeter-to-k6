@@ -8,6 +8,7 @@ function merge (base, update) {
   if (update.options) mergeOptions(base.options, update.options)
   if (update.imports) for (const item of update.imports) base.imports.add(item)
   if (update.vars) mergeVariables(base, update)
+  if (update.constants) mergeConstants(base, update)
   if (update.defaults) base.defaults.push(...update.defaults)
   if (update.init) base.init += update.init
   if (update.setup) base.setup += update.setup
@@ -47,6 +48,29 @@ function mergeVariables (base, update) {
 function mergeVariable (base, key, spec) {
   // JMeter specifies redefinition valid, final definition has precedence
   base.vars.set(key, spec)
+}
+
+function mergeConstants (base, update) {
+  for (const [ key, value ] of update.constants) {
+    mergeConstant(base, key, value)
+  }
+}
+
+function mergeConstant (base, key, value) {
+  switch (key) {
+    case 'headers':
+      if (!base.constants.has(key)) base.constants.set(key, new Map())
+      mergeHeaders(base.constants.get(key), value)
+      break
+    default: throw new Error('Unrecognized constant: ' + key)
+  }
+}
+
+function mergeHeaders (base, update) {
+  for (const [ key, value ] of update) {
+    if (base.has(key)) throw new Error('Redefinition of header: ' + key)
+    base.set(key, value)
+  }
 }
 
 function mergeLogic (base, update) {

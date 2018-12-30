@@ -3,6 +3,7 @@ function makeResult () {
     options: {},
     imports: new Set(),
     vars: new Map(),
+    constants: new Map(),
     defaults: [],
     init: '',
     setup: '',

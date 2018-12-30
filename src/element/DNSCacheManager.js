@@ -1,7 +1,7 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function DNSCacheManager (node) {
+function DNSCacheManager (node, defaults) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.options.hosts = {}
@@ -35,6 +35,7 @@ function property (node, hosts) {
       for (const entry of entries) Object.assign(hosts, host(entry))
       break
     }
+    default: throw new Error('Unrecognized DNSCacheManager property: ' + name)
   }
 }
 
