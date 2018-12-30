@@ -1,5 +1,18 @@
 Translation behavior for each element.
 
+## {shared}
+
+Attributes shared by multiple elements. Specifies default actions.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| guiclass | ? | Ignore. |
+| testclass | ? | Ignore. |
+| testname | Human name. | Ignore. |
+| enabled | Boolean. | Skip if `false`. |
+
 ## {variable}
 
 An `elementProp` node representing a variable.
@@ -38,15 +51,6 @@ A `collectionProp` node representing a set of variables.
 
 ## DNSCacheManager
 
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Human name. | Ignore. |
-| enabled | Boolean. | Skip if `false`. |
-
 **Property**
 
 | Name | Type | Description | Action |
@@ -73,15 +77,6 @@ No attributes or properties.
 
 ## PostThreadGroup
 
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Human name. | Ignore. |
-| enabled | Boolean. | Skip if `false`. |
-
 **Property**
 
 | Name | Type | Description | Action |
@@ -97,15 +92,6 @@ No attributes or properties.
 | delayedStart | bool | ? | ? |
 
 ## SetupThreadGroup
-
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Human name. | Ignore. |
-| enabled | Boolean. | Skip if `false`. |
 
 **Property**
 
@@ -127,15 +113,6 @@ No attributes or properties.
   `SteppingThreadGroup` behavior seems to have all threads in a group starting
   at once, so this is an approximation.
 * Stepped thread stopping not translated. No obvious counterpart in k6.
-
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Human name. | Ignore. |
-| enabled | Boolean. | Skip if `false`. |
 
 **Property**
 
@@ -159,10 +136,7 @@ No attributes or properties.
 
 | Name | Description | Action |
 | ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Plaintext name for test. | Comment. |
-| enabled | Boolean. | Ignore. |
+| testname | Human name for test. | Comment. |
 
 **Property**
 
@@ -176,15 +150,6 @@ No attributes or properties.
 | user_define_classpath | string | ? | Ignore. |
 
 ## ThreadGroup
-
-**Attribute**
-
-| Name | Description | Action |
-| ---- | ----------- | ------ |
-| guiclass | ? | Ignore. |
-| testclass | ? | Ignore. |
-| testname | Human name. | Ignore. |
-| enabled | Boolean. | Skip if `false`. |
 
 **Property**
 
