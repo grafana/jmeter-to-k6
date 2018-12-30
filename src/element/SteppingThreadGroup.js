@@ -15,18 +15,21 @@ function SteppingThreadGroup (node, defaults = []) {
   for (const prop of props) property(prop, result, spec)
   const els = children.filter(node => !/Prop$/.test(node.name))
   merge(result, elements(els, defaults))
-  if (spec.total && spec.group && spec.interval) {
-    const { total, group, interval } = spec
-    if (total < group) throw new Error('Invalid total threads')
-    const count = Math.ceil(total / group)
+  if (spec.total && spec.step && spec.interval) {
+    const { total, step, interval } = spec
+    const group = []
+    if (total < step) throw new Error('Invalid total threads')
+    const count = Math.ceil(total / step)
     for (let i = count - 1; i > 0; i--) {
-      const stage = { target: group, duration: interval + 'ms' }
-      result.options.stages.push(stage)
+      const stage = { target: step, duration: interval + 'ms' }
+      group.push(stage)
     }
-    const remainder = total - (group * (count - 1))
+    const remainder = total - (step * (count - 1))
     const stage = { target: remainder, duration: interval + 'ms' }
-    result.options.stages.push(stage)
+    group.push(stage)
+    result.options.stages.push(group)
   }
+  result.user = true
   return result
 }
 
@@ -66,7 +69,7 @@ ${comments}
       spec.total = Number.parseInt(text(node.children))
       break
     case 'Start users count':
-      spec.group = Number.parseInt(text(node.children))
+      spec.step = Number.parseInt(text(node.children))
       break
     case 'Start users period':
       spec.interval = text(node.children)

@@ -1,3 +1,6 @@
+const expand = require('./expand')
+const ind = require('./ind')
+
 /**
  * Render k6 JavaScript
  *
@@ -10,7 +13,7 @@ function render (result) {
     renderInit(result.init),
     renderOptions(result.options),
     renderSetup(result.setup),
-    renderLogic(result.prolog, result.users),
+    renderLogic(result.prolog, result.users, result.options.stages),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
 }
@@ -26,7 +29,7 @@ function renderOptions (options) {
   const sections = []
   for (const key of keys) sections.push(renderOption(options, key))
   return `export let options = {
-  ${sections.join('\n')}
+${ind(sections.join(',\n'))}
 }`
 }
 
@@ -34,7 +37,7 @@ function renderOption (options, key) {
   switch (key) {
     case 'stages': {
       const stages = options[key]
-      return '  stages: ' + JSON.stringify(stages, 4)
+      return 'stages: ' + JSON.stringify(expand(stages), 4)
     }
     default: throw new Error('Unrecognized option: ' + key)
   }
@@ -43,36 +46,45 @@ function renderOption (options, key) {
 function renderSetup (setup) {
   if (!setup) return ''
   return `export function setup () {
-  ${setup}
+${ind(setup)}
 }`
 }
 
-function renderLogic (prolog, users) {
+function renderLogic (prolog, users, stages) {
   const sections = []
   for (let i = 0; i < users.length; i++) {
-    const number = i + 1
+    const [ start, end ] = userRange(i, stages)
     const logic = users[i]
-    sections.push(`    case ${number}:
-      ${logic}
-      break`)
+    sections.push(`if (__VU >= ${start} && __VU <= ${end}) {
+${ind(logic)}
+}`)
   }
-  const branch = `  switch (__VU) {
-${sections.join('\n')}
-    default: throw new Error('Unexpected VU: ' + __VU)
-  }`
+  sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
+  const main = sections.join(` else `)
   const body = [
     prolog,
-    branch
+    main
   ].filter(item => item).join('\n\n')
   return `export default function (data) {
-${body}
+${ind(body)}
 }`
 }
+
+function userRange (i, stages) {
+  const start = stages.slice(0, i).reduce(sumStageThreads, 0) + 1
+  const end = start + threads(stages[i]) - 1
+  return [ start, end ]
+}
+function sumStageThreads (total, stage) { return (total + threads(stage)) }
+function threads (stage) {
+  return Array.isArray(stage) ? stage.reduce(sumStepThreads, 0) : stage.target
+}
+function sumStepThreads (total, item) { return (total + item.target) }
 
 function renderTeardown (teardown) {
   if (!teardown) return ''
   return `export function teardown (data) {
-  ${teardown}
+${ind(teardown)}
 }`
 }
 

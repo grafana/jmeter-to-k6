@@ -39,13 +39,13 @@ test('stages even', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [
+  t.deepEqual(result.options.stages, [ [
     { target: 2, duration: '2000ms' },
     { target: 2, duration: '2000ms' },
     { target: 2, duration: '2000ms' },
     { target: 2, duration: '2000ms' },
     { target: 2, duration: '2000ms' }
-  ])
+  ] ])
 })
 
 test('stages odd', t => {
@@ -64,10 +64,10 @@ test('stages odd', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [
+  t.deepEqual(result.options.stages, [ [
     { target: 3, duration: '2000ms' },
     { target: 3, duration: '2000ms' },
     { target: 3, duration: '2000ms' },
     { target: 2, duration: '2000ms' }
-  ])
+  ] ])
 })
