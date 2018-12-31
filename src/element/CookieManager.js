@@ -1,4 +1,3 @@
-const merge = require('../merge')
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
