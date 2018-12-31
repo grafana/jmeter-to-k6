@@ -76,6 +76,21 @@ A `collectionProp` node representing a set of variables.
 | isCustomResolver | bool | ? | Ignore. |
 | hosts | collection | Static host table. | Option `hosts`. |
 
+## DurationAssertion
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| testname | Human name. | Check text. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments | Check text. |
+| duration | string | Max duration in ,s. | Max `res.timings.duration`. |
+
 ## hashTree
 
 No attributes or properties.
