@@ -20,7 +20,7 @@ test('1 cookie', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.true(result.imports.has('http'))
+  t.true(result.imports.has('k6/http'))
   t.deepEqual(result.cookies, new Map([
     [ 'theme', { value: 'light' } ]
   ]))

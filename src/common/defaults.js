@@ -1,6 +1,7 @@
 const route = {
   ConfigTestElement: require('../element/ConfigTestElement'),
-  DurationAssertion: require('../element/DurationAssertion')
+  DurationAssertion: require('../element/DurationAssertion'),
+  ResponseAssertion: require('../element/ResponseAssertion')
 }
 
 function extractDefaults (node, defaults = []) {
@@ -16,7 +17,7 @@ function extractDefaults (node, defaults = []) {
     }
   }
   node.children = node.children.filter(
-    item => !(item.type === 'element' && item.name === 'ConfigTestElement')
+    item => !(item.type === 'element' && item.name in route)
   )
   return [ ...defaults, values ]
 }

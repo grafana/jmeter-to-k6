@@ -66,10 +66,10 @@ ${comments}
       break
     }
     case 'num_threads':
-      spec.total = Number.parseInt(text(node.children))
+      spec.total = Number.parseInt(text(node.children), 10)
       break
     case 'Start users count':
-      spec.step = Number.parseInt(text(node.children))
+      spec.step = Number.parseInt(text(node.children), 10)
       break
     case 'Start users period':
       spec.interval = text(node.children)

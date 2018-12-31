@@ -121,6 +121,30 @@ No attributes or properties.
 | delay | string | ? | ? |
 | delayedStart | bool | ? | ? |
 
+## ResponseAssertion
+
+* Regular expression features require Perl 5.
+* Operand `response_data_as_document` not supported. Uses external
+  software Apache Tika.
+* Operand  `response_message` not supported. Not exposed by k6.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| testname | Human name. | Check text. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Check text. |
+| test_strings | collection | Test patterns. | 1 check per line. |
+| custom_message | string | Failure message. | Ignore. |
+| test_field | string | Operand. | Field in check. |
+| assume_success | bool | Force initialize status to success. | Ignore. |
+| test_type | int | Operation. | Operators in check. |
+
 ## SetupThreadGroup
 
 **Property**

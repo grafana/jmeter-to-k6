@@ -12,7 +12,7 @@ function DurationAssertion (node, defaults) {
   if (!settings.name) settings.name = 'DurationAssertion'
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, settings)
-  if (settings.name && settings.logic) {
+  if (settings.logic) {
     Object.assign(result.defaults, { [Check]: {
       [settings.name]: settings.logic
     } })
@@ -40,7 +40,7 @@ function property (node, settings) {
       settings.name += ' - ' + text(node.children)
       break
     case 'duration': {
-      const duration = parseInt(text(node.children))
+      const duration = Number.parseInt(text(node.children), 10)
       settings.logic = 'r.timings.duration <= ' + duration
       break
     }
