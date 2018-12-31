@@ -2,6 +2,7 @@ module.exports = (...args) => { return element(...args) }
 
 const extractDefaults = require('./common/defaults')
 const route = {
+  AuthManager: require('./element/AuthManager'),
   CookieManager: require('./element/CookieManager'),
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
