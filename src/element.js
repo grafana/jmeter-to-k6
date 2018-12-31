@@ -14,7 +14,8 @@ const route = {
   PostThreadGroup: require('./element/PostThreadGroup'),
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),
-  ThreadGroup: require('./element/ThreadGroup')
+  ThreadGroup: require('./element/ThreadGroup'),
+  XPathAssertion: require('./element/XPathAssertion')
 }
 
 /**
