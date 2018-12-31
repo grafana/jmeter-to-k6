@@ -203,3 +203,8 @@ No attributes or properties.
 | ---- | ----------- | ------ |
 | version | XML version string. | Ignore. |
 | encoding | Character encoding. | Ignore. |
+
+## XPathAssertion
+
+No equivalent feature. Translate to explanatory comment suggesting 3rd party
+software.
