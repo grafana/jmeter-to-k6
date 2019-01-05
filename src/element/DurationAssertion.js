@@ -41,7 +41,7 @@ function property (node, settings) {
       break
     case 'duration': {
       const duration = Number.parseInt(text(node.children), 10)
-      settings.logic = 'r.timings.duration <= ' + duration
+      settings.logic = 'return (r.timings.duration <= ' + duration + ')'
       break
     }
     default:

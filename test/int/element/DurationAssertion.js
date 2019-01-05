@@ -13,6 +13,6 @@ test('check', t => {
   const node = tree.children[0]
   const result = DurationAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'DurationAssertion': 'r.timings.duration <= 2000'
+    'DurationAssertion': 'return (r.timings.duration <= 2000)'
   })
 })

@@ -17,7 +17,8 @@ test('match field', t => {
   const node = tree.children[0]
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'ResponseAssertion': '(perlRegex.match(r.body, "Herbert\'s Bakery", "s"))'
+    'ResponseAssertion':
+      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "s"))'
   })
 })
 
@@ -35,7 +36,8 @@ test('contain field', t => {
   const node = tree.children[0]
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'ResponseAssertion': '(perlRegex.match(r.body, "Herbert\'s Bakery", "m"))'
+    'ResponseAssertion':
+      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "m"))'
   })
 })
 
@@ -54,7 +56,7 @@ test('match header', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(Object.values(r.headers).find(value =>' +
+      'return (Object.values(r.headers).find(value =>' +
       ' perlRegex.match(value, "Herbert\'s Bakery", "s")))'
     )
   })
@@ -75,7 +77,7 @@ test('contain header', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(Object.values(r.headers).find(value =>' +
+      'return (Object.values(r.headers).find(value =>' +
       ' perlRegex.match(value, "Herbert\'s Bakery", "m")))'
     )
   })
@@ -95,7 +97,7 @@ test('equal field', t => {
   const node = tree.children[0]
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'ResponseAssertion': '(r.body === "Herbert\'s Bakery")'
+    'ResponseAssertion': 'return (r.body === "Herbert\'s Bakery")'
   })
 })
 
@@ -114,7 +116,7 @@ test('equal header', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(Object.values(r.headers).includes("Herbert\'s Bakery"))'
+      'return (Object.values(r.headers).includes("Herbert\'s Bakery"))'
     )
   })
 })
@@ -133,7 +135,7 @@ test('substring field', t => {
   const node = tree.children[0]
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'ResponseAssertion': '(r.body.includes("Herbert\'s Bakery"))'
+    'ResponseAssertion': 'return (r.body.includes("Herbert\'s Bakery"))'
   })
 })
 
@@ -152,7 +154,7 @@ test('substring header', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(Object.values(r.headers).find(value =>' +
+      'return (Object.values(r.headers).find(value =>' +
       ' value.includes("Herbert\'s Bakery")))'
     )
   })
@@ -172,7 +174,7 @@ test('negate', t => {
   const node = tree.children[0]
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
-    'ResponseAssertion': '!(r.body === "Herbert\'s Bakery")'
+    'ResponseAssertion': 'return !(r.body === "Herbert\'s Bakery")'
   })
 })
 
@@ -193,7 +195,7 @@ test('conjunction', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(r.body.includes("Herbert\'s Bakery")' +
+      'return (r.body.includes("Herbert\'s Bakery")' +
       ' && r.body.includes("The best pastries!")' +
       ' && r.body.includes("Buy something delicious today."))'
     )
@@ -217,7 +219,7 @@ test('disjunction', t => {
   const result = ResponseAssertion(node)
   t.deepEqual(result.defaults[Check], {
     'ResponseAssertion': (
-      '(r.body.includes("Herbert\'s Bakery")' +
+      'return (r.body.includes("Herbert\'s Bakery")' +
       ' || r.body.includes("The best pastries!")' +
       ' || r.body.includes("Buy something delicious today."))'
     )

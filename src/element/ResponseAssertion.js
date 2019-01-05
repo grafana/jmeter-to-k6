@@ -114,7 +114,10 @@ function check (settings, result) {
   const expressions = []
   for (const test of settings.tests) expressions.push(expr(test, settings))
   const composite = expressions.join(settings.disjunction ? ' || ' : ' && ')
-  const logic = (settings.negate ? '!' : '') + '(' + composite + ')'
+  const logic =
+    'return ' +
+    (settings.negate ? '!' : '') +
+    '(' + composite + ')'
   Object.assign(result.defaults, { [Check]: {
     [settings.name]: logic
   } })
