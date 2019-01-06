@@ -1,7 +1,8 @@
 const route = {
+  'com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion':
+    require('../element/JSONPathAssertion'),
   ConfigTestElement: require('../element/ConfigTestElement'),
   DurationAssertion: require('../element/DurationAssertion'),
-  JSONPathAssertion: require('../element/JSONPathAssertion'),
   ResponseAssertion: require('../element/ResponseAssertion')
 }
 
