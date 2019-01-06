@@ -1,6 +1,7 @@
 const route = {
   ConfigTestElement: require('../element/ConfigTestElement'),
   DurationAssertion: require('../element/DurationAssertion'),
+  JSONPathAssertion: require('../element/JSONPathAssertion'),
   ResponseAssertion: require('../element/ResponseAssertion')
 }
 

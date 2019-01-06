@@ -89,7 +89,7 @@ A `collectionProp` node representing a set of variables.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | comments | string | Freeform comments | Check text. |
-| duration | string | Max duration in ,s. | Max `res.timings.duration`. |
+| duration | string | Max duration in ms. | Max `res.timings.duration`. |
 
 ## hashTree
 
@@ -104,6 +104,29 @@ No attributes or properties.
 | version | Version string. | Ignore. |
 | properties | Version string. | Ignore. |
 | jmeter | Version string. | Ignore. |
+
+## JSONPathAssertion
+
+* Regular expression test requires Perl 5.
+
+**Attribute**
+
+| Name | Description | Action |
+| ---- | ----------- | ------ |
+| testname | Human name. | Check text. |
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Check text. |
+| JSON_PATH | string | JSONPath code. | Path specification. |
+| EXPECTED_VALUE | string | Test string. | Value specification. |
+| JSONVALIDATION | bool | Seemingly unused. | Ignore. |
+| EXPECT_NULL | bool | Test for null. | Enable test for null. |
+| INVERT | bool | Negate test. | Enable result negation. |
+| ISREGEX | bool | Use test string as regex. | Enable regex testing. |
+| INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
 ## PostThreadGroup
 
