@@ -1,7 +1,7 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function HeaderManager (node, defaults) {
+function HeaderManager (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.constants.set('headers', new Map())

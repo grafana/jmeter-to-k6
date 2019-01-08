@@ -1,7 +1,7 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function CookieManager (node, defaults) {
+function CookieManager (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)

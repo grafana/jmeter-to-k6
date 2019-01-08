@@ -1,3 +1,4 @@
+const makeContext = require('../context')
 const text = require('../text')
 
 /**
@@ -7,23 +8,25 @@ const text = require('../text')
  *
  * @return {ConvertResult}
  */
-function variable (node) {
+function variable (node, context = makeContext()) {
   const properties = node.children.filter(item => item.name === 'stringProp')
-  const name = properties.find(item => {
+  const nameNode = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'name'
   })
-  if (!name) throw new Error('Variable missing name')
-  const value = properties.find(item => {
+  if (!nameNode) throw new Error('Variable missing name')
+  const valueNode = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'value'
   })
-  if (!value) throw new Error('Variable missing value')
+  if (!valueNode) throw new Error('Variable missing value')
   const description = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'desc'
   })
   const result = { vars: new Map() }
-  const spec = { value: text(value.children) }
+  const spec = { value: text(valueNode.children) }
   if (description) spec.comment = text(description.children)
-  result.vars.set(text(name.children), spec)
+  const name = text(nameNode.children)
+  result.vars.set(name, spec)
+  context.vars.set(name, spec.value)
   return result
 }
 

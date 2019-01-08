@@ -1,6 +1,7 @@
 module.exports = (...args) => { return element(...args) }
 
 const extractDefaults = require('./common/defaults')
+const makeContext = require('./context')
 const route = {
   AuthManager: require('./element/AuthManager'),
   CookieManager: require('./element/CookieManager'),
@@ -25,9 +26,9 @@ const route = {
  *
  * @return {ConvertResult}
  */
-function element (node, defaults = []) {
+function element (node, context = makeContext()) {
   const { name } = node
   if (!route[name]) throw new Error('Unrecognized element: ' + name)
-  defaults = extractDefaults(node, defaults)
-  return route[name](node, defaults)
+  context.defaults = extractDefaults(node, context.defaults)
+  return route[name](node, context)
 }

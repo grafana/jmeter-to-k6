@@ -3,7 +3,7 @@ const merge = require('../merge')
 const text = require('../text')
 const makeResult = require('../result')
 
-function SteppingThreadGroup (node, defaults = []) {
+function SteppingThreadGroup (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.options.stages = []
@@ -14,7 +14,7 @@ function SteppingThreadGroup (node, defaults = []) {
   const spec = {}
   for (const prop of props) property(prop, result, spec)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, defaults))
+  merge(result, elements(els, context))
   if (spec.total && spec.step && spec.interval) {
     const { total, step, interval } = spec
     const group = []

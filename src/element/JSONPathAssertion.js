@@ -2,7 +2,7 @@ const { Check } = require('../symbol')
 const text = require('../text')
 const makeResult = require('../result')
 
-function JSONPathAssertion (node, defaults) {
+function JSONPathAssertion (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}

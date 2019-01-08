@@ -1,6 +1,6 @@
 const makeResult = require('../result')
 
-function XPathAssertion (node, defaults) {
+function XPathAssertion (node) {
   const result = makeResult()
   result.logic = `
 

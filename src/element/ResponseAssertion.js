@@ -2,7 +2,7 @@ const { Check } = require('../symbol')
 const text = require('../text')
 const makeResult = require('../result')
 
-function ResponseAssertion (node, defaults) {
+function ResponseAssertion (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}

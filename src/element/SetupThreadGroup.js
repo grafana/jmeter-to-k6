@@ -3,7 +3,7 @@ const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
 
-function SetupThreadGroup (node, defaults = []) {
+function SetupThreadGroup (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
@@ -11,7 +11,7 @@ function SetupThreadGroup (node, defaults = []) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, defaults))
+  merge(result, elements(els, context))
   return result
 }
 

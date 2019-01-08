@@ -1,7 +1,7 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function DNSCacheManager (node, defaults) {
+function DNSCacheManager (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.options.hosts = {}

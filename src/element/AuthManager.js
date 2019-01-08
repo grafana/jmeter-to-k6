@@ -2,7 +2,7 @@ const { Authentication } = require('../symbol')
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function AuthManager (node, defaults) {
+function AuthManager (node) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}

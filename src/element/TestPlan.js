@@ -3,15 +3,16 @@ const merge = require('../merge')
 const elements = require('../elements')
 const text = require('../text')
 const makeResult = require('../result')
+const makeContext = require('../context')
 
-function TestPlan (node, defaults = []) {
+function TestPlan (node, context = makeContext()) {
   const result = makeResult()
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, result)
+  for (const prop of props) property(prop, result, context)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, defaults))
+  merge(result, elements(els, context))
   return result
 }
 
@@ -30,7 +31,7 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, result) {
+function property (node, result, context) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'comments': {
@@ -46,7 +47,7 @@ ${comments}
       const collection = node.children.find(
         item => item.name === 'collectionProp'
       )
-      const variablesResult = variables(collection)
+      const variablesResult = variables(collection, context)
       merge(result, variablesResult)
       break
     }

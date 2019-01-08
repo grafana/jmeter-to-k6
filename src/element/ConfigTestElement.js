@@ -1,7 +1,7 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function ConfigTestElement (node, defaults) {
+function ConfigTestElement (node) {
   const result = makeResult()
   const props = properties(node)
   for (const key of Object.keys(props)) {
