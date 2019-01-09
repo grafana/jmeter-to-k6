@@ -95,6 +95,17 @@ A `collectionProp` node representing a set of variables.
 
 No attributes or properties.
 
+## IfController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment. |
+| condition | string | Condition formula. | Render to JavaScript. |
+| evaluateAll | bool | Check for each child. | ? |
+| useExpression | bool | Condition single expression. | ? |
+
 ## jmeterTestPlan
 
 **Attribute**

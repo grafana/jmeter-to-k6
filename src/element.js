@@ -9,6 +9,7 @@ const route = {
   Fake: require('./element/Fake'),
   hashTree: require('./element/hashTree'),
   HeaderManager: require('./element/HeaderManager'),
+  IfController: require('./element/IfController'),
   jmeterTestPlan: require('./element/jmeterTestPlan'),
   'kg.apc.jmeter.threads.SteppingThreadGroup':
     require('./element/SteppingThreadGroup'),
