@@ -5,7 +5,7 @@ const find = /(?:^|\\\\|[^\\])\${.*}/
 // Render runtime string
 // May contain runtime resolved interpolation
 function runtimeString (value) {
-  if (find.test(value)) return `eval('${unescape(render(value))}')`
+  if (find.test(value)) return unescape(render(value))
   else return `\`${value.replace('`', '\\`')}\``
 }
 
