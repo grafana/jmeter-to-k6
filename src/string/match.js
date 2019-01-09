@@ -4,7 +4,7 @@
 function matchRecursiveRegExp (str, left, right, flags) {
 	var	f = flags || "",
 		g = f.indexOf("g") > -1,
-		x = new RegExp(left + "|" + right, "g" + f),
+		x = new RegExp(left + "|" + right, (g?"":"g") + f),
 		l = new RegExp(left, f.replace(/g/g, "")),
 		a = [],
 		t, s, m;

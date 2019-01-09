@@ -5,7 +5,7 @@ const left = '(?:^|\\\\\\\\|[^\\\\])\\${'
 const right = '}'
 
 function interpolate (string, context = makeContext()) {
-  const ranges = match(string, left, right)
+  const ranges = match(string, left, right, 'g')
   if (!ranges.length) return string
   const values = ranges.map(range => replace(string, range, context))
   for (let i = ranges.length - 1; i > -1; i--) {
@@ -37,9 +37,9 @@ function variable (name, context) {
 }
 
 function splice (string, start, end, substitute) {
-  const first = string.substring(0, start)
-  const second = string.substring(end)
-  return first + substitute + second
+  const lead = string.substring(0, start)
+  const tail = string.substring(end)
+  return lead + substitute + tail
 }
 
 module.exports = interpolate
