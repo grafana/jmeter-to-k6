@@ -1,11 +1,11 @@
-const code = require('../string/code')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
+const runtimeString = require('../string/run')
 const text = require('../text')
 const makeResult = require('../result')
 
-function IfController (node, context) {
+function WhileController (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.logic = ''
@@ -25,13 +25,12 @@ function IfController (node, context) {
     if (settings.comment) {
       result.logic += `/*
 ${settings.comment}
-*/
-`
+*/`
     }
-    result.logic += `if (${settings.condition}) {
+    result.logic += `while (${settings.condition}) {
 ${ind(childrenLogic)}
 }`
-  } else throw new Error('IfController missing condition')
+  } else throw new Error('WhileController missing condition')
   return result
 }
 
@@ -41,23 +40,20 @@ function attribute (node, key) {
     case 'testclass':
     case 'testname':
       break
-    default: throw new Error('Unrecognized IfController attribute: ' + key)
+    default: throw new Error('Unrecognized WhileController attribute: ' + key)
   }
 }
 
 function property (node, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'evaluateAll':
-    case 'useExpression':
-      break
     case 'comments':
       settings.comment = text(node.children)
       break
     case 'condition':
-      settings.condition = code(text(node.children))
+      settings.condition = runtimeString(text(node.children)) + ' !== "false"'
       break
   }
 }
 
-module.exports = IfController
+module.exports = WhileController

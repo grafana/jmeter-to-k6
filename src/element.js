@@ -17,6 +17,7 @@ const route = {
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),
   ThreadGroup: require('./element/ThreadGroup'),
+  WhileController: require('./element/WhileController'),
   XPathAssertion: require('./element/XPathAssertion')
 }
 

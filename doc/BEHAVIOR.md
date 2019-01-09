@@ -253,6 +253,15 @@ No attributes or properties.
 | delay | string | ? | ? |
 | delayedStart | bool | ? | ? |
 
+## WhileController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment. |
+| condition | string | Condition formula. | Render to JavaScript. |
+
 ## xml
 
 **Attribute**
