@@ -55,7 +55,7 @@ function property (node, settings) {
       settings.comment = text(node.children)
       break
     case 'condition':
-      settings.condition = `eval(${runtimeString(text(node.children))})`
+      settings.condition = runtimeString(text(node.children))
       break
   }
 }
