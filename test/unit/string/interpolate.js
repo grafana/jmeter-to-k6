@@ -26,3 +26,13 @@ test('function', t => {
     interpolate('${__rand}')
   })
 })
+
+test('nested', t => {
+  const context = { vars: new Map([
+    [ 'DISH', 'DESSERT' ],
+    [ 'FRUITDESSERT', 'TART' ]
+  ]) }
+  /* eslint-disable-next-line no-template-curly-in-string */
+  const result = interpolate('${FRUIT${DISH}}', context)
+  t.is(result, 'TART')
+})
