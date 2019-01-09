@@ -18,9 +18,7 @@ test('comment', t => {
   const result = document(tree)
   t.deepEqual(result.prolog, `
 
-/*
-Step up to load
-*/`)
+/* Step up to load */`)
 })
 
 test('stages even', t => {

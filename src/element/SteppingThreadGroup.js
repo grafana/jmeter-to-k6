@@ -60,9 +60,7 @@ function property (node, result, spec) {
       const comments = text(node.children)
       result.prolog += `
 
-/*
-${comments}
-*/`
+/* ${comments} */`
       break
     }
     case 'num_threads':

@@ -10,9 +10,7 @@ function ConfigTestElement (node) {
   if ('comments' in props) {
     result.logic = `
 
-/*
-${props.comments}
-*/`
+/* ${props.comments} */`
     delete props.comments
   }
   const type = node.attributes.guiclass

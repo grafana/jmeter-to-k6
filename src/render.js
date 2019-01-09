@@ -1,5 +1,6 @@
 const expand = require('./expand')
 const ind = require('./ind')
+const strip = require('./strip')
 
 /**
  * Render k6 JavaScript
@@ -12,6 +13,7 @@ function render (result) {
   return [
     renderInit(result.init),
     renderConstants(result.constants),
+    renderVariables(result.vars),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(
@@ -35,6 +37,17 @@ function renderConstants (constants) {
     rendered[key] = renderConstant(key, value)
   }
   return `const constants = ${JSON.stringify(rendered)}`
+}
+
+function renderVariables (vars) {
+  const lines = []
+  lines.push(`const vars = {}`)
+  for (const [ name, { value, comment } ] of vars) {
+    let line = `vars[${JSON.stringify(name)}] = ${JSON.stringify(value)}`
+    if (comment) line += ` /* ${comment} */`
+    lines.push(line)
+  }
+  return lines.join('\n')
 }
 
 function renderConstant (key, value) {
@@ -71,7 +84,7 @@ function renderOption (options, key) {
 function renderSetup (setup) {
   if (!setup) return ''
   return `export function setup () {
-${ind(setup)}
+${ind(strip(setup))}
 }`
 }
 
@@ -81,7 +94,7 @@ function renderLogic (cookies, prolog, users, stages) {
     const [ start, end ] = userRange(i, stages)
     const logic = users[i]
     sections.push(`if (__VU >= ${start} && __VU <= ${end}) {
-${ind(logic)}
+${ind(strip(logic))}
 }`)
   }
   sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
@@ -92,7 +105,7 @@ ${ind(logic)}
     main
   ].filter(item => item).join('\n\n')
   return `export default function (data) {
-${ind(body)}
+${ind(strip(body))}
 }`
 }
 
@@ -134,7 +147,7 @@ function sumStepThreads (total, item) { return (total + item.target) }
 function renderTeardown (teardown) {
   if (!teardown) return ''
   return `export function teardown (data) {
-${ind(teardown)}
+${ind(strip(teardown))}
 }`
 }
 

@@ -118,7 +118,7 @@ function check (settings, result) {
     'return ' +
     (settings.negate ? '!' : '') +
     '(' + composite + ')'
-  Object.assign(result.defaults, { [Check]: {
+  result.defaults.push({ [Check]: {
     [settings.name]: logic
   } })
 }

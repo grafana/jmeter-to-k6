@@ -22,8 +22,8 @@ test('children', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.is(result.logic, `// Fake
+  t.is(result.logic, `
 // Fake
 // Fake
-`)
+// Fake`)
 })

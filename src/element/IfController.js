@@ -2,6 +2,7 @@ const code = require('../string/code')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
+const strip = require('../strip')
 const text = require('../text')
 const makeResult = require('../result')
 
@@ -23,13 +24,11 @@ function IfController (node, context) {
 
 `
     if (settings.comment) {
-      result.logic += `/*
-${settings.comment}
-*/
+      result.logic += `/* ${settings.comment} */
 `
     }
     result.logic += `if (${settings.condition}) {
-${ind(childrenLogic)}
+${ind(strip(childrenLogic))}
 }`
   } else throw new Error('IfController missing condition')
   return result

@@ -46,12 +46,10 @@ fourth line</stringProp>
   const result = document(tree)
   t.is(result.init, `
 
-/*
-first line
+/* first line
 second line
 
-fourth line
-*/`)
+fourth line */`)
 })
 
 test('variables', t => {

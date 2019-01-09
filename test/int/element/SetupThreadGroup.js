@@ -34,7 +34,5 @@ test('comment', t => {
   const result = document(tree)
   t.is(result.setup, `
 
-/*
-Prepare resource
-*/`)
+/* Prepare resource */`)
 })

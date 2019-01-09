@@ -41,9 +41,7 @@ function property (node, result) {
       const comments = text(node.children)
       result.setup += `
 
-/*
-${comments}
-*/`
+/* ${comments} */`
       break
     }
   }

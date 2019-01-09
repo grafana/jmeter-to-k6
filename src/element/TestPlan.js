@@ -38,9 +38,7 @@ function property (node, result, context) {
       const comments = text(node.children)
       result.init += `
 
-/*
-${comments}
-*/`
+/* ${comments} */`
       break
     }
     case 'user_defined_variables': {

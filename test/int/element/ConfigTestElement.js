@@ -13,9 +13,7 @@ test('comment', t => {
   const result = ConfigTestElement(node)
   t.deepEqual(result.logic, `
 
-/*
-Default to standard port
-*/`)
+/* Default to standard port */`)
 })
 
 test('FTPRequestDefaults', t => {

@@ -16,7 +16,7 @@ test('match field', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion':
       'return (perlRegex.match(r.body, "Herbert\'s Bakery", "s"))'
   })
@@ -35,7 +35,7 @@ test('contain field', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion':
       'return (perlRegex.match(r.body, "Herbert\'s Bakery", "m"))'
   })
@@ -54,7 +54,7 @@ test('match header', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (Object.values(r.headers).find(value =>' +
       ' perlRegex.match(value, "Herbert\'s Bakery", "s")))'
@@ -75,7 +75,7 @@ test('contain header', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (Object.values(r.headers).find(value =>' +
       ' perlRegex.match(value, "Herbert\'s Bakery", "m")))'
@@ -96,7 +96,7 @@ test('equal field', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': 'return (r.body === "Herbert\'s Bakery")'
   })
 })
@@ -114,7 +114,7 @@ test('equal header', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (Object.values(r.headers).includes("Herbert\'s Bakery"))'
     )
@@ -134,7 +134,7 @@ test('substring field', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': 'return (r.body.includes("Herbert\'s Bakery"))'
   })
 })
@@ -152,7 +152,7 @@ test('substring header', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (Object.values(r.headers).find(value =>' +
       ' value.includes("Herbert\'s Bakery")))'
@@ -173,7 +173,7 @@ test('negate', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': 'return !(r.body === "Herbert\'s Bakery")'
   })
 })
@@ -193,7 +193,7 @@ test('conjunction', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (r.body.includes("Herbert\'s Bakery")' +
       ' && r.body.includes("The best pastries!")' +
@@ -217,7 +217,7 @@ test('disjunction', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = ResponseAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'ResponseAssertion': (
       'return (r.body.includes("Herbert\'s Bakery")' +
       ' || r.body.includes("The best pastries!")' +

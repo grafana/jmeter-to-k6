@@ -2,6 +2,7 @@ const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
 const runtimeString = require('../string/run')
+const strip = require('../strip')
 const text = require('../text')
 const makeResult = require('../result')
 
@@ -23,12 +24,11 @@ function WhileController (node, context) {
 
 `
     if (settings.comment) {
-      result.logic += `/*
-${settings.comment}
-*/`
+      result.logic += `/* ${settings.comment} */
+`
     }
     result.logic += `while (${settings.condition}) {
-${ind(childrenLogic)}
+${ind(strip(childrenLogic))}
 }`
   } else throw new Error('WhileController missing condition')
   return result

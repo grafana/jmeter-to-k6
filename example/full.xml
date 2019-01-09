@@ -1,0 +1,44 @@
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
+  <hashTree>
+    <TestPlan testname="Search page test">
+      <elementProp name="user_defined_variables">
+        <collectionProp>
+          <elementProp>
+            <stringProp name="name">INIT</stringProp>
+            <stringProp name="value">1</stringProp>
+            <stringProp name="desc">Run initialization</stringProp>
+          </elementProp>
+          <elementProp>
+            <stringProp name="name">CONTINUE</stringProp>
+            <stringProp name="value">true</stringProp>
+          </elementProp>
+          <elementProp>
+            <stringProp name="name">CHECK</stringProp>
+            <stringProp name="value">true</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <ThreadGroup>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <IfController>
+          <stringProp name="condition">${INIT} > 0</stringProp>
+          <XPathAssertion/>
+        </IfController>
+        <WhileController>
+          <stringProp name="condition">${CONTINUE}</stringProp>
+          <IfController>
+            <stringProp name="condition">${CHECK}</stringProp>
+            <XPathAssertion/>
+          </IfController>
+        </WhileController>
+      </ThreadGroup>
+      <SetupThreadGroup>
+        <stringProp name="comments">Open resources</stringProp>
+      </SetupThreadGroup>
+      <PostThreadGroup>
+        <stringProp name="comments">Close resources</stringProp>
+      </PostThreadGroup>
+    </TestPlan>
+  </hashTree>
+</jmeterTestPlan>
