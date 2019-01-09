@@ -9,16 +9,7 @@ function string (value, context) {
 }
 
 function unescape (string) {
-  return string.replace(/\\[\\$,]/g, literal)
-}
-
-function literal (sequence) {
-  switch (sequence) {
-    case '\\\\': return '\\'
-    case '\\$': return '$'
-    case '\\,': return ','
-    default: return sequence
-  }
+  return string.replace(/\\([\\$,])/g, '$1')
 }
 
 module.exports = string
