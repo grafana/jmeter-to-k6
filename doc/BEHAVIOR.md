@@ -55,6 +55,15 @@ A `collectionProp` node representing a set of variables.
 | ------- | ----------- | ------ |
 | elementProp | A variable. | Render as variable. |
 
+## ConstantDelay
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| comments | string | Freeform comments. | Comment. |
+| delay | string | Delay milliseconds. | Delay. |
+
 ## CookieManager
 
 **Property**

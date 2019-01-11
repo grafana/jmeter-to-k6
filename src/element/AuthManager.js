@@ -33,7 +33,7 @@ function property (node, settings) {
       for (const entry of entries) Object.assign(settings, credential(entry))
       break
     }
-    default: throw new Error('Unregoznied AuthManager property: ' + name)
+    default: throw new Error('Unrecognized AuthManager property: ' + name)
   }
 }
 
