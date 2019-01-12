@@ -50,13 +50,13 @@ function property (node, settings) {
       settings.test = text(node.children)
       break
     case 'EXPECT_NULL':
-      settings.test = null
+      if (text(node.children) === 'true') settings.test = null
       break
     case 'INVERT':
-      settings.negate = true
+      settings.negate = (text(node.children) === 'true')
       break
     case 'ISREGEX':
-      settings.regex = true
+      settings.regex = (text(node.children) === 'true')
       break
     case 'INPUT_FORMAT': {
       const format = text(node.children)
