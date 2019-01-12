@@ -2,6 +2,7 @@ const code = require('../string/code')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
+const runtimeString = require('../string/run')
 const strip = require('../strip')
 const text = require('../text')
 const makeResult = require('../result')
@@ -20,6 +21,9 @@ function IfController (node, context) {
   delete childrenResult.logic
   merge(result, childrenResult)
   if (settings.condition) {
+    const condition =
+      settings.expression ? `${runtimeString(settings.condition)} === 'true'`
+        : code(settings.condition)
     result.logic += `
 
 `
@@ -27,7 +31,7 @@ function IfController (node, context) {
       result.logic += `/* ${settings.comment} */
 `
     }
-    result.logic += `if (${settings.condition}) {
+    result.logic += `if (${condition}) {
 ${ind(strip(childrenLogic))}
 }`
   } else throw new Error('IfController missing condition')
@@ -48,13 +52,15 @@ function property (node, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'evaluateAll':
-    case 'useExpression':
       break
     case 'comments':
       settings.comment = text(node.children)
       break
     case 'condition':
-      settings.condition = code(text(node.children))
+      settings.condition = text(node.children)
+      break
+    case 'useExpression':
+      settings.expression = (text(node.children) === 'true')
       break
   }
 }

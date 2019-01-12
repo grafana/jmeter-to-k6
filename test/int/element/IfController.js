@@ -17,3 +17,20 @@ if (eval(\`1 === 1\`)) {
 
 }`)
 })
+
+test('expression', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<IfController>
+  <stringProp name="condition">\${AUTH}</stringProp>
+  <boolProp name="useExpression">true</boolProp>
+</IfController>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = IfController(node)
+  t.is(result.logic, `
+
+if (\`\${vars["AUTH"]}\` === 'true') {
+
+}`)
+})
