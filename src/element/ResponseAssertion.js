@@ -1,8 +1,9 @@
 const { Check } = require('../symbol')
 const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
-function ResponseAssertion (node) {
+function ResponseAssertion (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -11,7 +12,7 @@ function ResponseAssertion (node) {
   }
   if (!settings.name) settings.name = 'ResponseAssertion'
   const props = node.children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, settings)
+  for (const prop of props) property(prop, context, settings)
   if (settings.tests && 'regex' in settings && settings.operand) {
     check(settings, result)
   }
@@ -31,20 +32,20 @@ function attribute (node, key, settings) {
   }
 }
 
-function property (node, settings) {
+function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'custom_message':
     case 'assume_success':
       break
     case 'comments':
-      settings.name += ' - ' + text(node.children)
+      settings.name += ` - ${value(node, context)}`
       break
     case 'test_field':
-      settings.operand = operand(node)
+      settings.operand = operand(node, context)
       break
     case 'test_type':
-      operation(node, settings)
+      operation(node, context, settings)
       break
     case 'test_strings':
       settings.tests = tests(node)
@@ -54,8 +55,8 @@ function property (node, settings) {
   }
 }
 
-function operand (node, settings) {
-  const name = text(node.children).split('.').pop()
+function operand (node, context, settings) {
+  const name = value(node, context).split('.').pop()
   switch (name) {
     case 'request_data': return 'r.request.body' // Request body
     case 'request_headers': return 'r.request.headers' // Request headers
@@ -81,7 +82,7 @@ function operand (node, settings) {
  *   4  substring
  *   5  or
  */
-function operation (node, settings) {
+function operation (node, context, settings) {
   const bits = Number.parseInt(text(node.children), 10)
   if (bits & 0b100) settings.negate = true
   if (bits & 0b100000) settings.disjunction = true

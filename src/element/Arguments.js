@@ -1,6 +1,6 @@
 const variables = require('../common/variables')
-const text = require('../text')
 const merge = require('../merge')
+const value = require('../value')
 const makeResult = require('../result')
 
 function Arguments (node, context) {
@@ -28,7 +28,7 @@ function property (node, result, context) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'comments': {
-      const comments = text(node.children)
+      const comments = value(node, context)
       result.init += `
 
 /* ${comments} */`

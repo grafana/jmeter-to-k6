@@ -1,6 +1,6 @@
 const elements = require('../elements')
 const merge = require('../merge')
-const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
 function SteppingThreadGroup (node, context) {
@@ -12,7 +12,7 @@ function SteppingThreadGroup (node, context) {
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
   const spec = {}
-  for (const prop of props) property(prop, result, spec)
+  for (const prop of props) property(prop, context, result, spec)
   const els = children.filter(node => !/Prop$/.test(node.name))
   merge(result, elements(els, context))
   if (spec.total && spec.step && spec.interval) {
@@ -45,7 +45,7 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, result, spec) {
+function property (node, context, result, spec) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'on_sample_error':
@@ -57,20 +57,20 @@ function property (node, result, spec) {
     case 'rampUp':
       break
     case 'comments': {
-      const comments = text(node.children)
+      const comments = value(node, context)
       result.prolog += `
 
 /* ${comments} */`
       break
     }
     case 'num_threads':
-      spec.total = Number.parseInt(text(node.children), 10)
+      spec.total = Number.parseInt(value(node, context), 10)
       break
     case 'Start users count':
-      spec.step = Number.parseInt(text(node.children), 10)
+      spec.step = Number.parseInt(value(node, context), 10)
       break
     case 'Start users period':
-      spec.interval = text(node.children)
+      spec.interval = value(node, context)
       break
     default: throw new Error(
       'Unrecognized SteppingThreadGroup property: ' + name

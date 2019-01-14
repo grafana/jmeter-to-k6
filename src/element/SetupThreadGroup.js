@@ -1,6 +1,6 @@
 const merge = require('../merge')
 const elements = require('../elements')
-const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
 function SetupThreadGroup (node, context) {
@@ -9,7 +9,7 @@ function SetupThreadGroup (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, result)
+  for (const prop of props) property(prop, context, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
   merge(result, elements(els, context))
   return result
@@ -25,7 +25,7 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, result) {
+function property (node, context, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'num_threads':
@@ -38,7 +38,7 @@ function property (node, result) {
     case 'delayedStart':
       break
     case 'comments': {
-      const comments = text(node.children)
+      const comments = value(node, context)
       result.setup += `
 
 /* ${comments} */`

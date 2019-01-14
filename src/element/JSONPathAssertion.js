@@ -1,8 +1,8 @@
 const { Check } = require('../symbol')
-const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
-function JSONPathAssertion (node) {
+function JSONPathAssertion (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -11,7 +11,7 @@ function JSONPathAssertion (node) {
   }
   if (!settings.name) settings.name = 'JSONPathAssertion'
   const props = node.children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, settings)
+  for (const prop of props) property(prop, context, settings)
   if (settings.path && settings.format) {
     result.imports.add('jsonpath')
     if (settings.format === 'YAML') result.imports.add('yaml')
@@ -37,29 +37,29 @@ function attribute (node, key, settings) {
   }
 }
 
-function property (node, settings) {
+function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'comments':
-      settings.name += ' - ' + text(node.children)
+      settings.name += ` - ${value(node, context)}`
       break
     case 'JSON_PATH':
-      settings.path = text(node.children)
+      settings.path = value(node, context)
       break
     case 'EXPECTED_VALUE':
-      settings.test = text(node.children)
+      settings.test = value(node, context)
       break
     case 'EXPECT_NULL':
-      if (text(node.children) === 'true') settings.test = null
+      if (value(node, context) === 'true') settings.test = null
       break
     case 'INVERT':
-      settings.negate = (text(node.children) === 'true')
+      settings.negate = (value(node, context) === 'true')
       break
     case 'ISREGEX':
-      settings.regex = (text(node.children) === 'true')
+      settings.regex = (value(node, context) === 'true')
       break
     case 'INPUT_FORMAT': {
-      const format = text(node.children)
+      const format = value(node, context)
       if (![ 'JSON', 'YAML' ].includes(format)) {
         throw new Error('Unrecognized JSONPathAssertion format: ' + format)
       }

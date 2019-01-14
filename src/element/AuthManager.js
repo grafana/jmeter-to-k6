@@ -2,13 +2,13 @@ const { Authentication } = require('../symbol')
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function AuthManager (node) {
+function AuthManager (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, settings)
+  for (const prop of props) property(prop, context, settings)
   if (Object.keys(settings).length) {
     result.defaults.push({ [Authentication]: settings })
   }
@@ -25,20 +25,22 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, settings) {
+function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'auth_list': {
       const entries = node.children.filter(node => /Prop$/.test(node.name))
-      for (const entry of entries) Object.assign(settings, credential(entry))
+      for (const entry of entries) {
+        Object.assign(settings, credential(entry, context))
+      }
       break
     }
     default: throw new Error('Unrecognized AuthManager property: ' + name)
   }
 }
 
-function credential (node) {
-  const props = properties(node)
+function credential (node, context) {
+  const props = properties(node, context)
   if (!(props.url && props.password)) throw new Error('Invalid credential')
   const spec = { password: props.password }
   if (props.username) spec.username = props.username

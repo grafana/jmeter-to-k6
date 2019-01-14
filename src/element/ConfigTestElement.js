@@ -1,9 +1,9 @@
 const properties = require('../common/properties')
 const makeResult = require('../result')
 
-function ConfigTestElement (node) {
+function ConfigTestElement (node, context) {
   const result = makeResult()
-  const props = properties(node)
+  const props = properties(node, context)
   for (const key of Object.keys(props)) {
     if (props[key] === null) delete props[key]
   }

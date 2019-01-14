@@ -1,8 +1,8 @@
 const { Check } = require('../symbol')
-const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
-function DurationAssertion (node) {
+function DurationAssertion (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -11,7 +11,7 @@ function DurationAssertion (node) {
   }
   if (!settings.name) settings.name = 'DurationAssertion'
   const props = node.children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, settings)
+  for (const prop of props) property(prop, context, settings)
   if (settings.logic) {
     Object.assign(result.defaults, { [Check]: {
       [settings.name]: settings.logic
@@ -33,14 +33,14 @@ function attribute (node, key, settings) {
   }
 }
 
-function property (node, settings) {
+function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'comments':
-      settings.name += ' - ' + text(node.children)
+      settings.name += ` - ${value(node, context)}`
       break
     case 'duration': {
-      const duration = Number.parseInt(text(node.children), 10)
+      const duration = Number.parseInt(value(node, context), 10)
       settings.logic = 'return (r.timings.duration <= ' + duration + ')'
       break
     }

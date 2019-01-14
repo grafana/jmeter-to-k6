@@ -32,6 +32,6 @@ const route = {
 function element (node, context = makeContext()) {
   const { name } = node
   if (!route[name]) throw new Error('Unrecognized element: ' + name)
-  context.defaults = extractDefaults(node, context.defaults)
+  context.defaults = extractDefaults(node, context)
   return route[name](node, context)
 }

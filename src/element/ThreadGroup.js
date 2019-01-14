@@ -1,6 +1,6 @@
 const merge = require('../merge')
 const elements = require('../elements')
-const text = require('../text')
+const value = require('../value')
 const makeResult = require('../result')
 
 function ThreadGroup (node, context) {
@@ -11,7 +11,7 @@ function ThreadGroup (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, result)
+  for (const prop of props) property(prop, context, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
   merge(result, elements(els, context))
   result.user = true
@@ -28,7 +28,7 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, result) {
+function property (node, context, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'on_sample_error':
@@ -39,21 +39,21 @@ function property (node, result) {
     case 'delayedStart':
       break
     case 'comments': {
-      const comments = text(node.children)
+      const comments = value(node, context)
       result.logic += `
 
 /* ${comments} */`
       break
     }
     case 'num_threads': {
-      const valueString = text(node.children)
-      const value = Number.parseInt(valueString, 10)
-      result.options.stages[0].target = value
+      const valueString = value(node, context)
+      const valueParsed = Number.parseInt(valueString, 10)
+      result.options.stages[0].target = valueParsed
       break
     }
     case 'ramp_time': {
-      const value = text(node.children)
-      result.options.stages[0].duration = value + 's'
+      const valueString = value(node, context)
+      result.options.stages[0].duration = valueString + 's'
       break
     }
     default: throw new Error('Unrecognized ThreadGroup property: ' + name)
