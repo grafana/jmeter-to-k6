@@ -62,6 +62,7 @@ function property (node, settings) {
     case 'useExpression':
       settings.expression = (text(node.children) === 'true')
       break
+    default: throw new Error('Unrecognized IfController property: ' + name)
   }
 }
 

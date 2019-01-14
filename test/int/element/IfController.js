@@ -30,7 +30,7 @@ test('expression', t => {
   const result = IfController(node)
   t.is(result.logic, `
 
-if (\`\${vars["AUTH"]}\` === 'true') {
+if (\`\${vars[\`AUTH\`]}\` === 'true') {
 
 }`)
 })

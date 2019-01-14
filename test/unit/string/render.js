@@ -15,10 +15,15 @@ test('static', t => {
 
 test('1 expression', t => {
   const result = render('${FRUIT} pie')
-  t.is(result, '`${vars["FRUIT"]} pie`')
+  t.is(result, '`${vars[`FRUIT`]} pie`')
 })
 
 test('3 expressions', t => {
   const result = render('${BRAND} ${SIZE} ${FLAVOR} pie')
-  t.is(result, '`${vars["BRAND"]} ${vars["SIZE"]} ${vars["FLAVOR"]} pie`')
+  t.is(result, '`${vars[`BRAND`]} ${vars[`SIZE`]} ${vars[`FLAVOR`]} pie`')
+})
+
+test('nested', t => {
+  const result = render('${FRUIT${DESSERT}}')
+  t.is(result, '`${vars[`FRUIT${vars[`DESSERT`]}`]}`')
 })

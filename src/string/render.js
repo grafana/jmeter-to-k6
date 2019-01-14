@@ -13,7 +13,7 @@ function render (string) {
     const value = values[i]
     string = splice(string, start, end, value)
   }
-  return `\`${string.replace('`', '\\`')}\``
+  return `\`${string}\``
 }
 
 function replace (string, [ start, end ]) {
@@ -31,7 +31,7 @@ function func (string) {
 }
 
 function variable (name) {
-  return `vars[${JSON.stringify(name)}]`
+  return `vars[${render(name)}]`
 }
 
 function splice (string, start, end, substitute) {
