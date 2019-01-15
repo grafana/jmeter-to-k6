@@ -1,4 +1,5 @@
 const code = require('../string/code')
+const element = require('../element')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
@@ -17,10 +18,7 @@ function IfController (node, context) {
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   const els = node.children.filter(node => !/Prop$/.test(node.name))
-  const childrenResult = elements(els, context)
-  const childrenLogic = childrenResult.logic || ''
-  delete childrenResult.logic
-  merge(result, childrenResult)
+    .filter(node => node.type === 'element')
   if (settings.condition) {
     const condition =
       settings.expression ? `${runtimeString(settings.condition)} === 'true'`
@@ -32,9 +30,29 @@ function IfController (node, context) {
       result.logic += `/* ${settings.comment} */
 `
     }
-    result.logic += `if (${condition}) {
+    if (settings.individual) {
+      const children = []
+      for (const el of els) children.push(element(el, context))
+      const blocks = []
+      for (const child of children) {
+        const logic = child.logic
+        delete child.logic
+        merge(result, child)
+        const block = `if (${condition}) {
+${ind(strip(logic))}
+}`
+        blocks.push(block)
+      }
+      result.logic += `${blocks.join('\n\n')}`
+    } else {
+      const childrenResult = elements(els, context)
+      const childrenLogic = childrenResult.logic || ''
+      delete childrenResult.logic
+      merge(result, childrenResult)
+      result.logic += `if (${condition}) {
 ${ind(strip(childrenLogic))}
 }`
+    }
   } else throw new Error('IfController missing condition')
   return result
 }
@@ -52,8 +70,6 @@ function attribute (node, key) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'evaluateAll':
-      break
     case 'comments':
       settings.comment = value(node, context)
       break
@@ -62,6 +78,9 @@ function property (node, context, settings) {
       break
     case 'useExpression':
       settings.expression = (value(node, context) === 'true')
+      break
+    case 'evaluateAll':
+      settings.individual = (value(node, context) === 'true')
       break
     default: throw new Error('Unrecognized IfController property: ' + name)
   }

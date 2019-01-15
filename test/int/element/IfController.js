@@ -34,3 +34,31 @@ if (\`\${vars[\`AUTH\`]}\` === 'true') {
 
 }`)
 })
+
+test('individual', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<IfController>
+  <stringProp name="condition">1 === 1</stringProp>
+  <boolProp name="evaluateAll">true</boolProp>
+  <Fake/>
+  <Fake/>
+  <Fake/>
+</IfController>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = IfController(node)
+  t.is(result.logic, `
+
+if (eval(\`1 === 1\`)) {
+  // Fake
+}
+
+if (eval(\`1 === 1\`)) {
+  // Fake
+}
+
+if (eval(\`1 === 1\`)) {
+  // Fake
+}`)
+})
