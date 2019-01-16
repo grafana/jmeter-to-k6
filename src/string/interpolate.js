@@ -28,7 +28,11 @@ function evaluate (string, context) {
 }
 
 function func (string, context) {
-  throw new Error('JMeter functions not implemented')
+  const name = /^__([^(]+)\(/.exec(string)[1]
+  switch (name) {
+    case 'threadNum': throw new Error('__threadNum invalid at convert time')
+    default: throw new Error('JMeter function not implemented: __' + name)
+  }
 }
 
 function variable (name, context) {

@@ -3,7 +3,6 @@ const match = require('./match')
 const left = '(?:^|\\\\\\\\|[^\\\\])\\${'
 const right = '}'
 
-// Render runtime string
 function render (string) {
   const ranges = match(string, left, right, 'g')
   if (!ranges.length) return `\`${string.replace('`', '\\`')}\``
@@ -27,7 +26,11 @@ function evaluate (string) {
 }
 
 function func (string) {
-  throw new Error('JMeter functions not implemented')
+  const name = /^__([^(])\(/.exec(string)[1]
+  switch (name) {
+    case 'threadNum': return '__VU'
+    default: throw new Error('JMeter function not implemented: __' + name)
+  }
 }
 
 function variable (name) {
