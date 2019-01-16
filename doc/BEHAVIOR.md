@@ -120,6 +120,30 @@ A `collectionProp` node representing a set of variables.
 
 No attributes or properties.
 
+## HTTPSamplerProxy
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| Arguments | element | ? | ? |
+| auto_redirects | bool | ? | ? |
+| BROWSER_COMPATIBLE_MULTIPART | bool | ? | ? |
+| comments | string | Freeform comments. | Comment. |
+| connect_timeout | string | Connect timeout. | Request timeout addend. |
+| contentEncoding | string | ? | ? |
+| DO_MULTIPART_POST | bool | ? | ? |
+| domain | string | Domain name. | Request URI domain name. |
+| embedded_url_re | string | ? | ? |
+| follow_redirects | bool | ? | ? |
+| method | string | Method. | Request method. |
+| path | string | Path. | Request URI path. |
+| postBodyRaw | ? | ? | ? |
+| port | string | Port. | Request port. |
+| protocol | string | Protocol. | Request URI protocol. |
+| response_timeout | string | Response timeout. | Request timeout addend. |
+| use_keepalive | bool | ? | ? |
+
 ## IfController
 
 **Property**
