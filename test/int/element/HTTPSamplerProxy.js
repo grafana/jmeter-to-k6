@@ -62,3 +62,26 @@ r = http.request(
   ${'`${`http`}://${`example.com`}:${`88`}`'}
 )`)
 })
+
+test('timeout', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<HTTPSamplerProxy>
+  <stringProp name="method">GET</stringProp>
+  <stringProp name="protocol">http</stringProp>
+  <stringProp name="domain">example.com</stringProp>
+  <stringProp name="response_timeout">300</stringProp>
+</HTTPSamplerProxy>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = HTTPSamplerProxy(node)
+  t.is(result.logic, `
+
+r = http.request(
+  ${'`GET`'},
+  ${'`${`http`}://${`example.com`}`'},
+  {
+    timeout: Number.parseInt(${'`${`300`}`'}, 10)
+  }
+)`)
+})

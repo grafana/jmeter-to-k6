@@ -130,7 +130,7 @@ No attributes or properties.
 | auto_redirects | bool | ? | ? |
 | BROWSER_COMPATIBLE_MULTIPART | bool | ? | ? |
 | comments | string | Freeform comments. | Comment. |
-| connect_timeout | string | Connect timeout. | Request timeout addend. |
+| connect_timeout | string | Connect timeout. | Ignore. |
 | contentEncoding | string | ? | ? |
 | DO_MULTIPART_POST | bool | ? | ? |
 | domain | string | Domain name. | Request URI domain name. |
@@ -141,7 +141,7 @@ No attributes or properties.
 | postBodyRaw | ? | ? | ? |
 | port | string | Port. | Request port. |
 | protocol | string | Protocol. | Request URI protocol. |
-| response_timeout | string | Response timeout. | Request timeout addend. |
+| response_timeout | string | Response timeout ms. | Request timeout. |
 | use_keepalive | bool | ? | ? |
 
 ## IfController

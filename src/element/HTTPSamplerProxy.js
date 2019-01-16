@@ -29,6 +29,8 @@ function attribute (node, key, result) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'connect_timeout':
+      break
     case 'comments':
       settings.comment = value(node, context)
       break
@@ -41,15 +43,14 @@ function property (node, context, settings) {
     case 'path':
       settings.path = text(node.children)
       break
-    case 'port': {
-      const string = text(node.children)
-      const number = Number.parseInt(string, 10)
-      if (number <= 0) throw new Error('Invalid port: ' + string)
-      settings.port = string
+    case 'port':
+      settings.port = text(node.children)
       break
-    }
     case 'protocol':
       settings.protocol = value(node, context)
+      break
+    case 'response_timeout':
+      settings.responseTimeout = text(node.children)
       break
     default: throw new Error('Unrecognized HTTPSamplerProxy property: ' + name)
   }
@@ -68,9 +69,13 @@ function convert (settings, result, context) {
   const params = []
   params.push(method(settings))
   params.push(address(settings))
+  const options = renderOptions(settings)
+  if (options) params.push(options)
   result.logic = `
 
-r = http.request(
+`
+  if (settings.comment) result.logic += `/* ${settings.comment} */`
+  result.logic += `r = http.request(
 ${ind(params.join(',\n'))}
 )`
 }
@@ -85,6 +90,20 @@ function address (settings) {
   const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
   const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
   return `\`${protocol}://${domain}${port}${path}\``
+}
+
+function renderOptions (settings) {
+  const items = []
+  if (settings.responseTimeout) items.push(timeout(settings))
+  if (!items.length) return ''
+  return `{
+${ind(items.join(',\n'))}
+}`
+}
+
+function timeout (settings) {
+  const value = `\`\${${runtimeString(settings.responseTimeout)}}\``
+  return `timeout: Number.parseInt(${value}, 10)`
 }
 
 module.exports = HTTPSamplerProxy
