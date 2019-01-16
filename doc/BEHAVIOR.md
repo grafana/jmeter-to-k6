@@ -74,6 +74,22 @@ A `collectionProp` node representing a set of variables.
 | clearEachIteration | bool | ?  | Ignore. |
 | policy | string | ? | Ignore. |
 
+## CSVDataSet
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| delimiter | string | CSV delimiter. | CSV delimiter. |
+| fileEncoding | string | Character encoding. | Character encoding. |
+| filename | string | CSV file path. | CSV file path. |
+| ignoreFirstLine | bool | Ignore first line. | Ignore first line. |
+| quotedData | bool | ? | ? |
+| recycle | bool | ? | ? |
+| shareMode | string | ? | ? |
+| stopThread | bool | ? | ? |
+| variableNames | string | Comma separated. | Variable names. |
+
 ## DNSCacheManager
 
 **Property**

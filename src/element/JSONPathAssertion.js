@@ -26,6 +26,7 @@ function JSONPathAssertion (node, context) {
 
 function attribute (node, key, settings) {
   switch (key) {
+    case 'enabled':
     case 'guiclass':
     case 'testclass':
       break

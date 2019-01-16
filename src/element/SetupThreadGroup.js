@@ -17,6 +17,7 @@ function SetupThreadGroup (node, context) {
 
 function attribute (node, key, result) {
   switch (key) {
+    case 'enabled':
     case 'guiclass':
     case 'testclass':
     case 'testname':

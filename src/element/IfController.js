@@ -59,6 +59,7 @@ ${ind(strip(childrenLogic))}
 
 function attribute (node, key) {
   switch (key) {
+    case 'enabled':
     case 'guiclass':
     case 'testclass':
     case 'testname':
