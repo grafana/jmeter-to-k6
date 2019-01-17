@@ -1,4 +1,5 @@
 const ind = require('../ind')
+const properties = require('../common/properties')
 const runtimeString = require('../string/run')
 const text = require('../text')
 const value = require('../value')
@@ -40,6 +41,14 @@ function property (node, context, settings) {
     case 'proxyUser':
     case 'use_keepalive':
       break
+    case 'Arguments': {
+      const params = []
+      const items = node.children.filter(node => /Prop$/.test(node.name))[0]
+        .children.filter(node => /Prop$/.test(node.name))
+      for (const item of items) params.push(properties(item, context))
+      settings.params = params
+      break
+    }
     case 'auto_redirects':
       settings.followSilent = (value(node, context) === 'true')
       break
@@ -85,6 +94,9 @@ function property (node, context, settings) {
     case 'port':
       settings.port = text(node.children)
       break
+    case 'postBodyRaw':
+      settings.rawBody = (value(node, context) === 'true')
+      break
     case 'protocol':
       settings.protocol = value(node, context)
       break
@@ -110,8 +122,8 @@ function convert (settings, result, context) {
   const params = []
   params.push(method(settings))
   params.push(address(settings))
-  const options = renderOptions(settings)
-  if (options) params.push(options)
+  params.push(renderBody(settings))
+  params.push(renderOptions(settings))
   result.logic = `
 
 `
@@ -134,6 +146,32 @@ function address (settings) {
   return `\`${protocol}://${domain}${port}${path}\``
 }
 
+function renderBody (settings) {
+  if (!settings.params) return `''`
+  if (settings.rawBody) return renderRawBody(settings.params)
+  else return renderParams(settings.params)
+}
+
+function renderRawBody (params) {
+  const node = params[0]
+  const value = node.value
+  return (value ? runtimeString(value) : `''`)
+}
+
+function renderParams (params) {
+  const items = []
+  for (const node of params) items.push(renderParam(node))
+  if (!items.length) return `''`
+  return `{
+${ind(items.join(',\n'))}
+}`
+}
+
+function renderParam (node) {
+  if (!node.name) throw new Error('Query parameter missing name')
+  return `[${runtimeString(node.name)}]: ${runtimeString(node.value)}`
+}
+
 function renderOptions (settings) {
   const items = []
   if (settings.followSilent) items.push(`redirects: 999`)
@@ -141,7 +179,7 @@ function renderOptions (settings) {
   if (settings.responseTimeout) items.push(timeout(settings))
   const headers = renderHeaders(settings)
   if (headers) items.push(headers)
-  if (!items.length) return ''
+  if (!items.length) return `null`
   return `{
 ${ind(items.join(',\n'))}
 }`
