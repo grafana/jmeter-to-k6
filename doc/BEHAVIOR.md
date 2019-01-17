@@ -126,15 +126,15 @@ No attributes or properties.
 
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
-| Arguments | element | ? | ? |
+| Arguments | element | Body. | Body. |
 | auto_redirects | bool | Redirect without logging. | Nonzero `redirects`. |
-| BROWSER_COMPATIBLE_MULTIPART | bool | ? | ? |
+| BROWSER_COMPATIBLE_MULTIPART | bool | ? | Ignore. |
 | comments | string | Freeform comments. | Comment. |
 | concurrentDwn | bool | Download resources with pool. | Exception. |
 | concurrentPool | string | Resource download pool size. | Ignore. |
 | connect_timeout | string | Connect timeout. | Ignore. |
 | contentEncoding | string | Content encoding. | `Content-Encoding` header. |
-| DO_MULTIPART_POST | bool | ? | ? |
+| DO_MULTIPART_POST | bool | ? | Ignore. |
 | domain | string | Domain name. | Request URI domain name. |
 | embedded_url_re | string | Constrain referenced resources. | Exception. |
 | follow_redirects | bool | Redirect with logging. | Exception. |
@@ -145,7 +145,7 @@ No attributes or properties.
 | md5 | bool | ? | ? |
 | method | string | Method. | Request method. |
 | path | string | Path. | Request URI path. |
-| postBodyRaw | ? | ? | ? |
+| postBodyRaw | bool | Raw body specified. | Interpret body as raw text. |
 | port | string | Port. | Request port. |
 | protocol | string | Protocol. | Request URI protocol. |
 | proxyHost | string | Proxy hostname. | Ignore. |

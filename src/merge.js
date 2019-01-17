@@ -9,6 +9,7 @@ function merge (base, update) {
   if (update.imports) for (const item of update.imports) base.imports.add(item)
   if (update.vars) mergeVariables(base, update)
   if (update.constants) mergeConstants(base, update)
+  if (update.files) mergeFiles(base, update)
   if (update.defaults) base.defaults.push(...update.defaults)
   if (update.cookies) mergeCookies(base, update)
   if (update.init) base.init += update.init
@@ -55,6 +56,17 @@ function mergeConstants (base, update) {
   for (const [ key, value ] of update.constants) {
     mergeConstant(base, key, value)
   }
+}
+
+function mergeFiles (base, update) {
+  for (const [ key, value ] of update.files) mergeFile(base, key, value)
+}
+
+function mergeFile (base, key, value) {
+  if (base.has(key) && base.get(key) !== value) {
+    throw new Error(`Redefinition of file (${key}): ${value}`)
+  }
+  base.set(key, value)
 }
 
 function mergeConstant (base, key, value) {

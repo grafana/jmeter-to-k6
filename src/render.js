@@ -14,6 +14,7 @@ function render (result) {
     renderInit(result.init),
     renderConstants(result.constants),
     renderVariables(result.vars),
+    renderFiles(result.files),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(
@@ -39,17 +40,6 @@ function renderConstants (constants) {
   return `const constants = ${JSON.stringify(rendered)}`
 }
 
-function renderVariables (vars) {
-  const lines = []
-  lines.push(`const vars = {}`)
-  for (const [ name, { value, comment } ] of vars) {
-    let line = `vars[${JSON.stringify(name)}] = ${JSON.stringify(value)}`
-    if (comment) line += ` /* ${comment} */`
-    lines.push(line)
-  }
-  return lines.join('\n')
-}
-
 function renderConstant (key, value) {
   switch (key) {
     case 'headers': return renderHeaders(value)
@@ -61,6 +51,28 @@ function renderHeaders (headers) {
   const entries = {}
   for (const [ key, value ] of headers) entries[key] = value
   return entries
+}
+
+function renderVariables (vars) {
+  const lines = []
+  lines.push(`const vars = {}`)
+  for (const [ name, { value, comment } ] of vars) {
+    let line = `vars[${JSON.stringify(name)}] = ${JSON.stringify(value)}`
+    if (comment) line += ` /* ${comment} */`
+    lines.push(line)
+  }
+  return lines.join('\n')
+}
+
+function renderFiles (files) {
+  const lines = []
+  lines.push(`const files = {}`)
+  for (const [ name, path ] of files) lines.push(renderFile(name, path))
+  return lines.join('\n')
+}
+
+function renderFile (name, path) {
+  return `files[${JSON.stringify(name)}] = open(${JSON.stringify(path)}, 'b')`
 }
 
 function renderOptions (options) {

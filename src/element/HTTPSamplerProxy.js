@@ -8,6 +8,7 @@ const makeResult = require('../result')
 function HTTPSamplerProxy (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
+  result.init = ''
   const settings = {}
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
@@ -30,8 +31,10 @@ function attribute (node, key, result) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'BROWSER_COMPATIBLE_MULTIPART':
     case 'concurrentPool':
     case 'connect_timeout':
+    case 'DO_MULTIPART_POST':
     case 'implementation':
     case 'ipSource':
     case 'ipSourceType':
@@ -73,6 +76,14 @@ function property (node, context, settings) {
       if (referenceConstraint) {
         throw new Error('k6 does not support constraining referenced URLs')
       }
+      break
+    }
+    case 'Files': {
+      const files = []
+      const items = node.children.filter(node => /Prop$/.test(node.name))[0]
+        .children.filter(node => /Prop$/.test(node.name))
+      for (const item of items) files.push(properties(item, context))
+      settings.files = files
       break
     }
     case 'follow_redirects': {
@@ -122,7 +133,7 @@ function convert (settings, result, context) {
   const params = []
   params.push(method(settings))
   params.push(address(settings))
-  params.push(renderBody(settings))
+  params.push(renderBody(settings, result))
   params.push(renderOptions(settings))
   result.logic = `
 
@@ -146,10 +157,10 @@ function address (settings) {
   return `\`${protocol}://${domain}${port}${path}\``
 }
 
-function renderBody (settings) {
-  if (!settings.params) return `''`
+function renderBody (settings, result) {
+  if (!(settings.params || settings.files)) return `''`
   if (settings.rawBody) return renderRawBody(settings.params)
-  else return renderParams(settings.params)
+  else return renderStructuredBody(settings.params, settings.files, result)
 }
 
 function renderRawBody (params) {
@@ -158,13 +169,18 @@ function renderRawBody (params) {
   return (value ? runtimeString(value) : `''`)
 }
 
-function renderParams (params) {
+function renderStructuredBody (params, files, result) {
   const items = []
-  for (const node of params) items.push(renderParam(node))
+  items.push(...renderParams(params))
+  items.push(...renderFiles(files, result))
   if (!items.length) return `''`
   return `{
 ${ind(items.join(',\n'))}
 }`
+}
+
+function renderParams (params, result) {
+  return (params ? params.map(node => renderParam(node)) : [])
 }
 
 function renderParam (node) {
@@ -172,7 +188,27 @@ function renderParam (node) {
   return `[${runtimeString(node.name)}]: ${runtimeString(node.value)}`
 }
 
-function renderOptions (settings) {
+function renderFiles (nodes, result) {
+  if (!nodes) return []
+  const files = []
+  for (const node of nodes) renderFile(node, result, files)
+  return files
+}
+
+function renderFile (node, result, files) {
+  if (!(node.path && node.paramname)) return
+  result.imports.add('k6/http')
+  result.files.set(node.paramname, node.path)
+  const name = runtimeString(node.paramname)
+  const params = []
+  params.push(`files[${name}]`)
+  params.push(`${name}`)
+  if (node.mimetype) params.push(runtimeString(node.mimetype))
+  const value = `http.file(${params.join(', ')})`
+  files.push(`[${name}]: ${value}`)
+}
+
+function renderOptions (settings, result) {
   const items = []
   if (settings.followSilent) items.push(`redirects: 999`)
   else items.push(`redirects: 0`)
