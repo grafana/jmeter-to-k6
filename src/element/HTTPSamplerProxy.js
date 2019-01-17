@@ -29,7 +29,16 @@ function attribute (node, key, result) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'concurrentPool':
     case 'connect_timeout':
+    case 'implementation':
+    case 'ipSource':
+    case 'ipSourceType':
+    case 'proxyHost':
+    case 'proxyPass':
+    case 'proxyPort':
+    case 'proxyUser':
+    case 'use_keepalive':
       break
     case 'auto_redirects':
       settings.followSilent = (value(node, context) === 'true')
@@ -37,6 +46,13 @@ function property (node, context, settings) {
     case 'comments':
       settings.comment = value(node, context)
       break
+    case 'concurrentDwn': {
+      const concurrentDownload = (value(node, context) === 'true')
+      if (concurrentDownload) {
+        throw new Error('Concurrent resource download not implemented')
+      }
+      break
+    }
     case 'contentEncoding':
       settings.contentEncoding = text(node.children)
       break

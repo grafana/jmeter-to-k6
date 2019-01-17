@@ -130,12 +130,13 @@ No attributes or properties.
 | auto_redirects | bool | Redirect without logging. | Nonzero `redirects`. |
 | BROWSER_COMPATIBLE_MULTIPART | bool | ? | ? |
 | comments | string | Freeform comments. | Comment. |
-| concurrentDwn | bool | ? | ? |
+| concurrentDwn | bool | Download resources with pool. | Exception. |
+| concurrentPool | string | Resource download pool size. | Ignore. |
 | connect_timeout | string | Connect timeout. | Ignore. |
 | contentEncoding | string | Content encoding. | `Content-Encoding` header. |
 | DO_MULTIPART_POST | bool | ? | ? |
 | domain | string | Domain name. | Request URI domain name. |
-| embedded_url_re | string | Constrain referenced URIs. | Exception. |
+| embedded_url_re | string | Constrain referenced resources. | Exception. |
 | follow_redirects | bool | Redirect with logging. | Exception. |
 | image_parser | bool | ? | ? |
 | implementation | string | Client implementation. | Ignore. |
