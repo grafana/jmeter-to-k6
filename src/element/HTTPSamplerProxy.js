@@ -43,9 +43,12 @@ function property (node, context, settings) {
     case 'method':
       settings.method = text(node.children)
       break
-    case 'path':
-      settings.path = text(node.children)
+    case 'path': {
+      const path = text(node.children)
+      if (/^https?:\/\//.test(path)) settings.address = path
+      else settings.path = path
       break
+    }
     case 'port':
       settings.port = text(node.children)
       break
@@ -61,9 +64,11 @@ function property (node, context, settings) {
 
 function sufficient (settings) {
   return (
-    settings.domain &&
     settings.method &&
-    settings.protocol
+    (
+      settings.address ||
+      (settings.protocol && settings.domain)
+    )
   )
 }
 
@@ -88,6 +93,7 @@ function method (settings) {
 }
 
 function address (settings) {
+  if (settings.address) return runtimeString(settings.address)
   const protocol = `\${${runtimeString(settings.protocol)}}`
   const domain = `\${${runtimeString(settings.domain)}}`
   const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')

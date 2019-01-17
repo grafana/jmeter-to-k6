@@ -43,6 +43,24 @@ r = http.request(
 )`)
 })
 
+test('address in path', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<HTTPSamplerProxy>
+  <stringProp name="method">GET</stringProp>
+  <stringProp name="path">http://example.com/index.html</stringProp>
+</HTTPSamplerProxy>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = HTTPSamplerProxy(node)
+  t.is(result.logic, `
+
+r = http.request(
+  ${'`GET`'},
+  ${'`http://example.com/index.html`'}
+)`)
+})
+
 test('port', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HTTPSamplerProxy>

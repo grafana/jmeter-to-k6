@@ -152,7 +152,7 @@ No attributes or properties.
 | proxyPort | string | Proxy port. | ? |
 | proxyUser | string | Proxy username. | ? |
 | response_timeout | string | Response timeout ms. | Request timeout. |
-| use_keepalive | bool | ? | ? |
+| use_keepalive | bool | Reuse HTTP connections. | Ignore. |
 
 ## IfController
 
