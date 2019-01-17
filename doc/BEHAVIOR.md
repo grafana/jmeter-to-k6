@@ -135,7 +135,7 @@ No attributes or properties.
 | contentEncoding | string | Content encoding. | `Content-Encoding` header. |
 | DO_MULTIPART_POST | bool | ? | ? |
 | domain | string | Domain name. | Request URI domain name. |
-| embedded_url_re | string | ? | ? |
+| embedded_url_re | string | Constrain referenced URIs. | Exception. |
 | follow_redirects | bool | Redirect with logging. | Exception. |
 | image_parser | bool | ? | ? |
 | implementation | string | Client implementation. | Ignore. |

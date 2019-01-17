@@ -43,6 +43,13 @@ function property (node, context, settings) {
     case 'domain':
       settings.domain = text(node.children)
       break
+    case 'embedded_url_re': {
+      const referenceConstraint = value(node, context)
+      if (referenceConstraint) {
+        throw new Error('k6 does not support constraining referenced URLs')
+      }
+      break
+    }
     case 'follow_redirects': {
       const followLoud = (value(node, context) === 'true')
       if (followLoud) {
