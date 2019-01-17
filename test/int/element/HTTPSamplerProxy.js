@@ -81,7 +81,32 @@ r = http.request(
   ${'`GET`'},
   ${'`${`http`}://${`example.com`}`'},
   {
-    timeout: Number.parseInt(${'`${`300`}`'}, 10)
+    timeout: Number.parseInt(${'`300`'}, 10)
+  }
+)`)
+})
+
+test('encoding', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<HTTPSamplerProxy>
+  <stringProp name="method">GET</stringProp>
+  <stringProp name="protocol">http</stringProp>
+  <stringProp name="domain">example.com</stringProp>
+  <stringProp name="contentEncoding">compress</stringProp>
+</HTTPSamplerProxy>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = HTTPSamplerProxy(node)
+  t.is(result.logic, `
+
+r = http.request(
+  ${'`GET`'},
+  ${'`${`http`}://${`example.com`}`'},
+  {
+    {
+      'Content-Encoding': ${'`compress`'}
+    }
   }
 )`)
 })

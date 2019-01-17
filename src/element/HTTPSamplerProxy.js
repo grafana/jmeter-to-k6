@@ -34,6 +34,9 @@ function property (node, context, settings) {
     case 'comments':
       settings.comment = value(node, context)
       break
+    case 'contentEncoding':
+      settings.contentEncoding = text(node.children)
+      break
     case 'domain':
       settings.domain = text(node.children)
       break
@@ -95,6 +98,8 @@ function address (settings) {
 function renderOptions (settings) {
   const items = []
   if (settings.responseTimeout) items.push(timeout(settings))
+  const headers = renderHeaders(settings)
+  if (headers) items.push(headers)
   if (!items.length) return ''
   return `{
 ${ind(items.join(',\n'))}
@@ -102,8 +107,21 @@ ${ind(items.join(',\n'))}
 }
 
 function timeout (settings) {
-  const value = `\`\${${runtimeString(settings.responseTimeout)}}\``
+  const value = runtimeString(settings.responseTimeout)
   return `timeout: Number.parseInt(${value}, 10)`
+}
+
+function renderHeaders (settings) {
+  const items = []
+  if (settings.contentEncoding) {
+    const value = runtimeString(settings.contentEncoding)
+    const header = `'Content-Encoding': ${value}`
+    items.push(header)
+  }
+  if (!items.length) return ''
+  return `{
+${ind(items.join(',\n'))}
+}`
 }
 
 module.exports = HTTPSamplerProxy

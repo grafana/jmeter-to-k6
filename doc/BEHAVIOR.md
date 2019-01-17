@@ -130,17 +130,27 @@ No attributes or properties.
 | auto_redirects | bool | ? | ? |
 | BROWSER_COMPATIBLE_MULTIPART | bool | ? | ? |
 | comments | string | Freeform comments. | Comment. |
+| concurrentDwn | bool | ? | ? |
 | connect_timeout | string | Connect timeout. | Ignore. |
-| contentEncoding | string | ? | ? |
+| contentEncoding | string | Content encoding. | `Content-Encoding` header. |
 | DO_MULTIPART_POST | bool | ? | ? |
 | domain | string | Domain name. | Request URI domain name. |
 | embedded_url_re | string | ? | ? |
 | follow_redirects | bool | ? | ? |
+| image_parser | bool | ? | ? |
+| implementation | string | Client implementation. | Ignore. |
+| ipSource | string | ? | ? |
+| ipSourceType | int | ? | ? |
+| md5 | bool | ? | ? |
 | method | string | Method. | Request method. |
 | path | string | Path. | Request URI path. |
 | postBodyRaw | ? | ? | ? |
 | port | string | Port. | Request port. |
 | protocol | string | Protocol. | Request URI protocol. |
+| proxyHost | string | Proxy hostname. | ? |
+| proxyPass | string | Proxy password. | ? |
+| proxyPort | string | Proxy port. | ? |
+| proxyUser | string | Proxy username. | ? |
 | response_timeout | string | Response timeout ms. | Request timeout. |
 | use_keepalive | bool | ? | ? |
 
