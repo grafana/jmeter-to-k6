@@ -31,6 +31,9 @@ function property (node, context, settings) {
   switch (name) {
     case 'connect_timeout':
       break
+    case 'auto_redirects':
+      settings.followSilent = (value(node, context) === 'true')
+      break
     case 'comments':
       settings.comment = value(node, context)
       break
@@ -40,6 +43,13 @@ function property (node, context, settings) {
     case 'domain':
       settings.domain = text(node.children)
       break
+    case 'follow_redirects': {
+      const followLoud = (value(node, context) === 'true')
+      if (followLoud) {
+        throw new Error('Following redirects with logging not implemented')
+      }
+      break
+    }
     case 'method':
       settings.method = text(node.children)
       break
@@ -103,6 +113,8 @@ function address (settings) {
 
 function renderOptions (settings) {
   const items = []
+  if (settings.followSilent) items.push(`redirects: 999`)
+  else items.push(`redirects: 0`)
   if (settings.responseTimeout) items.push(timeout(settings))
   const headers = renderHeaders(settings)
   if (headers) items.push(headers)
@@ -125,7 +137,7 @@ function renderHeaders (settings) {
     items.push(header)
   }
   if (!items.length) return ''
-  return `{
+  return `headers: {
 ${ind(items.join(',\n'))}
 }`
 }
