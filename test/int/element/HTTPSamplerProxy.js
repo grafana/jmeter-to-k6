@@ -2,6 +2,7 @@
 
 import test from 'ava'
 import parseXml from '@rgrove/parse-xml'
+import document from 'document'
 import HTTPSamplerProxy from 'element/HTTPSamplerProxy'
 
 test('minimal', t => {
@@ -368,6 +369,33 @@ r = http.request(
     [${'`file2`'}]: ${file2},
     [${'`file3`'}]: ${file3}
   },
+  {
+    redirects: 0
+  }
+)`)
+})
+
+test('defaults', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan>
+  <ConfigTestElement guiclass="HttpDefaultsGui">
+    <stringProp name="protocol">https</stringProp>
+    <stringProp name="domain">example.com</stringProp>
+  </ConfigTestElement>
+  <HTTPSamplerProxy>
+    <stringProp name="method">GET</stringProp>
+    <stringProp name="protocol">http</stringProp>
+  </HTTPSamplerProxy>
+</jmeterTestPlan>
+`
+  const tree = parseXml(xml)
+  const result = document(tree)
+  t.is(result.logic, `
+
+r = http.request(
+  ${'`GET`'},
+  ${'`${`http`}://${`example.com`}`'},
+  '',
   {
     redirects: 0
   }

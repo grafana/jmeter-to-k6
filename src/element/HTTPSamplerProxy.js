@@ -3,18 +3,116 @@ const properties = require('../common/properties')
 const runtimeString = require('../string/run')
 const text = require('../text')
 const value = require('../value')
+const makeContext = require('../context')
 const makeResult = require('../result')
 
-function HTTPSamplerProxy (node, context) {
+function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
   const settings = {}
+  applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   if (sufficient(settings)) convert(settings, result, context)
   return result
+}
+
+function applyDefaults (settings, context) {
+  const { defaults } = context
+  for (const scope of defaults) {
+    if (!scope.HTTPRequestDefaults) continue
+    const values = scope.HTTPRequestDefaults
+    applyLevelDefaults(settings, values)
+  }
+}
+
+function applyLevelDefaults (settings, values) {
+  for (const key of Object.keys(values)) {
+    applyDefault(settings, key, values[key])
+  }
+}
+
+function applyDefault (settings, key, value) {
+  switch (key) {
+    case 'BROWSER_COMPATIBLE_MULTIPART':
+    case 'concurrentPool':
+    case 'connect_timeout':
+    case 'DO_MULTIPART_POST':
+    case 'implementation':
+    case 'ipSource':
+    case 'ipSourceType':
+    case 'proxyHost':
+    case 'proxyPass':
+    case 'proxyPort':
+    case 'proxyUser':
+    case 'use_keepalive':
+      break
+    case 'Arguments':
+      settings.params = value
+      break
+    case 'auto_redirects':
+      settings.followSilent = (value === 'true')
+      break
+    case 'concurrentDwn': {
+      const concurrentDownload = (value === 'true')
+      if (concurrentDownload) {
+        throw new Error('Concurrent resource download not implemented')
+      }
+      break
+    }
+    case 'contentEncoding':
+      settings.contentEncoding = value
+      break
+    case 'domain':
+      settings.domain = value
+      break
+    case 'embedded_url_re': {
+      const referenceConstraint = value
+      if (referenceConstraint) {
+        throw new Error('k6 does not support constraining referenced URLs')
+      }
+      break
+    }
+    case 'Files':
+      settings.files = value
+      break
+    case 'follow_redirects': {
+      const followLoud = (value === 'true')
+      if (followLoud) {
+        throw new Error('Following redirects with logging not implemented')
+      }
+      break
+    }
+    case 'md5': {
+      const md5 = (value === 'true')
+      if (md5) throw new Error('Response digesting not implemented')
+      break
+    }
+    case 'method':
+      settings.method = value
+      break
+    case 'path': {
+      const path = value
+      if (/^https?:\/\//.test(path)) settings.address = path
+      else settings.path = path
+      break
+    }
+    case 'port':
+      settings.port = value
+      break
+    case 'postBodyRaw':
+      settings.rawBody = (value === 'true')
+      break
+    case 'protocol':
+      settings.protocol = value
+      break
+    case 'response_timeout':
+      settings.responseTimeout = value
+      break
+    default: throw new Error('Unrecognized HTTPRequestDefaults value: ' + key)
+  }
 }
 
 function attribute (node, key, result) {
@@ -93,6 +191,11 @@ function property (node, context, settings) {
       }
       break
     }
+    case 'md5': {
+      const md5 = (value(node, context) === 'true')
+      if (md5) throw new Error('Response digesting not implemented')
+      break
+    }
     case 'method':
       settings.method = text(node.children)
       break
@@ -165,7 +268,7 @@ function renderBody (settings, result) {
 
 function renderRawBody (params) {
   const node = params[0]
-  const value = node.value
+  const value = node.value.split(/\r\n|\r|\n/).join('\r\n')
   return (value ? runtimeString(value) : `''`)
 }
 

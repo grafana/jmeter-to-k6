@@ -138,11 +138,11 @@ No attributes or properties.
 | domain | string | Domain name. | Request URI domain name. |
 | embedded_url_re | string | Constrain referenced resources. | Exception. |
 | follow_redirects | bool | Redirect with logging. | Exception. |
-| image_parser | bool | ? | ? |
+| image_parser | bool | ? | Ignore. |
 | implementation | string | Client implementation. | Ignore. |
 | ipSource | string | Sending address. | Ignore. |
 | ipSourceType | int | Sending address type. | Ignore. |
-| md5 | bool | ? | ? |
+| md5 | bool | ? | Exception. |
 | method | string | Method. | Request method. |
 | path | string | Path. | Request URI path. |
 | postBodyRaw | bool | Raw body specified. | Interpret body as raw text. |
