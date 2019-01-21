@@ -24,10 +24,7 @@ function WhileController (node, context) {
     result.logic += `
 
 `
-    if (settings.comment) {
-      result.logic += `/* ${settings.comment} */
-`
-    }
+    if (settings.comment) result.logic += `/* ${settings.comment} */\n`
     result.logic += `while (${settings.condition}) {
 ${ind(strip(childrenLogic))}
 }`
