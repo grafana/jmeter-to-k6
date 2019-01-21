@@ -6,7 +6,7 @@
  */
 function merge (base, update) {
   if (update.options) mergeOptions(base.options, update.options)
-  if (update.imports) for (const item of update.imports) base.imports.add(item)
+  if (update.imports) mergeImports(base.imports, update.imports)
   if (update.vars) mergeVariables(base, update)
   if (update.constants) mergeConstants(base, update)
   if (update.files) mergeFiles(base, update)
@@ -41,6 +41,10 @@ function mergeOption (base, update, key) {
       break
     default: throw new Error('Unrecognized option: ' + key)
   }
+}
+
+function mergeImports (base, update) {
+  for (const [ key, value ] of update) base.set(key, value)
 }
 
 function mergeVariables (base, update) {

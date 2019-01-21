@@ -245,7 +245,7 @@ function sufficient (settings) {
 }
 
 function convert (settings, result) {
-  result.imports.add('k6/http')
+  result.imports.set('http', 'k6/http')
   const params = []
   const body = renderBody(settings, result)
   params.push(method(settings))
@@ -318,8 +318,8 @@ function renderFiles (nodes, result) {
 
 function renderFile (node, result, files) {
   if (!(node.path && node.paramname)) return
-  result.imports.add('k6/http')
-  result.files.set(node.paramname, node.path)
+  result.imports.set('http', 'k6/http')
+  result.files.set(node.paramname, { path: node.path, binary: true })
   const name = runtimeString(node.paramname)
   const params = []
   params.push(`files[${name}]`)

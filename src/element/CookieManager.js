@@ -29,7 +29,7 @@ function property (node, context, result) {
     case 'policy':
       break
     case 'cookies': {
-      result.imports.add('k6/http')
+      result.imports.set('http', 'k6/http')
       const entries = node.children.filter(node => /Prop$/.test(node.name))
       for (const entry of entries) cookie(entry, context, result)
       break

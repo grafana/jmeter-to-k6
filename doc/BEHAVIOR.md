@@ -84,10 +84,10 @@ A `collectionProp` node representing a set of variables.
 | fileEncoding | string | Character encoding. | Character encoding. |
 | filename | string | CSV file path. | CSV file path. |
 | ignoreFirstLine | bool | Ignore first line. | Ignore first line. |
-| quotedData | bool | ? | ? |
-| recycle | bool | ? | ? |
-| shareMode | string | ? | ? |
-| stopThread | bool | ? | ? |
+| quotedData | bool | Enable data quoting. | Enable data quoting. |
+| recycle | bool | Loop file. | Loop file. |
+| shareMode | string | Cross thread sharing. | Require `all`. |
+| stopThread | bool | Stop thread on EOF. | Exception. |
 | variableNames | string | Comma separated. | Variable names. |
 
 ## DNSCacheManager

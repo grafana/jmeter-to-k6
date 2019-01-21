@@ -12,10 +12,11 @@ const strip = require('./strip')
 function render (result) {
   const vus = countVus(result.options.stages)
   return [
-    renderInit(result.init),
     renderConstants(result.constants),
     renderVariables(result.vars),
     renderFiles(result.files),
+    renderInit(result.init),
+    renderDeclares(vus),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(
@@ -31,11 +32,6 @@ function render (result) {
 
 function countVus (stages) {
   return stages.reduce((stage, count) => count + stage.target, 0)
-}
-
-function renderInit (init) {
-  if (!init) return ''
-  else return init
 }
 
 function renderConstants (constants) {
@@ -73,12 +69,26 @@ function renderVariables (vars) {
 function renderFiles (files) {
   const lines = []
   lines.push(`const files = {}`)
-  for (const [ name, path ] of files) lines.push(renderFile(name, path))
+  for (const [ name, spec ] of files) lines.push(renderFile(name, spec))
   return lines.join('\n')
 }
 
-function renderFile (name, path) {
-  return `files[${JSON.stringify(name)}] = open(${JSON.stringify(path)}, 'b')`
+function renderFile (name, { path, binary }) {
+  const params = []
+  params.push(JSON.stringify(path))
+  if (binary) params.push(`'b'`)
+  return `files[${JSON.stringify(name)}] = open(${params.join(', ')})`
+}
+
+function renderInit (init) {
+  if (!init) return ''
+  else return init
+}
+
+function renderDeclares (vus) {
+  return `const vus = ${vus}
+let url, opts, auth, r
+let csvPage = {}`
 }
 
 function renderOptions (options) {
@@ -118,7 +128,6 @@ ${ind(strip(logic))}
   sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
   const main = sections.join(` else `)
   const body = [
-    renderDeclares(vus),
     renderCookies(cookies),
     prolog,
     main
@@ -126,11 +135,6 @@ ${ind(strip(logic))}
   return `export default function (data) {
 ${ind(strip(body))}
 }`
-}
-
-function renderDeclares (vus) {
-  return `const vus = ${vus}
-let url, opts, auth, r`
 }
 
 function renderCookies (cookies) {

@@ -1,7 +1,7 @@
 function makeResult () {
   return {
     options: {},
-    imports: new Set(),
+    imports: new Map(),
     vars: new Map(),
     constants: new Map(),
     files: new Map(),

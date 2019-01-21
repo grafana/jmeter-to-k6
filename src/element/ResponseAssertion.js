@@ -112,7 +112,7 @@ function tests (node) {
 }
 
 function check (settings, result) {
-  if (settings.regex) result.imports.add('perl-regex')
+  if (settings.regex) result.imports.set('perlRegex', 'perl-regex')
   const expressions = []
   for (const test of settings.tests) expressions.push(expr(test, settings))
   const composite = expressions.join(settings.disjunction ? ' || ' : ' && ')

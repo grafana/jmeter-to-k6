@@ -2,29 +2,33 @@ import test from 'ava'
 import merge from 'merge'
 
 test('empty', t => {
-  const base = { options: {}, imports: new Set(), logic: '' }
-  const update = { options: {}, imports: new Set(), logic: '' }
+  const base = { options: {}, imports: new Map(), logic: '' }
+  const update = { options: {}, imports: new Map(), logic: '' }
   merge(base, update)
-  t.deepEqual(base, { options: {}, imports: new Set(), logic: '' })
+  t.deepEqual(base, { options: {}, imports: new Map(), logic: '' })
 })
 
 test('add option', t => {
-  const base = { options: {}, imports: new Set(), logic: '' }
-  const update = { options: { linger: true }, imports: new Set(), logic: '' }
+  const base = { options: {}, imports: new Map(), logic: '' }
+  const update = { options: { linger: true }, imports: new Map(), logic: '' }
   merge(base, update)
   t.deepEqual(
     base,
-    { options: { linger: true }, imports: new Set(), logic: '' }
+    { options: { linger: true }, imports: new Map(), logic: '' }
   )
 })
 
 test('add import', t => {
-  const base = { options: {}, imports: new Set(), logic: '' }
-  const update = { options: {}, imports: new Set([ 'k6' ]), logic: '' }
+  const base = { options: {}, imports: new Map(), logic: '' }
+  const update = {
+    options: {},
+    imports: new Map([ [ 'k6', 'k6' ] ]),
+    logic: ''
+  }
   merge(base, update)
   t.deepEqual(
     base,
-    { options: {}, imports: new Set([ 'k6' ]), logic: '' }
+    { options: {}, imports: new Map([ [ 'k6', 'k6' ] ]), logic: '' }
   )
 })
 
@@ -78,28 +82,38 @@ test('add teardown', t => {
 })
 
 test('merge option', t => {
-  const base = { options: { linger: true }, imports: new Set(), logic: '' }
-  const update = { options: { paused: true }, imports: new Set(), logic: '' }
+  const base = { options: { linger: true }, imports: new Map(), logic: '' }
+  const update = { options: { paused: true }, imports: new Map(), logic: '' }
   merge(base, update)
   t.deepEqual(
     base,
     {
       options: { linger: true, paused: true },
-      imports: new Set(),
+      imports: new Map(),
       logic: ''
     }
   )
 })
 
 test('merge import', t => {
-  const base = { options: {}, imports: new Set([ 'first' ]), logic: '' }
-  const update = { options: {}, imports: new Set([ 'second' ]), logic: '' }
+  const base = {
+    options: {},
+    imports: new Map([ [ 'first', 'first' ] ]),
+    logic: '' }
+  const update = {
+    options: {},
+    imports: new Map([ [ 'second', 'second' ] ]),
+    logic: ''
+  }
   merge(base, update)
   t.deepEqual(
     base,
     {
       options: {},
-      imports: new Set([ 'first', 'second' ]),
+      imports: new Map([
+        [ 'first', 'first' ],
+        [ 'second', 'second' ]
+      ]),
       logic: ''
     }
   )
