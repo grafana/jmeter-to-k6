@@ -1,6 +1,7 @@
 const makeContext = require('../context')
 
 const route = {
+  AuthManager: require('../element/AuthManager'),
   'com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion':
     require('../element/JSONPathAssertion'),
   ConfigTestElement: require('../element/ConfigTestElement'),
@@ -16,10 +17,10 @@ function extractDefaults (node, context = makeContext()) {
   )
   for (const config of configs) {
     const { defaults: [ configValues ] } = route[config.name](config, context)
-    for (const key of Object.keys(configValues)) {
-      if (!(key in values)) values[key] = {}
-      mergeCategory(values[key], configValues[key])
-    }
+    for (const key of [
+      ...Object.keys(configValues),
+      ...Object.getOwnPropertySymbols(configValues)
+    ]) mergeCategory(values, configValues, key)
   }
   node.children = node.children.filter(
     item => !(item.type === 'element' && item.name in route)
@@ -27,7 +28,18 @@ function extractDefaults (node, context = makeContext()) {
   return [ ...context.defaults, values ]
 }
 
-function mergeCategory (base, update) {
+function mergeCategory (base, update, key) {
+  if (Array.isArray(update[key])) mergeArray(base, update, key)
+  else mergeObject(base, update, key)
+}
+
+function mergeArray (base, update, key) {
+  if (!(key in base)) base[key] = []
+  base[key].push(...update[key])
+}
+
+function mergeObject (base, update, key) {
+  if (!(key in base)) base[key] = {}
   for (const key of Object.keys(update)) mergeValue(base, update, key)
 }
 

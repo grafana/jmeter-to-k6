@@ -18,14 +18,11 @@ test('minimal', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
-  '',
-  {
-    redirects: 0
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('path', t => {
@@ -42,14 +39,11 @@ test('path', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}${`/index.html`}`'},
-  '',
-  {
-    redirects: 0
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}${`/index.html`}`'}
+opts = {
+  redirects: 0
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('address in path', t => {
@@ -64,14 +58,11 @@ test('address in path', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`http://example.com/index.html`'},
-  '',
-  {
-    redirects: 0
-  }
-)`)
+url = ${'`http://example.com/index.html`'}
+opts = {
+  redirects: 0
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('port', t => {
@@ -88,14 +79,11 @@ test('port', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}:${`88`}`'},
-  '',
-  {
-    redirects: 0
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}:${`88`}`'}
+opts = {
+  redirects: 0
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('timeout', t => {
@@ -112,15 +100,12 @@ test('timeout', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
-  '',
-  {
-    redirects: 0,
-    timeout: Number.parseInt(${'`300`'}, 10)
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0,
+  timeout: Number.parseInt(${'`300`'}, 10)
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('encoding', t => {
@@ -137,17 +122,14 @@ test('encoding', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
-  '',
-  {
-    redirects: 0,
-    headers: {
-      'Content-Encoding': ${'`compress`'}
-    }
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0,
+  headers: {
+    'Content-Encoding': ${'`compress`'}
   }
-)`)
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('redirect silent', t => {
@@ -164,14 +146,11 @@ test('redirect silent', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
-  '',
-  {
-    redirects: 999
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 999
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })
 
 test('body', t => {
@@ -195,13 +174,15 @@ test('body', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
 r = http.request(
   ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
+  url,
   ${'`Loved this post.`'},
-  {
-    redirects: 0
-  }
+  opts
 )`)
 })
 
@@ -234,17 +215,19 @@ test('params', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
 r = http.request(
   ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
+  url,
   {
     [${'`forum`'}]: ${'`Dog Training`'},
     [${'`thread`'}]: ${'`How to walk your dog`'},
     [${'`post`'}]: ${'`Loved this post.`'}
   },
-  {
-    redirects: 0
-  }
+  opts
 )`)
 })
 
@@ -288,17 +271,19 @@ test('files', t => {
     `${'`text/html`'})`
   t.is(result.logic, `
 
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
 r = http.request(
   ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
+  url,
   {
     [${'`file1`'}]: ${file1},
     [${'`file2`'}]: ${file2},
     [${'`file3`'}]: ${file3}
   },
-  {
-    redirects: 0
-  }
+  opts
 )`)
 })
 
@@ -358,9 +343,13 @@ test('params files', t => {
     `${'`text/html`'})`
   t.is(result.logic, `
 
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
 r = http.request(
   ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
+  url,
   {
     [${'`forum`'}]: ${'`Dog Training`'},
     [${'`thread`'}]: ${'`How to walk your dog`'},
@@ -369,9 +358,7 @@ r = http.request(
     [${'`file2`'}]: ${file2},
     [${'`file3`'}]: ${file3}
   },
-  {
-    redirects: 0
-  }
+  opts
 )`)
 })
 
@@ -392,12 +379,59 @@ test('defaults', t => {
   const result = document(tree)
   t.is(result.logic, `
 
-r = http.request(
-  ${'`GET`'},
-  ${'`${`http`}://${`example.com`}`'},
-  '',
-  {
-    redirects: 0
-  }
-)`)
+url = ${'`${`http`}://${`example.com`}`'}
+opts = {
+  redirects: 0
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
+})
+
+test('auth', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan>
+  <AuthManager>
+    <collectionProp name="auth_list">
+      <elementProp>
+        <stringProp name="url">1.example.com</stringProp>
+        <stringProp name="username">User123</stringProp>
+        <stringProp name="password">secret1</stringProp>
+      </elementProp>
+      <elementProp>
+        <stringProp name="url">2.example.com</stringProp>
+        <stringProp name="username">User456</stringProp>
+        <stringProp name="password">secret2</stringProp>
+      </elementProp>
+      <elementProp>
+        <stringProp name="url">3.example.com</stringProp>
+        <stringProp name="username">User789</stringProp>
+        <stringProp name="password">secret3</stringProp>
+      </elementProp>
+    </collectionProp>
+  </AuthManager>
+  <HTTPSamplerProxy>
+    <stringProp name="method">GET</stringProp>
+    <stringProp name="protocol">http</stringProp>
+    <stringProp name="domain">2.example.com</stringProp>
+  </HTTPSamplerProxy>
+</jmeterTestPlan>
+`
+  const tree = parseXml(xml)
+  const result = document(tree)
+  t.is(result.logic, `
+
+url = ${'`${`http`}://${`2.example.com`}`'}
+opts = {
+  redirects: 0
+}
+if (auth = [
+  { url: \`1.example.com\`, username: \`User123\`, password: \`secret1\`, mechanism: \`basic\` },
+  { url: \`2.example.com\`, username: \`User456\`, password: \`secret2\`, mechanism: \`basic\` },
+  { url: \`3.example.com\`, username: \`User789\`, password: \`secret3\`, mechanism: \`basic\` }
+].find(item => url.includes(item.url))) {
+  const username = encodeURIComponent(auth.username)
+  const password = encodeURIComponent(auth.password)
+  url = ${'`${`http`}://${username}:${password}@${`2.example.com`}`'}
+  opts.auth = auth.mechanism
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
 })

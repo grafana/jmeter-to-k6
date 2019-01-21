@@ -5,7 +5,7 @@ const makeResult = require('../result')
 function AuthManager (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
-  const settings = {}
+  const settings = []
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
@@ -31,9 +31,7 @@ function property (node, context, settings) {
   switch (name) {
     case 'auth_list': {
       const entries = node.children.filter(node => /Prop$/.test(node.name))
-      for (const entry of entries) {
-        Object.assign(settings, credential(entry, context))
-      }
+      for (const entry of entries) settings.push(credential(entry, context))
       break
     }
     default: throw new Error('Unrecognized AuthManager property: ' + name)
@@ -42,12 +40,26 @@ function property (node, context, settings) {
 
 function credential (node, context) {
   const props = properties(node, context)
-  if (!(props.url && props.password)) throw new Error('Invalid credential')
-  const spec = { password: props.password }
-  if (props.username) spec.username = props.username
+  if (!(props.url && props.username && props.password)) {
+    throw new Error('Invalid credential')
+  }
+  const spec = {
+    url: props.url,
+    username: props.username,
+    password: props.password
+  }
   if (props.domain) spec.domain = props.domain
   if (props.realm) spec.realm = props.realm
-  return { [props.url]: spec }
+  spec.mechanism = props.mechanism || 'BASIC'
+  switch (spec.mechanism) {
+    case 'BASIC':
+    case 'DIGEST':
+    case 'KERBEROS':
+      break
+    default:
+      throw new Error('Unsupported auth mechanism: ' + spec.mechanism)
+  }
+  return spec
 }
 
 module.exports = AuthManager

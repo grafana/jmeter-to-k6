@@ -1,3 +1,4 @@
+const { Authentication } = require('../symbol')
 const ind = require('../ind')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
@@ -10,25 +11,26 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
-  const settings = {}
+  const settings = { auth: [] }
   applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
-  if (sufficient(settings)) convert(settings, result, context)
+  if (sufficient(settings)) convert(settings, result)
   return result
 }
 
 function applyDefaults (settings, context) {
   const { defaults } = context
   for (const scope of defaults) {
-    if (!scope.HTTPRequestDefaults) continue
-    const values = scope.HTTPRequestDefaults
-    applyLevelDefaults(settings, values)
+    applyLevelDefaults(settings, scope)
+    applyAuths(settings, scope)
   }
 }
 
-function applyLevelDefaults (settings, values) {
+function applyLevelDefaults (settings, scope) {
+  if (!scope.HTTPRequestDefaults) return
+  const values = scope.HTTPRequestDefaults
   for (const key of Object.keys(values)) {
     applyDefault(settings, key, values[key])
   }
@@ -113,6 +115,11 @@ function applyDefault (settings, key, value) {
       break
     default: throw new Error('Unrecognized HTTPRequestDefaults value: ' + key)
   }
+}
+
+function applyAuths (settings, scope) {
+  if (!scope[Authentication]) return
+  settings.auth = scope[Authentication]
 }
 
 function attribute (node, key, result) {
@@ -231,33 +238,38 @@ function sufficient (settings) {
   )
 }
 
-function convert (settings, result, context) {
+function convert (settings, result) {
   result.imports.add('k6/http')
   const params = []
+  const body = renderBody(settings, result)
   params.push(method(settings))
-  params.push(address(settings))
-  params.push(renderBody(settings, result))
-  params.push(renderOptions(settings))
+  params.push(`url`)
+  params.push(body)
+  params.push(`opts`)
   result.logic = `
 
 `
   if (settings.comment) result.logic += `/* ${settings.comment} */`
-  result.logic += `r = http.request(
-${ind(params.join(',\n'))}
-)`
+  result.logic += `url = ${address(settings)}
+opts = ${renderOptions(settings)}
+`
+  if (settings.auth.length) result.logic += renderAuth(settings)
+  if (body === `''`) result.logic += `r = http.request(${params.join(', ')})`
+  else result.logic += `r = http.request(\n${ind(params.join(',\n'))}\n)`
 }
 
 function method (settings) {
   return runtimeString(settings.method)
 }
 
-function address (settings) {
+function address (settings, auth) {
   if (settings.address) return runtimeString(settings.address)
   const protocol = `\${${runtimeString(settings.protocol)}}`
   const domain = `\${${runtimeString(settings.domain)}}`
   const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
   const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
-  return `\`${protocol}://${domain}${port}${path}\``
+  const credential = (auth ? `\${username}:\${password}@` : '')
+  return `\`${protocol}://${credential}${domain}${port}${path}\``
 }
 
 function renderBody (settings, result) {
@@ -340,6 +352,44 @@ function renderHeaders (settings) {
   return `headers: {
 ${ind(items.join(',\n'))}
 }`
+}
+
+function renderAuth (settings) {
+  const credentials = renderCredentials(settings.auth)
+  return `if (auth = ${credentials}.find(item => url.includes(item.url))) {
+  const username = encodeURIComponent(auth.username)
+  const password = encodeURIComponent(auth.password)
+  url = ${address(settings, true)}
+  opts.auth = auth.mechanism
+}
+`
+}
+
+function renderCredentials (auth) {
+  const credentials = []
+  for (const credential of auth) credentials.push(renderCredential(credential))
+  return `[
+${ind(credentials.join(',\n'))}
+]`
+}
+
+function renderCredential (credential) {
+  const items = []
+  items.push(`url: ${runtimeString(credential.url)}`)
+  items.push(`username: ${runtimeString(credential.username)}`)
+  items.push(`password: ${runtimeString(credential.password)}`)
+  items.push(`mechanism: ${renderMechanism(credential.mechanism)}`)
+  return `{ ${items.join(', ')} }`
+}
+
+function renderMechanism (mechanism) {
+  if (!mechanism) return '`basic`'
+  switch (mechanism) {
+    case 'BASIC': return '`basic`'
+    case 'DIGEST': return '`digest`'
+    case 'KERBEROS': return '`ntlm`'
+    default: throw new Error('Unsupported auth mechanism: ' + mechanism)
+  }
 }
 
 module.exports = HTTPSamplerProxy

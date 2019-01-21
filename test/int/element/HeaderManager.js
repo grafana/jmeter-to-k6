@@ -2,7 +2,7 @@ import test from 'ava'
 import parseXml from '@rgrove/parse-xml'
 import document from 'document'
 
-test('1 header', t => {
+test.only('1 header', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
