@@ -116,6 +116,18 @@ A `collectionProp` node representing a set of variables.
 | comments | string | Freeform comments | Check text. |
 | duration | string | Max duration in ms. | Max `res.timings.duration`. |
 
+## ForeachController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| endIndex | string | End index. | End index. |
+| inputVal | string | Input variable base. | Input variable base. |
+| returnVal | string | Output variable. | Output variable. |
+| startIndex | string | Start index. | Start index. |
+| useSeparator | bool | Enable input separator. | Enable input separator. |
+
 ## hashTree
 
 No attributes or properties.
