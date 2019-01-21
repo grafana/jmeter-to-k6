@@ -10,6 +10,7 @@ const strip = require('./strip')
  * @return {string} k6 script.
  */
 function render (result) {
+  const vus = countVus(result.options.stages)
   return [
     renderInit(result.init),
     renderConstants(result.constants),
@@ -21,10 +22,15 @@ function render (result) {
       result.cookies,
       result.prolog,
       result.users,
-      result.options.stages
+      result.options.stages,
+      vus
     ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
+}
+
+function countVus (stages) {
+  return stages.reduce((stage, count) => count + stage.target, 0)
 }
 
 function renderInit (init) {
@@ -100,7 +106,7 @@ ${ind(strip(setup))}
 }`
 }
 
-function renderLogic (cookies, prolog, users, stages) {
+function renderLogic (cookies, prolog, users, stages, vus) {
   const sections = []
   for (let i = 0; i < users.length; i++) {
     const [ start, end ] = userRange(i, stages)
@@ -112,6 +118,7 @@ ${ind(strip(logic))}
   sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
   const main = sections.join(` else `)
   const body = [
+    renderDeclares(vus),
     renderCookies(cookies),
     prolog,
     main
@@ -119,6 +126,11 @@ ${ind(strip(logic))}
   return `export default function (data) {
 ${ind(strip(body))}
 }`
+}
+
+function renderDeclares (vus) {
+  return `const vus = ${vus}
+let url, opts, auth, r`
 }
 
 function renderCookies (cookies) {

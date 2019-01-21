@@ -20,7 +20,6 @@ function attribute (node, key, result) {
     case 'enabled':
     case 'guiclass':
     case 'testclass':
-    case 'enabled':
       break
     case 'testname': {
       const name = node.attributes[key]
