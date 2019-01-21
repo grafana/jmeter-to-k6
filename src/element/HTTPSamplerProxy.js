@@ -1,4 +1,4 @@
-const { Authentication } = require('../symbol')
+const { Authentication, Header } = require('../symbol')
 const ind = require('../ind')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
@@ -11,7 +11,7 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
-  const settings = { auth: [] }
+  const settings = { auth: [], headers: new Map() }
   applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
@@ -25,6 +25,7 @@ function applyDefaults (settings, context) {
   for (const scope of defaults) {
     applyLevelDefaults(settings, scope)
     applyAuths(settings, scope)
+    applyHeaders(settings, scope)
   }
 }
 
@@ -118,8 +119,13 @@ function applyDefault (settings, key, value) {
 }
 
 function applyAuths (settings, scope) {
-  if (!scope[Authentication]) return
+  if (!scope[Authentication] || !scope[Authentication].length) return
   settings.auth = scope[Authentication]
+}
+
+function applyHeaders (settings, scope) {
+  if (!scope[Header] || !scope[Header].size) return
+  settings.headers = scope[Header]
 }
 
 function attribute (node, key, result) {
@@ -347,6 +353,12 @@ function renderHeaders (settings) {
     const value = runtimeString(settings.contentEncoding)
     const header = `'Content-Encoding': ${value}`
     items.push(header)
+  }
+  if (settings.headers) {
+    for (const [ name, value ] of settings.headers) {
+      const header = `[${runtimeString(name)}]: ${runtimeString(value)}`
+      items.push(header)
+    }
   }
   if (!items.length) return ''
   return `headers: {

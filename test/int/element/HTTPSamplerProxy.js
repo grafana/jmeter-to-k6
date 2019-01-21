@@ -435,3 +435,45 @@ if (auth = [
 }
 r = http.request(${'`GET`'}, url, '', opts)`)
 })
+
+test('headers', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan>
+  <HeaderManager>
+    <collectionProp name="headers">
+      <elementProp>
+        <stringProp name="name">User-Agent</stringProp>
+        <stringProp name="value">k6-load-tester</stringProp>
+      </elementProp>
+      <elementProp>
+        <stringProp name="name">Accept-Charset</stringProp>
+        <stringProp name="value">utf-8</stringProp>
+      </elementProp>
+      <elementProp>
+        <stringProp name="name">Accept-Encoding</stringProp>
+        <stringProp name="value">gzip, deflate</stringProp>
+      </elementProp>
+    </collectionProp>
+  </HeaderManager>
+  <HTTPSamplerProxy>
+    <stringProp name="method">GET</stringProp>
+    <stringProp name="protocol">http</stringProp>
+    <stringProp name="domain">2.example.com</stringProp>
+  </HTTPSamplerProxy>
+</jmeterTestPlan>
+`
+  const tree = parseXml(xml)
+  const result = document(tree)
+  t.is(result.logic, `
+
+url = ${'`${`http`}://${`2.example.com`}`'}
+opts = {
+  redirects: 0,
+  headers: {
+    [${'`User-Agent`'}]: ${'`k6-load-tester`'},
+    [${'`Accept-Charset`'}]: ${'`utf-8`'},
+    [${'`Accept-Encoding`'}]: ${'`gzip, deflate`'}
+  }
+}
+r = http.request(${'`GET`'}, url, '', opts)`)
+})

@@ -8,7 +8,6 @@ const route = {
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
   hashTree: require('./element/hashTree'),
-  HeaderManager: require('./element/HeaderManager'),
   HTTPSamplerProxy: require('./element/HTTPSamplerProxy'),
   IfController: require('./element/IfController'),
   jmeterTestPlan: require('./element/jmeterTestPlan'),
