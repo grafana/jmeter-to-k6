@@ -287,6 +287,14 @@ No attributes or properties.
 | assume_success | bool | Force initialize status to success. | Ignore. |
 | test_type | int | Operation. | Operators in check. |
 
+## RunTime
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| seconds | string | Max runtime in seconds. | Max runtime. |
+
 ## SetupThreadGroup
 
 **Property**
