@@ -16,11 +16,12 @@ test('infinite', t => {
   const result = LoopController(node)
   t.is(result.logic, `
 
-while (true) {
+{ let first = true; while (true) {
   // Fake
   // Fake
   // Fake
-}`)
+  first = false
+} }`)
 })
 
 test('finite', t => {
@@ -37,9 +38,10 @@ test('finite', t => {
   const result = LoopController(node)
   t.is(result.logic, `
 
-for (let i = 0; i <= 18; i++) {
+for (let i = 0, first = true; i <= 18; i++) {
   // Fake
   // Fake
   // Fake
+  first = false
 }`)
 })

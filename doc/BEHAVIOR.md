@@ -229,6 +229,10 @@ No attributes or properties.
 | continue_forever | bool | Loop forever. | Loop forever. |
 | loops | int | Iteration count. -1 for infinite. | Iteration count. |
 
+## OnceOnlyController
+
+No attributes or properties.
+
 ## PostThreadGroup
 
 **Property**

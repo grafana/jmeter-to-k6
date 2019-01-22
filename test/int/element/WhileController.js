@@ -13,7 +13,8 @@ test('convert', t => {
   const result = WhileController(node)
   t.is(result.logic, `
 
-while (\`\${vars[\`MORE\`]}\` !== "false") {
+{ let first = true; while (\`\${vars[\`MORE\`]}\` !== "false") {
 
-}`)
+  first = false
+} }`)
 })

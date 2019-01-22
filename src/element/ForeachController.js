@@ -69,9 +69,7 @@ function sufficient (settings) {
 }
 
 function render (settings, result, childrenLogic) {
-  result.logic = `
-
-`
+  result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   const components = []
   components.push(JSON.stringify(settings.input + settings.separator))
@@ -79,9 +77,10 @@ function render (settings, result, childrenLogic) {
   const input = `vars[${components.join(' + ')}]`
   const output = `vars[${JSON.stringify(settings.output)}]`
   result.logic += '' +
-`for (let i = ${settings.start}; i <= ${settings.end}; i++) {
+`for (let i = ${settings.start}, first = true; i <= ${settings.end}; i++) {
   ${output} = ${input}
 ${ind(childrenLogic)}
+  first = false
 }`
 }
 

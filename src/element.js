@@ -16,6 +16,7 @@ const route = {
   'kg.apc.jmeter.threads.SteppingThreadGroup':
     require('./element/SteppingThreadGroup'),
   LoopController: require('./element/LoopController'),
+  OnceOnlyController: require('./element/OnceOnlyController'),
   PostThreadGroup: require('./element/PostThreadGroup'),
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),

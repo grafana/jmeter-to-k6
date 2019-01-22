@@ -20,15 +20,8 @@ function WhileController (node, context) {
   const childrenLogic = childrenResult.logic || ''
   delete childrenResult.logic
   merge(result, childrenResult)
-  if (settings.condition) {
-    result.logic += `
-
-`
-    if (settings.comment) result.logic += `/* ${settings.comment} */\n`
-    result.logic += `while (${settings.condition}) {
-${ind(strip(childrenLogic))}
-}`
-  } else throw new Error('WhileController missing condition')
+  if (settings.condition) render(settings, result, childrenLogic)
+  else throw new Error('WhileController missing condition')
   return result
 }
 
@@ -53,6 +46,15 @@ function property (node, context, settings) {
       settings.condition = runtimeString(text(node.children)) + ' !== "false"'
       break
   }
+}
+
+function render (settings, result, childrenLogic) {
+  result.logic += `\n\n`
+  if (settings.comment) result.logic += `/* ${settings.comment} */\n`
+  result.logic += `{ let first = true; while (${settings.condition}) {
+${ind(strip(childrenLogic))}
+  first = false
+} }`
 }
 
 module.exports = WhileController

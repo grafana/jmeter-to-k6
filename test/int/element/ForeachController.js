@@ -17,9 +17,10 @@ test('separated', t => {
   const result = ForeachController(node)
   t.is(result.logic, `
 
-for (let i = 3; i <= 15; i++) {
+for (let i = 3, first = true; i <= 15; i++) {
   vars["output"] = vars["input_" + i]
 
+  first = false
 }`)
 })
 
@@ -38,8 +39,9 @@ test('unseparated', t => {
   const result = ForeachController(node)
   t.is(result.logic, `
 
-for (let i = 3; i <= 15; i++) {
+for (let i = 3, first = true; i <= 15; i++) {
   vars["output"] = vars["input" + i]
 
+  first = false
 }`)
 })
