@@ -369,6 +369,15 @@ No attributes or properties.
 | delay | string | ? | ? |
 | delayedStart | bool | ? | ? |
 
+## TransactionController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| includeTimers | bool | Default true. Count all. | Exception if disabled. |
+| parent | bool | Output as parent sample. | Ignore. |
+
 ## WhileController
 
 **Property**
