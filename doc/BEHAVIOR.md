@@ -249,6 +249,14 @@ No attributes or properties.
 | delay | string | ? | ? |
 | delayedStart | bool | ? | ? |
 
+## RandomController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| style | int | Bitfield. Execution style. | Exception on limit 1. |
+
 ## ResponseAssertion
 
 * Regular expression features require Perl 5.

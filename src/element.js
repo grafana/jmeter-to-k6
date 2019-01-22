@@ -18,6 +18,7 @@ const route = {
   LoopController: require('./element/LoopController'),
   OnceOnlyController: require('./element/OnceOnlyController'),
   PostThreadGroup: require('./element/PostThreadGroup'),
+  RandomController: require('./element/RandomController'),
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),
   ThreadGroup: require('./element/ThreadGroup'),

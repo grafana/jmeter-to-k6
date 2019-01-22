@@ -6,7 +6,7 @@ const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
-function InterleaveControl (node, context) {
+function RandomController (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -27,7 +27,7 @@ function attribute (node, key) {
     case 'testname':
       break
     default:
-      throw new Error('Unrecognized InterleaveControl attribute: ' + key)
+      throw new Error('Unrecognized RandomController attribute: ' + key)
   }
 }
 
@@ -37,17 +37,15 @@ function property (node, context, settings) {
     case 'comments':
       settings.comment = value(node, context)
       break
-    case 'accrossThreads':
-      throw new Error('Crossthread interleaving not supported')
     case 'style':
       style(node, context, settings)
       break
     default:
-      throw new Error('Unrecognized InterleaveControl property: ' + name)
+      throw new Error('Unrecognized RandomController property: ' + name)
   }
 }
 
-/*
+/**
  * Value is a bit field encoded as a decimal integer.
  * Bits from low order, 0 based:
  *   0  disable limit subcontroller to 1 request per iteration
@@ -74,12 +72,12 @@ ${ind(strip(logic))}
   }
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
-  const index = `(__ITER - ((__ITER/${blocks.length}|0)*${blocks.length}))`
+  const index = `Math.floor(Math.random()*(${blocks.length}+1))`
   result.logic += '' +
 `{ const index = ${index}; switch (index) {
 ${ind(blocks.join('\n'))}
-  default: throw new Error('Unexpected interleave index: ' + index)
+  default: throw new Error('Unexpected random index: ' + index)
 } }`
 }
 
-module.exports = InterleaveControl
+module.exports = RandomController
