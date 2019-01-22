@@ -8,6 +8,7 @@ const route = {
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
   ForeachController: require('./element/ForeachController'),
+  GenericController: require('./element/GenericController'),
   hashTree: require('./element/hashTree'),
   HTTPSamplerProxy: require('./element/HTTPSamplerProxy'),
   IfController: require('./element/IfController'),

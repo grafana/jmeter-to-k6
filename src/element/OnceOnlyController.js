@@ -19,6 +19,7 @@ function OnceOnlyController (node, context) {
   delete childrenResult.logic
   merge(result, childrenResult)
   render(node, settings, result, childrenLogic)
+  node.children = []
   return result
 }
 

@@ -16,6 +16,7 @@ function RandomController (node, context) {
   const els = node.children.filter(node => !/Prop$/.test(node.name))
     .filter(node => node.type === 'element')
   render(settings, result, context, els)
+  node.children = []
   return result
 }
 

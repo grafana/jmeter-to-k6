@@ -22,6 +22,7 @@ function WhileController (node, context) {
   merge(result, childrenResult)
   if (settings.condition) render(settings, result, childrenLogic)
   else throw new Error('WhileController missing condition')
+  node.children = []
   return result
 }
 

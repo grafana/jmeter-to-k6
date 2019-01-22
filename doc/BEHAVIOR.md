@@ -128,6 +128,12 @@ A `collectionProp` node representing a set of variables.
 | startIndex | string | Start index. | Start index. |
 | useSeparator | bool | Enable input separator. | Enable input separator. |
 
+## GenericController
+
+Called Simple Controller in docs.
+
+No attributes or properties.
+
 ## hashTree
 
 No attributes or properties.

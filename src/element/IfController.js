@@ -54,6 +54,7 @@ ${ind(strip(childrenLogic))}
 }`
     }
   } else throw new Error('IfController missing condition')
+  node.children = []
   return result
 }
 

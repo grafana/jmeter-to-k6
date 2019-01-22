@@ -18,6 +18,7 @@ function ForeachController (node, context) {
   merge(result, childrenResult)
   if (sufficient(settings)) render(settings, result, childrenLogic)
   else throw new Error('Invalid ForeachController')
+  node.children = []
   return result
 }
 
