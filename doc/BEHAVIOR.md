@@ -178,6 +178,15 @@ No attributes or properties.
 | evaluateAll | bool | Check for each child. | ? |
 | useExpression | bool | Condition single expression. | ? |
 
+## InterleaveControl
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| accrossThreads | bool | Interleave across thraeds. | Exception. |
+| style | int | Bitfield. Interleave style. | Exception on limit 1. |
+
 ## jmeterTestPlan
 
 **Attribute**

@@ -7,9 +7,11 @@ const route = {
   CookieManager: require('./element/CookieManager'),
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
+  ForeachController: require('./element/ForeachController'),
   hashTree: require('./element/hashTree'),
   HTTPSamplerProxy: require('./element/HTTPSamplerProxy'),
   IfController: require('./element/IfController'),
+  InterleaveControl: require('./element/InterleaveControl'),
   jmeterTestPlan: require('./element/jmeterTestPlan'),
   'kg.apc.jmeter.threads.SteppingThreadGroup':
     require('./element/SteppingThreadGroup'),
