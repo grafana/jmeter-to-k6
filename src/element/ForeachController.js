@@ -1,10 +1,13 @@
+const { Runtime } = require('../symbol')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
+const strip = require('../strip')
 const value = require('../value')
+const makeContext = require('../context')
 const makeResult = require('../result')
 
-function ForeachController (node, context) {
+function ForeachController (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = { separator: '' }
@@ -16,7 +19,7 @@ function ForeachController (node, context) {
   const childrenLogic = childrenResult.logic || ''
   delete childrenResult.logic
   merge(result, childrenResult)
-  if (sufficient(settings)) render(settings, result, childrenLogic)
+  if (sufficient(settings)) render(settings, result, context, childrenLogic)
   else throw new Error('Invalid ForeachController')
   node.children = []
   return result
@@ -69,7 +72,7 @@ function sufficient (settings) {
   )
 }
 
-function render (settings, result, childrenLogic) {
+function render (settings, result, context, childrenLogic) {
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   const components = []
@@ -80,9 +83,21 @@ function render (settings, result, childrenLogic) {
   result.logic += '' +
 `for (let i = ${settings.start}, first = true; i <= ${settings.end}; i++) {
   ${output} = ${input}
-${ind(childrenLogic)}
-  first = false
+${ind(strip(childrenLogic))}
+  first = false` +
+  renderRuntime(context) + `
 }`
+}
+
+function renderRuntime (context) {
+  if (!runtime(context)) return ''
+  return `
+  if (Date.now() >= deadline) break`
+}
+
+function runtime (context) {
+  for (const level of context.defaults) if (level[Runtime]) return true
+  return false
 }
 
 module.exports = ForeachController

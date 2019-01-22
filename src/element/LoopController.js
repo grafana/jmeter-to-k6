@@ -1,11 +1,13 @@
+const { Runtime } = require('../symbol')
 const elements = require('../elements')
 const ind = require('../ind')
 const merge = require('../merge')
 const strip = require('../strip')
 const value = require('../value')
+const makeContext = require('../context')
 const makeResult = require('../result')
 
-function LoopController (node, context) {
+function LoopController (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -17,7 +19,7 @@ function LoopController (node, context) {
   const childrenLogic = childrenResult.logic || ''
   delete childrenResult.logic
   merge(result, childrenResult)
-  if (sufficient(settings)) render(settings, result, childrenLogic)
+  if (sufficient(settings)) render(settings, result, context, childrenLogic)
   else throw new Error('Invalid LoopController')
   node.children = []
   return result
@@ -57,22 +59,35 @@ function sufficient (settings) {
   )
 }
 
-function render (settings, result, childrenLogic) {
+function render (settings, result, context, childrenLogic) {
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   if (settings.infinite || settings.count === -1) {
     result.logic += '' +
 `{ let first = true; while (true) {
 ${ind(strip(childrenLogic))}
-  first = false
+  first = false` +
+  renderRuntime(context) + `
 } }`
   } else {
     result.logic += '' +
 `for (let i = 0, first = true; i <= ${settings.count}; i++) {
 ${ind(strip(childrenLogic))}
-  first = false
+  first = false` +
+  renderRuntime(context) + `
 }`
   }
+}
+
+function renderRuntime (context) {
+  if (!runtime(context)) return ''
+  return `
+  if (Date.now() >= deadline) break`
+}
+
+function runtime (context) {
+  for (const level of context.defaults) if (level[Runtime]) return true
+  return false
 }
 
 module.exports = LoopController
