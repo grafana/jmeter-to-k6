@@ -220,6 +220,15 @@ No attributes or properties.
 | ISREGEX | bool | Use test string as regex. | Enable regex testing. |
 | INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
+## LoopController
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| continue_forever | bool | Loop forever. | Loop forever. |
+| loops | int | Iteration count. -1 for infinite. | Iteration count. |
+
 ## PostThreadGroup
 
 **Property**
