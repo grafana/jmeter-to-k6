@@ -32,7 +32,8 @@ const route = {
   ThreadGroup: require('./element/ThreadGroup'),
   TransactionController: require('./element/TransactionController'),
   WhileController: require('./element/WhileController'),
-  XPathAssertion: require('./element/XPathAssertion')
+  XPathAssertion: require('./element/XPathAssertion'),
+  XPathExtractor: require('./element/XPathExtractor')
 }
 
 /**
