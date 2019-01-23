@@ -2,12 +2,14 @@ const makeContext = require('../context')
 
 const route = {
   AuthManager: require('../element/AuthManager'),
+  BoundaryExtractor: require('../element/BoundaryExtractor'),
   'com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion':
     require('../element/JSONPathAssertion'),
   ConfigTestElement: require('../element/ConfigTestElement'),
   ConstantTimer: require('../element/ConstantTimer'),
   DurationAssertion: require('../element/DurationAssertion'),
   HeaderManager: require('../element/HeaderManager'),
+  RegexExtractor: require('../element/RegexExtractor'),
   ResponseAssertion: require('../element/ResponseAssertion'),
   ResultStatusActionHandler: require('../element/ResultStatusActionHandler')
 }

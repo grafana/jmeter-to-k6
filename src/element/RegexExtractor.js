@@ -1,3 +1,4 @@
+const { Post } = require('../symbol')
 const ind = require('../ind')
 const renderInput = require('../common/input')
 const runtimeString = require('../string/run')
@@ -72,13 +73,12 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
-  result.imports.set('perlRegex', 'perl-regex')
-  result.logic = `\n\n`
-  if (settings.comment) result.logic += `/* ${settings.comment} */\n`
+  let logic = ''
+  if (settings.comment) logic += `/* ${settings.comment} */\n`
   const regex = `new RegExp(${JSON.stringify(settings.regex)})`
   const input = renderInput(settings.component, result)
   const transport = renderTransport(settings)
-  result.logic += '' +
+  logic += '' +
 `regex = ${regex}
 matches = (() => {
   const matches = []
@@ -86,6 +86,7 @@ matches = (() => {
   return matches
 })()
 ${transport}`
+  result.defaults.push({ [Post]: [ logic ] })
 }
 
 function renderTransport (settings) {
