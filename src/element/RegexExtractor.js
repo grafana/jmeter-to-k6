@@ -4,7 +4,7 @@ const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
-function BoundaryExtractor (node, context) {
+function RegexExtractor (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = { component: 'false' }
@@ -23,7 +23,7 @@ function attribute (node, key) {
     case 'testname':
       break
     default:
-      throw new Error('Unrecognized BoundaryExtractor attribute: ' + key)
+      throw new Error('Unrecognized RegexExtractor attribute: ' + key)
   }
 }
 
@@ -39,59 +39,51 @@ function property (node, context, settings) {
     case 'default_empty_value':
       settings.clear = (text(node.children) === 'true')
       break
-    case 'lboundary':
-      settings.left = value(node, context)
-      break
     case 'match_number':
       settings.index = Number.parseInt(text(node.children), 10)
       break
-    case 'rboundary':
-      settings.right = value(node, context)
+    case 'regex':
+      settings.regex = text(node.children)
       break
     case 'refname':
       settings.output = text(node.children)
       break
     case 'scope':
-      settings.samples = text(node.children)
+      settings.scope = text(node.children)
+      break
+    case 'template':
+      settings.template = text(node.children)
       break
     case 'useHeaders':
       settings.component = text(node.children)
       break
-    default:
-      throw new Error('Unrecognized BoundaryExtractor property: ' + name)
   }
 }
 
 function sufficient (settings) {
   return (
-    settings.left &&
     'index' in settings &&
-    settings.right &&
+    settings.regex &&
     settings.output &&
-    settings.component
+    settings.component &&
+    settings.template
   )
 }
 
 function render (settings, result) {
+  result.imports.set('perlRegex', 'perl-regex')
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
-  const left = JSON.stringify(escape(settings.left))
-  const right = JSON.stringify(escape(settings.right))
-  const regex = `new RegExp(${left} + '(.*)' + ${right}, 'g')`
+  const regex = JSON.stringify(settings.regex)
   const input = renderInput(settings.component, result)
   const transport = renderTransport(settings)
   result.logic += '' +
-`regex = ${regex}
-matches = (() => {
-  const matches = []
-  while (match = regex.exec(${input})) matches.push(match[1])
-  return matches
+`match = (() => {
+  const match = perlRegex.exec(${input}, ${regex}, 'g')
+  if (!match) return []
+
 })()
 ${transport}`
-}
-
-function escape (string) {
-  return string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 }
 
 function renderTransport (settings) {
@@ -109,12 +101,8 @@ function renderDistribute (settings) {
   const defaultValue = renderDefault(settings)
   const components = []
   if (defaultValue) components.push(`vars[${output}] = ${defaultValue}`)
-  components.push(`vars[${output} + '_matchNr'] = matches.length`)
-  components.push('' +
-`for (let i = (matches.length - 1); i >= 0; i--) {
-  vars[${output} + '_' + (i+1)] = matches[i]
-}`)
-  return components.join('\n')
+  components.push(`vars`)
+  throw new Error('Not yet implemented')
 }
 
 function renderExtract (settings) {
@@ -124,13 +112,13 @@ function renderExtract (settings) {
 }
 
 function namedExtract (index) {
-  return `(${index} >= matches.length ? null : matches[${index - 1}])`
+  return `(${index} >= matches.length ? null : matches[${index}])`
 }
 
 function randomExtract () {
-  const index = `Math.floor(Math.random()*matches.length)`
+  const index = `Math.floor(Math.random()*(matches.length-1))+1`
   const extract = `matches[${index}]`
-  return `(matches.length === 0 ? null : ${extract})`
+  return `(matches.length <= 1 ? null : ${extract})`
 }
 
 function renderWrite (settings) {
@@ -146,4 +134,4 @@ function renderDefault (settings) {
   else return null
 }
 
-module.exports = BoundaryExtractor
+module.exports = RegexExtractor

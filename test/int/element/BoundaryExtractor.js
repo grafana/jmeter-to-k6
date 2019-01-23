@@ -17,8 +17,12 @@ test('match 1', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-extract = (1 >= matches.length ? null : matches[1])
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+extract = (1 >= matches.length ? null : matches[0])
 if (extract) vars[${'`output`'}] = extract`)
 })
 
@@ -37,8 +41,12 @@ test('match 3', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-extract = (3 >= matches.length ? null : matches[3])
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+extract = (3 >= matches.length ? null : matches[2])
 if (extract) vars[${'`output`'}] = extract`)
 })
 
@@ -57,8 +65,12 @@ test('random', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-extract = (matches.length <= 1 ? null : matches[Math.floor(Math.random()*(matches.length-1))+1])
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+extract = (matches.length === 0 ? null : matches[Math.floor(Math.random()*matches.length)])
 if (extract) vars[${'`output`'}] = extract`)
 })
 
@@ -78,8 +90,12 @@ test('default', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-extract = (5 >= matches.length ? null : matches[5])
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+extract = (5 >= matches.length ? null : matches[4])
 vars[${'`output`'}] = extract || "--NOTFOUND--"`)
 })
 
@@ -99,8 +115,12 @@ test('default clear', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-extract = (1 >= matches.length ? null : matches[1])
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+extract = (1 >= matches.length ? null : matches[0])
 vars[${'`output`'}] = extract || ''`)
 })
 
@@ -119,10 +139,14 @@ test('distribute', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
-vars[${'`output`'} + '_matchNr'] = matches.length - 1
-for (let i = (matches.length - 1); i > 0; i--) {
-  vars[${'`output`'} + '_' + i] = matches[i]
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
+vars[${'`output`'} + '_matchNr'] = matches.length
+for (let i = (matches.length - 1); i >= 0; i--) {
+  vars[${'`output`'} + '_' + (i+1)] = matches[i]
 }`)
 })
 
@@ -142,10 +166,14 @@ test('distribute default', t => {
   t.is(result.logic, `
 
 regex = new RegExp("START" + '(.*)' + "END", 'g')
-matches = regex.exec(r.body)
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(r.body)) matches.push(match[1])
+  return matches
+})()
 vars[${'`output`'}] = "--NOMATCH--"
-vars[${'`output`'} + '_matchNr'] = matches.length - 1
-for (let i = (matches.length - 1); i > 0; i--) {
-  vars[${'`output`'} + '_' + i] = matches[i]
+vars[${'`output`'} + '_matchNr'] = matches.length
+for (let i = (matches.length - 1); i >= 0; i--) {
+  vars[${'`output`'} + '_' + (i+1)] = matches[i]
 }`)
 })

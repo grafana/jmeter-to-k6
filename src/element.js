@@ -15,6 +15,7 @@ const route = {
   IfController: require('./element/IfController'),
   InterleaveControl: require('./element/InterleaveControl'),
   jmeterTestPlan: require('./element/jmeterTestPlan'),
+  JSR223PreProcessor: require('./element/JSR223PreProcessor'),
   'kg.apc.jmeter.threads.SteppingThreadGroup':
     require('./element/SteppingThreadGroup'),
   LoopController: require('./element/LoopController'),

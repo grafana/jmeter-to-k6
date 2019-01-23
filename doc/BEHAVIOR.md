@@ -244,6 +244,18 @@ No attributes or properties.
 | ISREGEX | bool | Use test string as regex. | Enable regex testing. |
 | INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
+## JSR223PreProcessor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| cacheKey | string | Boolean. Enable caching. | Ignore. |
+| filename | string | Script file path. | Script. |
+| parameters | string | Script parameters. | Ignore. |
+| script | string | Script. | Script. |
+| scriptLanguage | string | Script language. | Comment. |
+
 ## LoopController
 
 **Property**
@@ -280,6 +292,25 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | style | int | Bitfield. Execution style. | Exception on limit 1. |
+
+## RegexExtractor
+
+* Input `as_document` not supported. Uses external software Apache Tika.
+* Input `message` not supported. Not exposed by k6.
+* Requires Perl 5.
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| default | string | Default value. | Default value. |
+| default_empty_value | bool | Default to clear. | Default to clear. |
+| match_number | string | Match index. 1 based. | Match index. |
+| refname | string | Output variable. | Output variable. |
+| regex | string | Regular expression. | Regular expression. |
+| scope | string | Sample set. | Ignore. |
+| template | string | ? | ? |
+| useHeaders | string | Sample component. | Sample component. |
 
 ## ResponseAssertion
 
