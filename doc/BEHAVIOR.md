@@ -297,7 +297,7 @@ No attributes or properties.
 
 * Input `as_document` not supported. Uses external software Apache Tika.
 * Input `message` not supported. Not exposed by k6.
-* Requires Perl 5.
+* Uses JavaScript `RegExp`. Some PCRE features not supported.
 
 **Property**
 

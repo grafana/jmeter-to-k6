@@ -1,3 +1,4 @@
+const ind = require('../ind')
 const renderInput = require('../common/input')
 const runtimeString = require('../string/run')
 const text = require('../text')
@@ -74,14 +75,15 @@ function render (settings, result) {
   result.imports.set('perlRegex', 'perl-regex')
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
-  const regex = JSON.stringify(settings.regex)
+  const regex = `new RegExp(${JSON.stringify(settings.regex)})`
   const input = renderInput(settings.component, result)
   const transport = renderTransport(settings)
   result.logic += '' +
-`match = (() => {
-  const match = perlRegex.exec(${input}, ${regex}, 'g')
-  if (!match) return []
-
+`regex = ${regex}
+matches = (() => {
+  const matches = []
+  while (match = regex.exec(${input})) matches.push(match)
+  return matches
 })()
 ${transport}`
 }
@@ -89,9 +91,9 @@ ${transport}`
 function renderTransport (settings) {
   if (settings.index < 0) return renderDistribute(settings)
   else {
-    const extract = renderExtract(settings)
+    const select = renderSelect(settings)
     const write = renderWrite(settings)
-    return `extract = ${extract}
+    return `match = ${select}
 ${write}`
   }
 }
@@ -99,23 +101,35 @@ ${write}`
 function renderDistribute (settings) {
   const output = runtimeString(settings.output)
   const defaultValue = renderDefault(settings)
-  const components = []
-  if (defaultValue) components.push(`vars[${output}] = ${defaultValue}`)
-  components.push(`vars`)
-  throw new Error('Not yet implemented')
+  const defaultLine = (
+    defaultValue ? `\nvars[output] = ${defaultValue}` : ''
+  )
+  const construct = renderConstruct(settings)
+  return '' +
+`output = ${output}` + defaultLine + `
+vars[output + '_matchNr'] = matches.length
+for (let i = 0; i < matches.length; i++) {
+  match = matches[i]
+${ind(construct)}
+  vars[output + '_' + i] = extract
+  for (let j = 0; j < match.length; j++) {
+    const name = output + '_' + i + '_g' + j
+    vars[name] = match[j]
+  }
+}`
 }
 
-function renderExtract (settings) {
+function renderSelect (settings) {
   const { index } = settings
-  if (index > 0) return namedExtract(index)
-  else return randomExtract()
+  if (index > 0) return namedSelect(index)
+  else return randomSelect()
 }
 
-function namedExtract (index) {
+function namedSelect (index) {
   return `(${index} >= matches.length ? null : matches[${index}])`
 }
 
-function randomExtract () {
+function randomSelect () {
   const index = `Math.floor(Math.random()*(matches.length-1))+1`
   const extract = `matches[${index}]`
   return `(matches.length <= 1 ? null : ${extract})`
@@ -124,14 +138,40 @@ function randomExtract () {
 function renderWrite (settings) {
   const output = runtimeString(settings.output)
   const defaultValue = renderDefault(settings)
-  if (defaultValue) return `vars[${output}] = extract || ${defaultValue}`
-  else return `if (extract) vars[${output}] = extract`
+  const defaultLine = (
+    defaultValue ? `\n  vars[output] = ${defaultValue}` : ''
+  )
+  const construct = renderConstruct(settings)
+  return '' +
+`output = ${output}
+if (match) {
+${ind(construct)}
+  vars[output] = extract
+  vars[output + '_g'] = match.length - 1
+  for (let i = 0; i < match.length; i++) vars[output + '_g' + i] = match[i]
+} else {` + defaultLine + `
+  delete vars[output + '_g']
+  delete vars[output + '_g0']
+  delete vars[output + '_g1']
+}`
 }
 
 function renderDefault (settings) {
   if (settings.clear) return `''`
   else if (settings.default) return JSON.stringify(settings.default)
   else return null
+}
+
+function renderConstruct (settings) {
+  const regex = '/\\$(\\d*)\\$/g'
+  const template = JSON.stringify(settings.template)
+  return '' +
+`extract = ${template}.replace(${regex}, (match, digits) => {
+  if (!digits) return ''
+  const index = Number.parseInt(digits, 10)
+  if (index > (match.length - 1)) return ''
+  return match[index]
+})`
 }
 
 module.exports = RegexExtractor

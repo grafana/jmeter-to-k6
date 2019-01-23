@@ -87,7 +87,7 @@ function renderInit (init) {
 
 function renderDeclares (vus) {
   return `const vus = ${vus}
-let url, opts, auth, r, regex, match, matches, extract
+let url, opts, auth, r, regex, match, matches, extract, output
 let csvPage = {}`
 }
 
