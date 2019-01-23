@@ -15,6 +15,7 @@ const route = {
   IfController: require('./element/IfController'),
   InterleaveControl: require('./element/InterleaveControl'),
   jmeterTestPlan: require('./element/jmeterTestPlan'),
+  JSR223PostProcessor: require('./element/JSR223PostProcessor'),
   JSR223PreProcessor: require('./element/JSR223PreProcessor'),
   'kg.apc.jmeter.threads.SteppingThreadGroup':
     require('./element/SteppingThreadGroup'),
@@ -22,6 +23,7 @@ const route = {
   OnceOnlyController: require('./element/OnceOnlyController'),
   PostThreadGroup: require('./element/PostThreadGroup'),
   RandomController: require('./element/RandomController'),
+  RegexExtractor: require('./element/RegexExtractor'),
   RunTime: require('./element/RunTime'),
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),

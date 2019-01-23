@@ -244,6 +244,18 @@ No attributes or properties.
 | ISREGEX | bool | Use test string as regex. | Enable regex testing. |
 | INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
+## JSR223PostProcessor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| cacheKey | string | Boolean. Enable caching. | Ignore. |
+| filename | string | Script file path. | Comment. |
+| parameters | string | Script parameters. | Ignore. |
+| script | string | Script. | Comment. |
+| scriptLanguage | string | Script language. | Comment. |
+
 ## JSR223PreProcessor
 
 **Property**
@@ -251,9 +263,9 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | cacheKey | string | Boolean. Enable caching. | Ignore. |
-| filename | string | Script file path. | Script. |
+| filename | string | Script file path. | Comment. |
 | parameters | string | Script parameters. | Ignore. |
-| script | string | Script. | Script. |
+| script | string | Script. | Comment. |
 | scriptLanguage | string | Script language. | Comment. |
 
 ## LoopController
