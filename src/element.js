@@ -4,6 +4,7 @@ const extractDefaults = require('./common/defaults')
 const makeContext = require('./context')
 const route = {
   Arguments: require('./element/Arguments'),
+  BeanShellPreProcessor: require('./element/BeanShellPreProcessor'),
   BoundaryExtractor: require('./element/BoundaryExtractor'),
   CookieManager: require('./element/CookieManager'),
   DNSCacheManager: require('./element/DNSCacheManager'),

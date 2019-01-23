@@ -55,6 +55,17 @@ A `collectionProp` node representing a set of variables.
 | ------- | ----------- | ------ |
 | elementProp | A variable. | Render as variable. |
 
+## BeanShellPreProcessor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| filename | string | Script file path. | Comment. |
+| parameters | string | Script parameters. | Ignore. |
+| resetInterpreter | bool | Enable per call reset. | Ignore. |
+| script | string | Script. | Comment. |
+
 ## BoundaryExtractor
 
 * Input `as_document` not supported. Uses external software Apache Tika.
