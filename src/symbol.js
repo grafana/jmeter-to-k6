@@ -3,5 +3,6 @@ Object.assign(module.exports, {
   Check: Symbol('Check'),
   Delay: Symbol('Delay'),
   Header: Symbol('Header'),
+  Post: Symbol('Post'),
   Runtime: Symbol('Runtime')
 })

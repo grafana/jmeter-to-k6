@@ -370,6 +370,14 @@ No attributes or properties.
 | assume_success | bool | Force initialize status to success. | Ignore. |
 | test_type | int | Operation. | Operators in check. |
 
+## ResultStatusActionHandler
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| action | int | Failure action. | Failure action. |
+
 ## RunTime
 
 **Property**

@@ -8,7 +8,8 @@ const route = {
   ConstantTimer: require('../element/ConstantTimer'),
   DurationAssertion: require('../element/DurationAssertion'),
   HeaderManager: require('../element/HeaderManager'),
-  ResponseAssertion: require('../element/ResponseAssertion')
+  ResponseAssertion: require('../element/ResponseAssertion'),
+  ResultStatusActionHandler: require('../element/ResultStatusActionHandler')
 }
 
 function extractDefaults (node, context = makeContext()) {
