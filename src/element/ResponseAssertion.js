@@ -66,6 +66,7 @@ function operand (node, context, settings) {
     case 'response_headers': return 'r.headers' // Response headers
     case 'sample_label': return 'r.request.url' // Request address
     case 'response_message':
+      // Response status message
       throw new Error('Response status message not accessible')
     case 'response_data_as_document':
       throw new Error('Apache Tika extraction not supported')

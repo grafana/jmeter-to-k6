@@ -55,6 +55,24 @@ A `collectionProp` node representing a set of variables.
 | ------- | ----------- | ------ |
 | elementProp | A variable. | Render as variable. |
 
+## BoundaryExtractor
+
+* Input `as_document` not supported. Uses external software Apache Tika.
+* Input `message` not supported. Not exposed by k6.
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| default | string | Default value. | Default value. |
+| default_empty_value | bool | Default to clear. | Default to clear. |
+| lboundary | string | Left boundary. | Left boundary. |
+| match_number | string | Match index. 1 based. | Match index. |
+| rboundary | string | Right boundary. | Right boundary. |
+| refname | string | Output variable. | Output variable. |
+| scope | string | Sample set. | Ignore. |
+| useHeaders | string | Sample component. | Sample component. |
+
 ## ConstantDelay
 
 **Property**
