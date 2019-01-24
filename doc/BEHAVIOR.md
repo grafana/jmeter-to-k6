@@ -178,6 +178,21 @@ No attributes or properties.
 
 No attributes or properties.
 
+## HtmlExtractor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| attribute | string | HTML attribute. | HTML attribute. |
+| default | string | Default value. | Default value. |
+| default_empty_value | bool | Default to clear. | Default to clear. |
+| expr | string | CSS selector. | CSS selector. |
+| extractor_impl | string | CSS selector engine. | Ignore. |
+| match_number | string | Match index. | Match index. |
+| refname | string | Output variable. | Output variable. |
+| scope | string | Sample set. | Ignore. |
+
 ## HTTPSamplerProxy
 
 **Property**

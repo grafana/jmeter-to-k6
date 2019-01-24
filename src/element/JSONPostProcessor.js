@@ -113,11 +113,11 @@ ${write}`
 }
 
 function renderDistribute (settings) {
-  const defaultValue = settings.defaults
+  const def = settings.defaults
   return `for (let j = 0; j < matches.length; j++) {
   match = matches[j]
   vars[output + '_' + (j+1)] = match
-}` + (defaultValue ? `\nif (!matches.length) vars[output] = defaultValue` : '')
+}` + (def ? `\nif (!matches.length) vars[output] = defaultValue` : '')
 }
 
 function renderExtract (settings) {
