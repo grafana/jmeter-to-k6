@@ -12,7 +12,7 @@ test('minimal', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = CSVDataSet(node)
-  t.is(result.imports.get('csvParse'), 'csv-parse/lib/sync')
+  t.is(result.imports.get('csvParse'), './build/csv-parse.js')
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
@@ -55,7 +55,7 @@ test('rotate', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = CSVDataSet(node)
-  t.is(result.imports.get('csvParse'), 'csv-parse/lib/sync')
+  t.is(result.imports.get('csvParse'), './build/csv-parse.js')
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 

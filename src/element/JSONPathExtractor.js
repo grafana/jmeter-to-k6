@@ -66,7 +66,7 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
-  result.imports.set('jsonpath', 'jsonpath')
+  result.imports.set('jsonpath', './build/jsonpath.js')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
   const input = renderInput(settings)
@@ -110,7 +110,7 @@ function renderParse (settings, result) {
   switch (format) {
     case 'JSON': return `JSON.parse(serial)`
     case 'YAML':
-      result.imports.set('yaml', 'yaml')
+      result.imports.set('yaml', './build/yaml.js')
       return `yaml.parse(serial)`
     default:
       throw new Error('Unrecognized JSONPathExtractor format: ' + format)

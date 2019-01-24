@@ -70,7 +70,7 @@ function sufficient (settings) {
 
 function render (settings, result) {
   const defs = settings.defaults
-  result.imports.set('jsonpath', 'jsonpath')
+  result.imports.set('jsonpath', './build/jsonpath.js')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
   const transport = renderTransport(settings)
