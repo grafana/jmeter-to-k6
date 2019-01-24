@@ -15,6 +15,7 @@ Install dependencies. Also install [Perl 5][1] if using regular expressions:
 
 ```shell
 npm install
+npm install --global browserify
 ./bundle
 ```
 
