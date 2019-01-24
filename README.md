@@ -4,17 +4,18 @@ Convert JMeter jmx to k6 JS.
 
 ## Usage
 
-Install dependencies. Also install [Perl 5][1] if using regular expressions:
-
-```shell
-npm install --global csv-parse he perl-regex jsonpath yaml
-```
-
 Download:
 
 ```shell
 git clone https://github.com/loadimpact/jmeter-to-k6.git
 cd jmeter-to-k6
+```
+
+Install dependencies. Also install [Perl 5][1] if using regular expressions:
+
+```shell
+npm install
+./bundle
 ```
 
 Convert:
