@@ -13,6 +13,7 @@ function RunTime (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
+
   const els = node.children.filter(node => !/Prop$/.test(node.name))
     .filter(node => node.type === 'element')
   if (sufficient(settings)) render(settings, result, context, els)

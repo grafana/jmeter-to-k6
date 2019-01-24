@@ -63,7 +63,7 @@ function mergeConstants (base, update) {
 }
 
 function mergeFiles (base, update) {
-  for (const [ key, value ] of update.files) mergeFile(base, key, value)
+  for (const [ key, value ] of update.files) mergeFile(base.files, key, value)
 }
 
 function mergeFile (base, key, value) {

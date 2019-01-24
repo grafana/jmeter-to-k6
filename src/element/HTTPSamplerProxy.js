@@ -11,12 +11,13 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
-  const settings = { auth: [], headers: new Map() }
+  const settings = { auth: [], headers: new Map(), protocol: 'http' }
   applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   if (sufficient(settings)) render(settings, result, context)
+  else throw new Error('Invalid HTTPSamplerProxy')
   return result
 }
 
@@ -56,6 +57,8 @@ function applyDefault (settings, key, value) {
       settings.params = value
       break
     case 'auto_redirects':
+    case 'follow_redirect':
+      if (settings.followSilent) break
       settings.followSilent = (value === 'true')
       break
     case 'concurrentDwn': {
@@ -81,13 +84,6 @@ function applyDefault (settings, key, value) {
     case 'Files':
       settings.files = value
       break
-    case 'follow_redirects': {
-      const followLoud = (value === 'true')
-      if (followLoud) {
-        throw new Error('Following redirects with logging not implemented')
-      }
-      break
-    }
     case 'md5': {
       const md5 = (value === 'true')
       if (md5) throw new Error('Response digesting not implemented')
@@ -164,6 +160,8 @@ function property (node, context, settings) {
       break
     }
     case 'auto_redirects':
+    case 'follow_redirects':
+      if (settings.followSilent) break
       settings.followSilent = (value(node, context) === 'true')
       break
     case 'comments':
@@ -197,13 +195,6 @@ function property (node, context, settings) {
       settings.files = files
       break
     }
-    case 'follow_redirects': {
-      const followLoud = (value(node, context) === 'true')
-      if (followLoud) {
-        throw new Error('Following redirects with logging not implemented')
-      }
-      break
-    }
     case 'md5': {
       const md5 = (value(node, context) === 'true')
       if (md5) throw new Error('Response digesting not implemented')
@@ -224,9 +215,11 @@ function property (node, context, settings) {
     case 'postBodyRaw':
       settings.rawBody = (value(node, context) === 'true')
       break
-    case 'protocol':
-      settings.protocol = value(node, context)
+    case 'protocol': {
+      const protocol = value(node, context)
+      if (protocol) settings.protocol = protocol
       break
+    }
     case 'response_timeout':
       settings.responseTimeout = text(node.children)
       break
@@ -259,7 +252,6 @@ function postProcessors (result, context) {
 
 function assertions (result, context) {
   const checks = []
-  console.log(context.defaults)
   for (const level of context.defaults) {
     const levelChecks = level[Check]
     if (!levelChecks) continue

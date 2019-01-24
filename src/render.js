@@ -128,9 +128,9 @@ ${ind(strip(logic))}
   sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
   const main = sections.join(` else `)
   const body = [
-    renderCookies(cookies),
-    prolog,
-    main
+    strip(renderCookies(cookies)),
+    strip(prolog),
+    strip(main)
   ].filter(item => item).join('\n\n')
   return `export default function (data) {
 ${ind(strip(body))}

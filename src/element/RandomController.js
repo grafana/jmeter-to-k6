@@ -64,7 +64,7 @@ function render (settings, result, context, els) {
   const blocks = []
   for (let i = 0; i < children.length; i++) {
     const child = children[i]
-    const logic = child.logic
+    const logic = child.logic || ''
     delete child.logic
     merge(result, child)
     blocks.push(`case ${i}:

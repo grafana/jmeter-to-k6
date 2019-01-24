@@ -42,14 +42,11 @@ function attribute (node, key, settings) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'includeTimers':
+      break
     case 'comments':
       settings.comment = value(node, context)
       break
-    case 'includeTimers': {
-      const all = (value(node, context) === 'true')
-      if (!all) throw new Error('Timing just samplers not supported')
-      break
-    }
     case 'parent':
       settings.parent = (value(node, context) === 'true')
       break

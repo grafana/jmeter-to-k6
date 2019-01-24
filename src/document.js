@@ -1,4 +1,5 @@
 const element = require('./element')
+const normalize = require('./normalize')
 
 /**
  * Convert parsed document
@@ -8,6 +9,7 @@ const element = require('./element')
  * @return {ConvertResult}
  */
 function document (tree) {
+  normalize(tree)
   const root = tree.children[0]
   return element(root)
 }

@@ -33,6 +33,11 @@ function attribute (node, key, result) {
 function property (node, context, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'functional_mode':
+    case 'serialize_threadgroups':
+    case 'tearDown_on_shutdown':
+    case 'user_define_classpath':
+      break
     case 'comments': {
       const comments = value(node, context)
       result.init += `

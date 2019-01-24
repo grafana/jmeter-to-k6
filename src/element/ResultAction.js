@@ -3,7 +3,7 @@ const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
-function ResultStatusActionHandler (node, context) {
+function ResultAction (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   const settings = {}
@@ -73,4 +73,4 @@ function renderAction (settings, result) {
   }
 }
 
-module.exports = ResultStatusActionHandler
+module.exports = ResultAction

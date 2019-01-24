@@ -14,7 +14,7 @@ function extractValue (node, context) {
   switch (type) {
     case 'bool': return decodeBool(encoded)
     case 'element': return extractElement(node, context)
-    case 'string': return decodeString(encoded)
+    case 'string': case 'long': return decodeString(encoded)
     default: throw new Error('Unrecognized property type: ' + type)
   }
 }

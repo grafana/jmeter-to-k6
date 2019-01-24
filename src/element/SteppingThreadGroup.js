@@ -51,6 +51,7 @@ function property (node, context, result, spec) {
   switch (name) {
     case 'on_sample_error':
     case 'Threads initial delay':
+    case 'Start users count burst':
     case 'Stop users count':
     case 'Stop users period':
     case 'flighttime':

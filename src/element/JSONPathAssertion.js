@@ -41,6 +41,8 @@ function attribute (node, key, settings) {
 function property (node, context, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
+    case 'JSONVALIDATION':
+      break
     case 'comments':
       settings.name += ` - ${value(node, context)}`
       break

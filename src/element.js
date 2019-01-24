@@ -7,6 +7,7 @@ const route = {
   BeanShellPostProcessor: require('./element/BeanShellPostProcessor'),
   BeanShellPreProcessor: require('./element/BeanShellPreProcessor'),
   CookieManager: require('./element/CookieManager'),
+  CSVDataSet: require('./element/CSVDataSet'),
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
   ForeachController: require('./element/ForeachController'),

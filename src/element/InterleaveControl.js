@@ -38,8 +38,13 @@ function property (node, context, settings) {
     case 'comments':
       settings.comment = value(node, context)
       break
-    case 'accrossThreads':
-      throw new Error('Crossthread interleaving not supported')
+    case 'accrossThreads': {
+      const crossthread = (text(node.children) === 'true')
+      if (crossthread) {
+        throw new Error('Crossthread interleaving not supported')
+      }
+      break
+    }
     case 'style':
       style(node, context, settings)
       break

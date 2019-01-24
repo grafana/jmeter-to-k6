@@ -15,7 +15,7 @@ const route = {
   JSONPostProcessor: require('../element/JSONPostProcessor'),
   RegexExtractor: require('../element/RegexExtractor'),
   ResponseAssertion: require('../element/ResponseAssertion'),
-  ResultStatusActionHandler: require('../element/ResultStatusActionHandler')
+  ResultAction: require('../element/ResultAction')
 }
 
 function extractDefaults (node, context = makeContext()) {
@@ -26,8 +26,8 @@ function extractDefaults (node, context = makeContext()) {
   for (const config of configs) {
     const { defaults: [ configValues ] } = route[config.name](config, context)
     for (const key of [
-      ...Object.keys(configValues),
-      ...Object.getOwnPropertySymbols(configValues)
+      ...Object.keys(configValues || {}),
+      ...Object.getOwnPropertySymbols(configValues || {})
     ]) mergeCategory(values, configValues, key)
   }
   node.children = node.children.filter(

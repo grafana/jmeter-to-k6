@@ -19,7 +19,7 @@ function attribute (node, key, result) {
     case 'testclass':
       break
     case 'testname':
-      result.init += `// ${node.attributes.testname}`
+      result.init += `\n\n// ${node.attributes.testname}`
       break
     default: throw new Error('Unrecognized Arguments attribute: ' + key)
   }
@@ -30,9 +30,7 @@ function property (node, result, context) {
   switch (name) {
     case 'comments': {
       const comments = value(node, context)
-      result.init += `
-
-/* ${comments} */`
+      if (comments) result.init += `\n\n/* ${comments} */`
       break
     }
     case 'arguments': {
