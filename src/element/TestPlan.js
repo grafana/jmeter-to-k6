@@ -20,12 +20,8 @@ function attribute (node, key, result) {
     case 'enabled':
     case 'guiclass':
     case 'testclass':
+    case 'testname':
       break
-    case 'testname': {
-      const name = node.attributes[key]
-      result.init += '// ' + name
-      break
-    }
     default: throw new Error('Unrecognized TestPlan attribute: ' + key)
   }
 }
@@ -40,9 +36,7 @@ function property (node, context, result) {
       break
     case 'comments': {
       const comments = value(node, context)
-      result.init += `
-
-/* ${comments} */`
+      if (comments) result.init += `\n\n/* ${comments} */`
       break
     }
     case 'user_defined_variables': {

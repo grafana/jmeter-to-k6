@@ -17,9 +17,7 @@ function attribute (node, key, result) {
     case 'enabled':
     case 'guiclass':
     case 'testclass':
-      break
     case 'testname':
-      result.init += `\n\n// ${node.attributes.testname}`
       break
     default: throw new Error('Unrecognized Arguments attribute: ' + key)
   }

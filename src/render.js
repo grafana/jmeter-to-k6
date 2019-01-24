@@ -85,7 +85,7 @@ function renderFile (name, { path, binary }) {
 
 function renderInit (init) {
   if (!init) return ''
-  else return init
+  else return strip(init)
 }
 
 function renderDeclares (vus) {

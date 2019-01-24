@@ -11,7 +11,12 @@ function PostThreadGroup (node, context) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, context))
+  const childrenResult = elements(els, context)
+  if (childrenResult.logic) {
+    childrenResult.teardown = childrenResult.logic
+    delete childrenResult.logic
+  }
+  merge(result, childrenResult)
   return result
 }
 

@@ -16,19 +16,6 @@ test('empty', t => {
   t.deepEqual(result, empty)
 })
 
-test('name', t => {
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
-  <hashTree>
-    <TestPlan testname="White Zinc Fox"/>
-  </hashTree>
-</jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.is(result.init, '// White Zinc Fox')
-})
-
 test('comments', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">

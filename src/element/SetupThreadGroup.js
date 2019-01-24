@@ -11,7 +11,12 @@ function SetupThreadGroup (node, context) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, context))
+  const childrenResult = elements(els, context)
+  if (childrenResult.logic) {
+    childrenResult.setup += childrenResult.logic
+    delete childrenResult.logic
+  }
+  merge(result, childrenResult)
   return result
 }
 
@@ -40,9 +45,7 @@ function property (node, context, result) {
       break
     case 'comments': {
       const comments = value(node, context)
-      result.setup += `
-
-/* ${comments} */`
+      if (comments) result.setup += `\n\n/* ${comments} */`
       break
     }
   }
