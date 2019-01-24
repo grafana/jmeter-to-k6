@@ -82,7 +82,7 @@ function render (settings, context, result) {
   if (!customNames && settings.skip1) options['from_line'] = 2
   options.columns = (customNames ? settings.names : true)
   result.imports.set('buffer', './build/buffer.js')
-  result.imports.set('csvParse', 'csv-parse/lib/sync')
+  result.imports.set('csvParse', './build/csv-parse.js')
   result.files.set(rawPath, { path: settings.path, binary: true })
   const file = `files[${path}]`
   result.init = `

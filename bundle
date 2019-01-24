@@ -11,7 +11,7 @@ browserify index.js -s buffer >buffer.js
 
 # csv-parse
 npm install csv-parse
-echo "module.exports = require('csv-parse')" >index.js
+echo "module.exports = require('csv-parse/lib/sync')" >index.js
 browserify index.js -s csv-parse >csv-parse.js
 
 # he
