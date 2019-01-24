@@ -2,6 +2,8 @@
 
 Convert JMeter jmx to k6 JS.
 
+## Usage
+
 Install dependencies. Also install [Perl 5][1] if using regular expressions:
 
 ```shell
