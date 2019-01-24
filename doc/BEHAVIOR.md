@@ -266,6 +266,19 @@ No attributes or properties.
 | ISREGEX | bool | Use test string as regex. | Enable regex testing. |
 | INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
+## JSONPathExtractor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| DEFAULT | string | Default value. | Default value. |
+| INPUT_FORMAT | string | Input format. | Input format. |
+| JSONPATH | string | Query. | Query. |
+| SUBJECT | string | Input. | Input. |
+| VAR | string | Output variable. | Output variable. |
+| VARIABLE | string | Input variable. | Input variable. |
+
 ## JSONPostProcessor
 
 **Property**
