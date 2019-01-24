@@ -12,6 +12,7 @@ const strip = require('./strip')
 function render (result) {
   const vus = countVus(result.options.stages)
   return [
+    renderImports(result.imports),
     renderConstants(result.constants),
     renderVariables(result.vars),
     renderFiles(result.files),
@@ -35,6 +36,16 @@ function countVus (stages) {
     (count, stage) => { return count + stage.target },
     0
   )
+}
+
+function renderImports (imports) {
+  const lines = []
+  for (const [ name, path ] of imports) lines.push(renderImport(name, path))
+  return lines.join('\n')
+}
+
+function renderImport (name, path) {
+  return `import ${name} from ${JSON.stringify(path)}`
 }
 
 function renderConstants (constants) {
