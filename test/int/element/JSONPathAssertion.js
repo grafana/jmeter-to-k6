@@ -18,7 +18,7 @@ test('json extant', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -39,7 +39,7 @@ test('yaml extant', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return yaml.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -61,7 +61,7 @@ test('nonextant', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -83,7 +83,7 @@ test('null', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -105,7 +105,7 @@ test('string', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -128,7 +128,7 @@ test('regex', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -151,7 +151,7 @@ test('not string', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")
@@ -175,7 +175,7 @@ test('not regex', t => {
   t.deepEqual(result.defaults[Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, "$.apple")

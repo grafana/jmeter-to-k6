@@ -77,7 +77,7 @@ function render (settings) {
   return '' +
 `const body = (() => {
   try { return ${parser}.parse(r.body) }
-  catch { return null }
+  catch (e) { return null }
 })()
 if (!body) return false
 const values = jsonpath.query(body, ${JSON.stringify(settings.path)})

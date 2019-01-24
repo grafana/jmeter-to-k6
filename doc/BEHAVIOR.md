@@ -266,6 +266,19 @@ No attributes or properties.
 | ISREGEX | bool | Use test string as regex. | Enable regex testing. |
 | INPUT_FORMAT | string | Input format: `JSON` `YAML` | Input interpretation. |
 
+## JSONPostProcessor
+
+**Property**
+
+| Name | Type | Description | Action |
+| ---- | ---- | ----------- | ------ |
+| compute_concat | bool | Enable output combined. | Enable output combined. |
+| defaultValuse | string | Default values. | Default values. |
+| referenceNames | string | Variable names. | Variable names. |
+| jsonPathExprs | string | JSONPath expressions. | JSONPath expressions. |
+| match_numbers | string | Match selections. | Match selections. |
+| scope | string | Sample set. | Ignore. |
+
 ## JSR223PostProcessor
 
 **Property**

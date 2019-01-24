@@ -9,6 +9,7 @@ const route = {
   ConstantTimer: require('../element/ConstantTimer'),
   DurationAssertion: require('../element/DurationAssertion'),
   HeaderManager: require('../element/HeaderManager'),
+  JSONPostProcessor: require('../element/JSONPostProcessor'),
   RegexExtractor: require('../element/RegexExtractor'),
   ResponseAssertion: require('../element/ResponseAssertion'),
   ResultStatusActionHandler: require('../element/ResultStatusActionHandler')
