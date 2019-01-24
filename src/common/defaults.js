@@ -54,7 +54,9 @@ function mergeMap (base, update, key) {
 
 function mergeObject (base, update, key) {
   if (!(key in base)) base[key] = {}
-  for (const key of Object.keys(update)) mergeValue(base, update, key)
+  for (const name of Object.keys(update[key])) {
+    mergeValue(base[key], update[key], name)
+  }
 }
 
 function mergeValue (base, update, key) {

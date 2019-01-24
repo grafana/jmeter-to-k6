@@ -1,4 +1,4 @@
-const { Authentication, Header } = require('../symbol')
+const { Authentication, Check, Header, Post } = require('../symbol')
 const ind = require('../ind')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
@@ -16,7 +16,7 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
-  if (sufficient(settings)) convert(settings, result)
+  if (sufficient(settings)) render(settings, result, context)
   return result
 }
 
@@ -244,6 +244,39 @@ function sufficient (settings) {
   )
 }
 
+function render (settings, result, context) {
+  convert(settings, result)
+  postProcessors(result, context)
+  assertions(result, context)
+}
+
+function postProcessors (result, context) {
+  for (const level of context.defaults) {
+    const post = level[Post]
+    if (post && post.length) result.logic += `\n\n${post.join('\n\n')}`
+  }
+}
+
+function assertions (result, context) {
+  const checks = []
+  console.log(context.defaults)
+  for (const level of context.defaults) {
+    const levelChecks = level[Check]
+    if (!levelChecks) continue
+    for (const name of Object.keys(levelChecks)) {
+      const logic = `r => { ${levelChecks[name]} }`
+      checks.push([ JSON.stringify(name), logic ])
+    }
+  }
+  if (!checks.length) return
+  const dict = `{
+${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join('\n'))}
+}`
+  result.logic += `
+
+check(r, ${dict})`
+}
+
 function convert (settings, result) {
   result.imports.set('http', 'k6/http')
   const params = []
@@ -252,10 +285,8 @@ function convert (settings, result) {
   params.push(`url`)
   params.push(body)
   params.push(`opts`)
-  result.logic = `
-
-`
-  if (settings.comment) result.logic += `/* ${settings.comment} */`
+  result.logic = `\n\n`
+  if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   result.logic += `url = ${address(settings)}
 opts = ${renderOptions(settings)}
 `

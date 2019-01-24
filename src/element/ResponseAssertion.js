@@ -121,9 +121,7 @@ function check (settings, result) {
     'return ' +
     (settings.negate ? '!' : '') +
     '(' + composite + ')'
-  result.defaults.push({ [Check]: {
-    [settings.name]: logic
-  } })
+  result.defaults.push({ [Check]: { [settings.name]: logic } })
 }
 
 function expr (test, settings) {

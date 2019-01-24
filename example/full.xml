@@ -21,6 +21,24 @@
       <ThreadGroup>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <BoundaryExtractor>
+          <stringProp name="lboundary">START</stringProp>
+          <stringProp name="rboundary">END</stringProp>
+          <stringProp name="match_number">1</stringProp>
+          <stringProp name="refname">output</stringProp>
+        </BoundaryExtractor>
+        <ResponseAssertion>
+          <stringProp name="test_field">response_data</stringProp>
+          <intProp name="test_type">1</intProp>
+          <collectionProp name="test_strings">
+            <stringProp>Herbert's Bakery</stringProp>
+          </collectionProp>
+        </ResponseAssertion>
+        <HTTPSamplerProxy>
+          <stringProp name="method">GET</stringProp>
+          <stringProp name="protocol">http</stringProp>
+          <stringProp name="domain">example.com</stringProp>
+        </HTTPSamplerProxy>
         <IfController>
           <stringProp name="condition">${INIT} > 0</stringProp>
           <XPathAssertion/>
