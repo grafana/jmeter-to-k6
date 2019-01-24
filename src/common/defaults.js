@@ -5,11 +5,12 @@ const route = {
   BoundaryExtractor: require('../element/BoundaryExtractor'),
   'com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion':
     require('../element/JSONPathAssertion'),
+  'com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor':
+    require('../element/JSONPathExtractor'),
   ConfigTestElement: require('../element/ConfigTestElement'),
   ConstantTimer: require('../element/ConstantTimer'),
   DurationAssertion: require('../element/DurationAssertion'),
   HeaderManager: require('../element/HeaderManager'),
-  JSONPathExtractor: require('../element/JSONPathExtractor'),
   JSONPostProcessor: require('../element/JSONPostProcessor'),
   RegexExtractor: require('../element/RegexExtractor'),
   ResponseAssertion: require('../element/ResponseAssertion'),
