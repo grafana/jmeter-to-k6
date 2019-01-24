@@ -10,7 +10,7 @@ Install dependencies. Also install [Perl 5][1] if using regular expressions:
 npm install --global csv-parse he perl-regex jsonpath yaml
 ```
 
-Download `jmeter-to-jmx`:
+Download:
 
 ```shell
 git clone https://github.com/loadimpact/jmeter-to-k6.git
