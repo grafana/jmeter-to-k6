@@ -81,12 +81,13 @@ function render (settings, context, result) {
   const customNames = (settings.names && settings.names.length)
   if (!customNames && settings.skip1) options['from_line'] = 2
   options.columns = (customNames ? settings.names : true)
+  result.imports.set('buffer', './build/buffer.js')
   result.imports.set('csvParse', 'csv-parse/lib/sync')
   result.files.set(rawPath, { path: settings.path, binary: true })
   const file = `files[${path}]`
   result.init = `
 
-${file} = Buffer.from(${file}).toString(${renderEncoding(settings)})
+${file} = buffer.Buffer.from(${file}).toString(${renderEncoding(settings)})
 ${file} = csvParse(${file}, ${JSON.stringify(options)})
 csvPage[${path}] = 0`
   renderRead(settings, result, path, file)

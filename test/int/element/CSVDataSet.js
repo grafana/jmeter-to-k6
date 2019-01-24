@@ -16,7 +16,7 @@ test('minimal', t => {
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
-files["file.csv"] = Buffer.from(files["file.csv"]).toString('utf8')
+files["file.csv"] = buffer.Buffer.from(files["file.csv"]).toString('utf8')
 files["file.csv"] = csvParse(files["file.csv"], {"delimiter":",","quote":null,"columns":true})
 csvPage["file.csv"] = 0`)
   t.is(result.prolog, `
@@ -59,7 +59,7 @@ test('rotate', t => {
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
-files["file.csv"] = Buffer.from(files["file.csv"]).toString('utf8')
+files["file.csv"] = buffer.uffer.from(files["file.csv"]).toString('utf8')
 files["file.csv"] = csvParse(files["file.csv"], {"delimiter":",","quote":null,"columns":true})
 csvPage["file.csv"] = 0`)
   t.is(result.prolog, `

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+mkdir -p build
+cd build
+echo '{"name":"-","version":"-"}' >package.json
+
+# buffer
+npm install buffer
+echo "module.exports = require('buffer/')" >index.js
+browserify index.js -s buffer >buffer.js
+
+# csv-parse
+npm install csv-parse
+echo "module.exports = require('csv-parse')" >index.js
+browserify index.js -s csv-parse >csv-parse.js
+
+# he
+npm install he
+echo "module.exports = require('he')" >index.js
+browserify index.js -s he >he.js
+
+# jsonpath
+npm install jsonpath
+echo "module.exports = require('jsonpath')" >index.js
+browserify index.js -s jsonpath >jsonpath.js
+
+# perl-regex
+npm install perl-regex
+echo "module.exports = require('perl-regex')" >index.js
+browserify index.js -s perl-regex >perl-regex.js
+
+# yaml
+npm install yaml
+echo "module.exports = require('yaml')" >index.js
+browserify index.js -s yaml >yaml.js
