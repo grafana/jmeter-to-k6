@@ -1,4 +1,4 @@
-const { Authentication, Check, Header, Post } = require('../symbol')
+const { Authentication, Check, Delay, Header, Post } = require('../symbol')
 const ind = require('../ind')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
@@ -241,6 +241,7 @@ function render (settings, result, context) {
   convert(settings, result)
   postProcessors(result, context)
   assertions(result, context)
+  delays(result, context)
 }
 
 function postProcessors (result, context) {
@@ -267,6 +268,20 @@ ${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join('\n'))}
   result.logic += `
 
 check(r, ${dict})`
+}
+
+function delays (result, context) {
+  for (const level of context.defaults) {
+    const timers = level[Delay]
+    if (!timers) continue
+    for (const timer of timers) {
+      result.imports.set('k6', 'k6')
+      let logic = ''
+      if (timer.comment) logic += `/* ${timer.comment} */\n`
+      logic += `k6.sleep(${timer.delay / 1000})`
+      result.logic += `\n\n${logic}`
+    }
+  }
 }
 
 function convert (settings, result) {
