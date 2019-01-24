@@ -31,7 +31,10 @@ function render (result) {
 }
 
 function countVus (stages) {
-  return stages.reduce((stage, count) => count + stage.target, 0)
+  return expand(stages).reduce(
+    (count, stage) => { return count + stage.target },
+    0
+  )
 }
 
 function renderConstants (constants) {
