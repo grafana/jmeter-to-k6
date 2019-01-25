@@ -1,6 +1,6 @@
 function makeResult () {
   return {
-    options: {},
+    options: { stages: [] },
     imports: new Map(),
     vars: new Map(),
     constants: new Map(),
