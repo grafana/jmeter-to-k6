@@ -84,6 +84,7 @@ function renderVariables (vars) {
 }
 
 function renderFiles (files) {
+  if (!files.size) return null
   const lines = []
   lines.push(`const files = {}`)
   for (const [ name, spec ] of files) lines.push(renderFile(name, spec))
