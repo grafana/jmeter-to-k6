@@ -51,6 +51,7 @@ function renderImport (name, path) {
 }
 
 function renderConstants (constants) {
+  if (!constants.size) return null
   const rendered = {}
   for (const [ key, value ] of constants) {
     rendered[key] = renderConstant(key, value)
