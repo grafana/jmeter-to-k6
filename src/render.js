@@ -30,7 +30,7 @@ function render (result) {
     ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
-  return prettier.format(raw, { semi: false })
+  return prettier.format(raw, { semi: false, parser: 'babel' })
 }
 
 function countVus (stages) {
