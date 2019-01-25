@@ -1,3 +1,4 @@
+const prettier = require('prettier')
 const expand = require('./expand')
 const ind = require('./ind')
 const strip = require('./strip')
@@ -11,7 +12,7 @@ const strip = require('./strip')
  */
 function render (result) {
   const vus = countVus(result.options.stages)
-  return [
+  const raw = [
     renderImports(result.imports),
     renderDeclares(vus),
     renderConstants(result.constants),
@@ -29,6 +30,7 @@ function render (result) {
     ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
+  return prettier.format(raw, { semi: false })
 }
 
 function countVus (stages) {
