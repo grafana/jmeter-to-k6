@@ -87,7 +87,7 @@ test('while', t => {
 
 {
   const deadline = Date.now() + 5000
-  { let first = true; while (${'`true`'} !== "false") {
+  { let first = true; while ("true" !== "false") {
     // Fake
     // Fake
     // Fake

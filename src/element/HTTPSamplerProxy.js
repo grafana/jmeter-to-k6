@@ -433,11 +433,11 @@ function renderCredential (credential) {
 }
 
 function renderMechanism (mechanism) {
-  if (!mechanism) return '`basic`'
+  if (!mechanism) return `"basic"`
   switch (mechanism) {
-    case 'BASIC': return '`basic`'
-    case 'DIGEST': return '`digest`'
-    case 'KERBEROS': return '`ntlm`'
+    case 'BASIC': return `"basic"`
+    case 'DIGEST': return `"digest"`
+    case 'KERBEROS': return `"ntlm"`
     default: throw new Error('Unsupported auth mechanism: ' + mechanism)
   }
 }

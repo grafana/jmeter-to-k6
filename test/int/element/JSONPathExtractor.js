@@ -23,7 +23,7 @@ test('json', t => {
     catch (e) { return null }
   })()
   matches = jsonpath.query(input, "$.book")
-  output = ${'`output`'}
+  output = "output"
   if (matches.length) {
     vars[output] = (matches[0] === null ? 'null' : matches[0])
   }
@@ -53,7 +53,7 @@ test('yaml', t => {
     catch (e) { return null }
   })()
   matches = jsonpath.query(input, "$.book")
-  output = ${'`output`'}
+  output = "output"
   if (matches.length) {
     vars[output] = (matches[0] === null ? 'null' : matches[0])
   }
@@ -78,13 +78,13 @@ test('input var', t => {
   const result = JSONPathExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  const serial = vars[${'`input`'}] || ''
+  const serial = vars["input"] || ''
   const input = (() => {
     try { return JSON.parse(serial) }
     catch (e) { return null }
   })()
   matches = jsonpath.query(input, "$.book")
-  output = ${'`output`'}
+  output = "output"
   if (matches.length) {
     vars[output] = (matches[0] === null ? 'null' : matches[0])
   }
@@ -115,7 +115,7 @@ test('default', t => {
     catch (e) { return null }
   })()
   matches = jsonpath.query(input, "$.book")
-  output = ${'`output`'}
+  output = "output"
   if (matches.length) {
     vars[output] = (matches[0] === null ? 'null' : matches[0])
   } else vars[output] = "--NOTFOUND--"

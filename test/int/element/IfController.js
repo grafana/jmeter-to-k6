@@ -13,7 +13,7 @@ test('collective', t => {
   const result = IfController(node)
   t.is(result.logic, `
 
-if (eval(\`1 === 1\`)) {
+if (eval("1 === 1")) {
 
 }`)
 })
@@ -50,15 +50,15 @@ test('individual', t => {
   const result = IfController(node)
   t.is(result.logic, `
 
-if (eval(\`1 === 1\`)) {
+if (eval("1 === 1")) {
   // Fake
 }
 
-if (eval(\`1 === 1\`)) {
+if (eval("1 === 1")) {
   // Fake
 }
 
-if (eval(\`1 === 1\`)) {
+if (eval("1 === 1")) {
   // Fake
 }`)
 })

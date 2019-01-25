@@ -23,7 +23,7 @@ matches = (() => {
   return matches
 })()
 match = (1 >= matches.length ? null : matches[1])
-output = ${'`output`'}
+output = "output"
 if (match) {
   extract = "$0$".replace(${'/\\$(\\d*)\\$/g'}, (match, digits) => {
     if (!digits) return ''
@@ -61,7 +61,7 @@ matches = (() => {
   return matches
 })()
 match = (2 >= matches.length ? null : matches[2])
-output = ${'`output`'}
+output = "output"
 if (match) {
   extract = "$0$".replace(${'/\\$(\\d*)\\$/g'}, (match, digits) => {
     if (!digits) return ''
@@ -99,7 +99,7 @@ matches = (() => {
   return matches
 })()
 match = (matches.length <= 1 ? null : matches[Math.floor(Math.random()*(matches.length-1))+1])
-output = ${'`output`'}
+output = "output"
 if (match) {
   extract = "$0$".replace(${'/\\$(\\d*)\\$/g'}, (match, digits) => {
     if (!digits) return ''
@@ -138,7 +138,7 @@ matches = (() => {
   return matches
 })()
 match = (1 >= matches.length ? null : matches[1])
-output = ${'`output`'}
+output = "output"
 if (match) {
   extract = "$0$".replace(${'/\\$(\\d*)\\$/g'}, (match, digits) => {
     if (!digits) return ''
@@ -178,7 +178,7 @@ matches = (() => {
   return matches
 })()
 match = (1 >= matches.length ? null : matches[1])
-output = ${'`output`'}
+output = "output"
 if (match) {
   extract = "$0$".replace(${'/\\$(\\d*)\\$/g'}, (match, digits) => {
     if (!digits) return ''
@@ -216,7 +216,7 @@ matches = (() => {
   while (match = regex.exec(r.body)) matches.push(match)
   return matches
 })()
-output = ${'`output`'}
+output = "output"
 vars[output + '_matchNr'] = matches.length
 for (let i = 0; i < matches.length; i++) {
   match = matches[i]
@@ -254,7 +254,7 @@ matches = (() => {
   while (match = regex.exec(r.body)) matches.push(match)
   return matches
 })()
-output = ${'`output`'}
+output = "output"
 vars[output] = "--NOTFOUND--"
 vars[output + '_matchNr'] = matches.length
 for (let i = 0; i < matches.length; i++) {

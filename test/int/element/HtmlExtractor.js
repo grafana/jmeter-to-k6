@@ -16,7 +16,7 @@ test('named', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
@@ -38,7 +38,7 @@ test('random', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (matches.size() === 0 ? null : matches[Math.floor(Math.random()*matches.size())])
@@ -61,7 +61,7 @@ test('attribute', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
@@ -84,7 +84,7 @@ test('default', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
@@ -107,7 +107,7 @@ test('default clear', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
@@ -129,7 +129,7 @@ test('distribute text', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   vars[output + '_matchNr'] = matches.size()
@@ -154,7 +154,7 @@ test('distribute attribute', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   vars[output + '_matchNr'] = matches.size()
@@ -179,7 +179,7 @@ test('distribute default', t => {
   const result = HtmlExtractor(node)
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
-  output = ${'`output`'}
+  output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   vars[output] = "--NOTFOUND--"

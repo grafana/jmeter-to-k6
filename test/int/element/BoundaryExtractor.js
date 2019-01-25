@@ -23,7 +23,7 @@ matches = (() => {
   return matches
 })()
 extract = (1 >= matches.length ? null : matches[0])
-if (extract) vars[${'`output`'}] = extract`)
+if (extract) vars["output"] = extract`)
 })
 
 test('match 3', t => {
@@ -46,7 +46,7 @@ matches = (() => {
   return matches
 })()
 extract = (3 >= matches.length ? null : matches[2])
-if (extract) vars[${'`output`'}] = extract`)
+if (extract) vars["output"] = extract`)
 })
 
 test('random', t => {
@@ -69,7 +69,7 @@ matches = (() => {
   return matches
 })()
 extract = (matches.length === 0 ? null : matches[Math.floor(Math.random()*matches.length)])
-if (extract) vars[${'`output`'}] = extract`)
+if (extract) vars["output"] = extract`)
 })
 
 test('default', t => {
@@ -93,7 +93,7 @@ matches = (() => {
   return matches
 })()
 extract = (5 >= matches.length ? null : matches[4])
-vars[${'`output`'}] = extract || "--NOTFOUND--"`)
+vars["output"] = extract || "--NOTFOUND--"`)
 })
 
 test('default clear', t => {
@@ -117,7 +117,7 @@ matches = (() => {
   return matches
 })()
 extract = (1 >= matches.length ? null : matches[0])
-vars[${'`output`'}] = extract || ''`)
+vars["output"] = extract || ''`)
 })
 
 test('distribute', t => {
@@ -139,9 +139,9 @@ matches = (() => {
   while (match = regex.exec(r.body)) matches.push(match[1])
   return matches
 })()
-vars[${'`output`'} + '_matchNr'] = matches.length
+vars["output" + '_matchNr'] = matches.length
 for (let i = (matches.length - 1); i >= 0; i--) {
-  vars[${'`output`'} + '_' + (i+1)] = matches[i]
+  vars["output" + '_' + (i+1)] = matches[i]
 }`)
 })
 
@@ -165,9 +165,9 @@ matches = (() => {
   while (match = regex.exec(r.body)) matches.push(match[1])
   return matches
 })()
-vars[${'`output`'}] = "--NOMATCH--"
-vars[${'`output`'} + '_matchNr'] = matches.length
+vars["output"] = "--NOMATCH--"
+vars["output" + '_matchNr'] = matches.length
 for (let i = (matches.length - 1); i >= 0; i--) {
-  vars[${'`output`'} + '_' + (i+1)] = matches[i]
+  vars["output" + '_' + (i+1)] = matches[i]
 }`)
 })

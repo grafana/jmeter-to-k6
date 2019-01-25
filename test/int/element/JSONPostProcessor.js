@@ -17,7 +17,7 @@ test('named', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const body = (() => {
     try { return JSON.parse(r.body) }
     catch (e) { return null }
@@ -48,7 +48,7 @@ test('random', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const body = (() => {
     try { return JSON.parse(r.body) }
     catch (e) { return null }
@@ -80,7 +80,7 @@ test('default', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const defaults = ["--NOTFOUND--"]
   const body = (() => {
     try { return JSON.parse(r.body) }
@@ -113,7 +113,7 @@ test('multiple', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book","$.author","$.publisher"]
-  const outputs = [${'`book`'},${'`author`'},${'`publisher`'}]
+  const outputs = ["book","author","publisher"]
   const body = (() => {
     try { return JSON.parse(r.body) }
     catch (e) { return null }
@@ -145,7 +145,7 @@ test('multiple default', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book","$.author","$.publisher"]
-  const outputs = [${'`book`'},${'`author`'},${'`publisher`'}]
+  const outputs = ["book","author","publisher"]
   const defaults = ["--NONE--","--NONE--","--NONE--"]
   const body = (() => {
     try { return JSON.parse(r.body) }
@@ -179,7 +179,7 @@ test('combine', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const body = (() => {
     try { return JSON.parse(r.body) }
     catch (e) { return null }
@@ -211,7 +211,7 @@ test('distribute', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const body = (() => {
     try { return JSON.parse(r.body) }
     catch (e) { return null }
@@ -245,7 +245,7 @@ test('distribute default', t => {
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const queries = ["$.book"]
-  const outputs = [${'`output`'}]
+  const outputs = ["output"]
   const defaults = ["--NOTFOUND--"]
   const body = (() => {
     try { return JSON.parse(r.body) }
