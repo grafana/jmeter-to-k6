@@ -143,7 +143,6 @@ function renderLogic (cookies, prolog, users, stages, vus) {
 ${ind(strip(logic))}
 }`)
   }
-  sections.push(`throw new Error('Unexpected VU: ' + __VU)`)
   const main = sections.join(` else `)
   const body = [
     strip(renderCookies(cookies)),
