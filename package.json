@@ -20,6 +20,7 @@
     "dependencies": {
         "@rgrove/parse-xml": "^1.1.1",
         "jsonpath": "^1.0.0",
+        "papaparse": "^4.6.3",
         "perl-regex": "^1.0.4",
         "yaml": "^1.2.0",
         "yargs": "^12.0.5"

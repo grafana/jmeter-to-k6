@@ -13,11 +13,11 @@ function render (result) {
   const vus = countVus(result.options.stages)
   return [
     renderImports(result.imports),
+    renderDeclares(vus),
     renderConstants(result.constants),
     renderVariables(result.vars),
     renderFiles(result.files),
     renderInit(result.init),
-    renderDeclares(vus),
     renderOptions(result.options),
     renderSetup(result.setup),
     renderLogic(
@@ -102,7 +102,7 @@ function renderInit (init) {
 function renderDeclares (vus) {
   return `const vus = ${vus}
 let url, opts, auth, r, regex, match, matches, extract, output
-let csvPage = {}`
+let csvPage = {}, csvColumns = {}`
 }
 
 function renderOptions (options) {
