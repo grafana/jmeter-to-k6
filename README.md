@@ -22,7 +22,7 @@ npm install --global browserify
 Convert:
 
 ```shell
-node bin/jmeter-to-k6.js example/full.xml
+node bin/jmeter-to-k6.js example/full.jmx
 ```
 
 [1]: https://www.perl.org/get.html
