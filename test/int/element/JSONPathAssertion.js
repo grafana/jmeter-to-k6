@@ -15,7 +15,7 @@ test('json extant', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -36,7 +36,7 @@ test('yaml extant', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return yaml.parse(r.body) }
   catch (e) { return null }
@@ -58,7 +58,7 @@ test('nonextant', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -80,7 +80,7 @@ test('null', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -102,7 +102,7 @@ test('string', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -125,7 +125,7 @@ test('regex', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -148,7 +148,7 @@ test('not string', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }
@@ -172,7 +172,7 @@ test('not regex', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = JSONPathAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
   catch (e) { return null }

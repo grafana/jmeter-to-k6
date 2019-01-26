@@ -14,9 +14,7 @@ function DurationAssertion (node, context) {
   for (const prop of props) property(prop, context, settings)
   if (settings.logic) {
     result.state.add('r')
-    Object.assign(result.defaults, { [Check]: {
-      [settings.name]: settings.logic
-    } })
+    result.defaults.push({ [Check]: { [settings.name]: settings.logic } })
   }
   return result
 }

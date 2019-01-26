@@ -5,7 +5,7 @@ const makeResult = require('../result')
 function JSONPathAssertion (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
-  const settings = {}
+  const settings = { format: 'JSON' }
   for (const key of Object.keys(node.attributes)) {
     attribute(node, key, settings)
   }
@@ -21,9 +21,7 @@ function JSONPathAssertion (node, context) {
       result.imports.set('perlRegex', './build/perl-regex.js')
     }
     const logic = render(settings)
-    Object.assign(result.defaults, { [Check]: {
-      [settings.name]: logic
-    } })
+    result.defaults.push({ [Check]: { [settings.name]: logic } })
   }
   return result
 }

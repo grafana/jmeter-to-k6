@@ -50,6 +50,7 @@ function element (node, context = makeContext()) {
   if (!route[name]) throw new Error('Unrecognized element: ' + name)
   const result = makeResult()
   context.defaults = extractDefaults(node, result, context)
-  merge(result, route[name](node, context))
+  const elementResult = route[name](node, context)
+  merge(result, elementResult)
   return result
 }

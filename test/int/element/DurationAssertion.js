@@ -12,7 +12,7 @@ test('check', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = DurationAssertion(node)
-  t.deepEqual(result.defaults[Check], {
+  t.deepEqual(result.defaults[0][Check], {
     'DurationAssertion': 'return (r.timings.duration <= 2000)'
   })
 })

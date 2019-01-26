@@ -34,9 +34,10 @@ function extractDefaults (node, result, context = makeContext()) {
     const { defaults: [ configValues ] } = configResult
     configResult.defaults = []
     merge(result, configResult)
+    if (!configValues) continue
     for (const key of [
-      ...Object.keys(configValues || {}),
-      ...Object.getOwnPropertySymbols(configValues || {})
+      ...Object.keys(configValues),
+      ...Object.getOwnPropertySymbols(configValues)
     ]) mergeCategory(values, configValues, key)
   }
   for (const hashTree of node.children.filter(

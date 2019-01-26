@@ -1,5 +1,6 @@
 import test from 'ava'
 import jmeterTestPlan from 'sink/element/jmeterTestPlan'
+import 'sink/merge'
 import element from 'element'
 
 test.beforeEach(t => {
