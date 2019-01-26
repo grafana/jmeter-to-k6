@@ -54,3 +54,26 @@ test('multiple', t => {
   )
   t.deepEqual(result.users, [ '', '', '' ])
 })
+
+test('iterations', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
+  <hashTree>
+    <TestPlan>
+      <ThreadGroup>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <elementProp name="main_controller">
+          <intProp name="loops">50</intProp>
+        </elementProp>
+      </ThreadGroup>
+    </TestPlan>
+  </hashTree>
+</jmeterTestPlan>
+`
+  const tree = parseXml(xml)
+  const result = document(tree)
+  t.is(result.users[0], `if (__ITER < 50) {
+
+}`)
+})
