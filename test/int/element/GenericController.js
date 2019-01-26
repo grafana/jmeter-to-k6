@@ -15,7 +15,7 @@ test('convert', t => {
   const result = GenericController(node)
   t.is(result.logic, `
 
-k6.group("Group1", () => {
+group("Group1", () => {
   // Fake
   // Fake
   // Fake

@@ -62,8 +62,8 @@ function renderAction (settings, result) {
     case 2: // Stop test
     case 3: // Stop test now
     case 4: // Continue thread, not supported
-      result.imports.set('k6', 'k6')
-      return `k6.fail('Request failed: ' + r.status)`
+      result.imports.set('fail', { base: 'k6' })
+      return `fail('Request failed: ' + r.status)`
     case 5: return `continue` // Continue loop
     case 6: return `break` // Break loop
     default:

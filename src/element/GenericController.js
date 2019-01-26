@@ -51,11 +51,11 @@ function property (node, context, settings) {
 }
 
 function render (settings, result, childrenLogic) {
-  result.imports.set('k6', 'k6')
+  result.imports.set('group', { base: 'k6' })
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   result.logic += '' +
-`k6.group(${JSON.stringify(settings.name)}, () => {
+`group(${JSON.stringify(settings.name)}, () => {
 ${ind(strip(childrenLogic))}
 })`
 }

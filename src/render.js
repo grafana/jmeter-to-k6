@@ -41,9 +41,24 @@ function countVus (stages) {
 }
 
 function renderImports (imports) {
+  const directImports = []
+  const indirectImports = {}
+  for (const [ name, spec ] of imports) {
+    if (typeof spec === 'object') {
+      const { base } = spec
+      if (!(base in indirectImports)) indirectImports[base] = []
+      indirectImports[base].push(name)
+    } else directImports.push([ name, spec ])
+  }
   const lines = []
-  for (const [ name, path ] of imports) lines.push(renderImport(name, path))
-  return lines.join('\n')
+  for (const [ name, path ] of directImports) {
+    lines.push(renderImport(name, path))
+  }
+  for (const key of Object.keys(indirectImports)) {
+    const name = `{ ${indirectImports[key].join(', ')} }`
+    lines.push(renderImport(name, key))
+  }
+  return lines.join(`\n`)
 }
 
 function renderImport (name, path) {

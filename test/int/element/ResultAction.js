@@ -27,7 +27,7 @@ test('fail', t => {
   const node = tree.children[0]
   const result = ResultAction(node)
   t.deepEqual(result.defaults[0][Post], [
-    `if (Math.floor(r.status/100) !== 2) k6.fail('Request failed: ' + r.status)`
+    `if (Math.floor(r.status/100) !== 2) fail('Request failed: ' + r.status)`
   ])
 })
 

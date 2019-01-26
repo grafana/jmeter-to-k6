@@ -252,7 +252,7 @@ function postProcessors (result, context) {
 }
 
 function assertions (result, context) {
-  result.imports.set('k6', 'k6')
+  result.imports.set('check', { base: 'k6' })
   const checks = []
   for (const level of context.defaults) {
     const levelChecks = level[Check]
@@ -268,21 +268,23 @@ ${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join('\n'))}
 }`
   result.logic += `
 
-k6.check(r, ${dict})`
+check(r, ${dict})`
 }
 
 function delays (result, context) {
+  let delay = false
   for (const level of context.defaults) {
     const timers = level[Delay]
     if (!timers) continue
+    else delay = true
     for (const timer of timers) {
-      result.imports.set('k6', 'k6')
       let logic = ''
       if (timer.comment) logic += `/* ${timer.comment} */\n`
-      logic += `k6.sleep(${timer.delay / 1000})`
+      logic += `sleep(${timer.delay / 1000})`
       result.logic += `\n\n${logic}`
     }
   }
+  if (delay) result.imports.set('sleep', { base: 'k6' })
 }
 
 function convert (settings, result) {
