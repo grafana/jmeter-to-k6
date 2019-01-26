@@ -2,6 +2,8 @@ module.exports = (...args) => { return element(...args) }
 
 const extractDefaults = require('./common/defaults')
 const makeContext = require('./context')
+const makeResult = require('./result')
+const merge = require('./merge')
 const route = {
   Arguments: require('./element/Arguments'),
   BeanShellPostProcessor: require('./element/BeanShellPostProcessor'),
@@ -46,6 +48,8 @@ const route = {
 function element (node, context = makeContext()) {
   const { name } = node
   if (!route[name]) throw new Error('Unrecognized element: ' + name)
-  context.defaults = extractDefaults(node, context)
-  return route[name](node, context)
+  const result = makeResult()
+  context.defaults = extractDefaults(node, result, context)
+  merge(result, route[name](node, context))
+  return result
 }

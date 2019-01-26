@@ -185,7 +185,13 @@ function renderLogic (cookies, prolog, users, stages, vus) {
 ${ind(strip(logic))}
 }`)
   }
-  const main = (stages.length === 1 ? '' : sections.join(` else `))
+  const main = (
+    stages.length === 0
+      ? ''
+      : stages.length === 1
+        ? users[0]
+        : sections.join(` else `)
+  )
   const body = [
     strip(renderCookies(cookies)),
     strip(prolog),

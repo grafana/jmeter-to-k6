@@ -7,11 +7,12 @@ const makeResult = require('../result')
 function JSONPathExtractor (node, context) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
-  const settings = {}
+  const settings = { format: 'JSON' }
   for (const key of Object.keys(node.attributes)) attribute(node, key)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   if (sufficient(settings)) render(settings, result)
+  else throw new Error('Invalid JSONPathExtractor')
   return result
 }
 

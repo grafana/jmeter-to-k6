@@ -1,4 +1,6 @@
+const expand = require('../expand')
 const makeContext = require('../context')
+const merge = require('../merge')
 
 const route = {
   AuthManager: require('../element/AuthManager'),
@@ -18,17 +20,31 @@ const route = {
   ResultAction: require('../element/ResultAction')
 }
 
-function extractDefaults (node, context = makeContext()) {
+function extractDefaults (node, result, context = makeContext()) {
   const values = {}
-  const configs = node.children.filter(
-    item => item.type === 'element' && item.name in route
-  )
+  const configs = expand(node.children
+    .filter(item => item.type === 'element')
+    .map(item => item.name === 'hashTree'
+      ? item.children.filter(item => item.type === 'element')
+      : item
+    )
+  ).filter(item => item.name in route)
   for (const config of configs) {
-    const { defaults: [ configValues ] } = route[config.name](config, context)
+    const configResult = route[config.name](config, context)
+    const { defaults: [ configValues ] } = configResult
+    configResult.defaults = []
+    merge(result, configResult)
     for (const key of [
       ...Object.keys(configValues || {}),
       ...Object.getOwnPropertySymbols(configValues || {})
     ]) mergeCategory(values, configValues, key)
+  }
+  for (const hashTree of node.children.filter(
+    item => item.name === 'hashTree')
+  ) {
+    hashTree.children = hashTree.children.filter(
+      item => !(item.type === 'element' && item.name in route)
+    )
   }
   node.children = node.children.filter(
     item => !(item.type === 'element' && item.name in route)
