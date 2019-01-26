@@ -1,4 +1,5 @@
 const element = require('../element')
+const expand = require('../expand')
 const ind = require('../ind')
 const merge = require('../merge')
 const strip = require('../strip')
@@ -13,8 +14,13 @@ function RandomController (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
-  const els = node.children.filter(node => !/Prop$/.test(node.name))
+  const els = expand(node.children.filter(node => !/Prop$/.test(node.name))
     .filter(node => node.type === 'element')
+    .map(item => item.name === 'hashTree'
+      ? item.children.filter(item => item.type === 'element')
+      : item
+    )
+  )
   render(settings, result, context, els)
   node.children = []
   return result

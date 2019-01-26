@@ -1,6 +1,7 @@
 const code = require('../string/code')
 const element = require('../element')
 const elements = require('../elements')
+const expand = require('../expand')
 const ind = require('../ind')
 const merge = require('../merge')
 const runtimeString = require('../string/run')
@@ -17,8 +18,13 @@ function IfController (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
-  const els = node.children.filter(node => !/Prop$/.test(node.name))
+  const els = expand(node.children.filter(node => !/Prop$/.test(node.name))
     .filter(node => node.type === 'element')
+    .map(item => item.name === 'hashTree'
+      ? item.children.filter(item => item.type === 'element')
+      : item
+    )
+  )
   if (settings.condition) {
     const condition =
       settings.expression ? `${runtimeString(settings.condition)} === 'true'`
