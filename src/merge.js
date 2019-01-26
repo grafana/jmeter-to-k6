@@ -5,6 +5,7 @@
  * @param {ConvertResult} update - Changes to merge.
  */
 function merge (base, update) {
+  if (update.state) mergeState(base.state, update.state)
   if (update.options) mergeOptions(base.options, update.options)
   if (update.imports) mergeImports(base.imports, update.imports)
   if (update.vars) mergeVariables(base, update)
@@ -18,6 +19,10 @@ function merge (base, update) {
   if (update.users) base.users.push(...update.users)
   if (update.teardown) base.teardown += update.teardown
   if ('logic' in update) mergeLogic(base, update)
+}
+
+function mergeState (base, update) {
+  for (const value of update) base.add(value)
 }
 
 function mergeOptions (base, update) {

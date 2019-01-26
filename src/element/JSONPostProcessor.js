@@ -69,11 +69,14 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
+  result.state.add('matches')
+  result.state.add('extract')
+  result.state.add('vars')
   const defs = settings.defaults
   result.imports.set('jsonpath', './build/jsonpath.js')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
-  const transport = renderTransport(settings)
+  const transport = renderTransport(settings, result)
   const combine = renderCombine(settings)
   logic += '' +
 `{
@@ -102,8 +105,8 @@ function allDefault () {
   return ` else defaults.forEach((value, i) => { vars[outputs[i]] = value })`
 }
 
-function renderTransport (settings) {
-  if (settings.index < 0) return renderDistribute(settings)
+function renderTransport (settings, result) {
+  if (settings.index < 0) return renderDistribute(settings, result)
   else {
     const extract = renderExtract(settings)
     const write = renderWrite(settings)
@@ -112,7 +115,8 @@ ${write}`
   }
 }
 
-function renderDistribute (settings) {
+function renderDistribute (settings, result) {
+  result.state.add('match')
   const def = settings.defaults
   return `for (let j = 0; j < matches.length; j++) {
   match = matches[j]

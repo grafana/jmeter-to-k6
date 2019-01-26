@@ -73,6 +73,7 @@ function sufficient (settings) {
 }
 
 function render (settings, result, context, childrenLogic) {
+  result.state.add('vars')
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   const components = []

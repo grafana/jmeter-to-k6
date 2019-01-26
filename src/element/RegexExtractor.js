@@ -73,6 +73,12 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
+  result.state.add('regex')
+  result.state.add('matches')
+  result.state.add('match')
+  result.state.add('extract')
+  result.state.add('output')
+  result.state.add('vars')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
   const regex = `new RegExp(${JSON.stringify(settings.regex)})`

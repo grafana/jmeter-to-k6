@@ -252,6 +252,7 @@ function postProcessors (result, context) {
 }
 
 function assertions (result, context) {
+  result.imports.set('k6', 'k6')
   const checks = []
   for (const level of context.defaults) {
     const levelChecks = level[Check]
@@ -267,7 +268,7 @@ ${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join('\n'))}
 }`
   result.logic += `
 
-check(r, ${dict})`
+k6.check(r, ${dict})`
 }
 
 function delays (result, context) {
@@ -285,6 +286,9 @@ function delays (result, context) {
 }
 
 function convert (settings, result) {
+  result.state.add('url')
+  result.state.add('opts')
+  result.state.add('r')
   result.imports.set('http', 'k6/http')
   const params = []
   const body = renderBody(settings, result)
@@ -297,7 +301,7 @@ function convert (settings, result) {
   result.logic += `url = ${address(settings)}
 opts = ${renderOptions(settings)}
 `
-  if (settings.auth.length) result.logic += renderAuth(settings)
+  if (settings.auth.length) result.logic += renderAuth(settings, result)
   if (body === `''`) result.logic += `r = http.request(${params.join(', ')})`
   else result.logic += `r = http.request(\n${ind(params.join(',\n'))}\n)`
 }
@@ -404,7 +408,8 @@ ${ind(items.join(',\n'))}
 }`
 }
 
-function renderAuth (settings) {
+function renderAuth (settings, result) {
+  result.state.add('auth')
   const credentials = renderCredentials(settings.auth)
   return `if (auth = ${credentials}.find(item => url.includes(item.url))) {
   const username = encodeURIComponent(auth.username)

@@ -1,5 +1,6 @@
 function makeResult () {
   return {
+    state: new Set(),
     options: { stages: [] },
     imports: new Map(),
     vars: new Map(),

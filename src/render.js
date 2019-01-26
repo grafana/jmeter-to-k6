@@ -14,9 +14,9 @@ function render (result) {
   const vus = countVus(result.options.stages)
   const raw = [
     renderImports(result.imports),
-    renderDeclares(vus),
     renderConstants(result.constants),
-    renderVariables(result.vars),
+    renderVariables(result.vars, result.state),
+    renderDeclares(result.state, vus),
     renderFiles(result.files),
     renderInit(result.init),
     renderOptions(result.options),
@@ -72,7 +72,10 @@ function renderHeaders (headers) {
   return entries
 }
 
-function renderVariables (vars) {
+function renderVariables (vars, state) {
+  const renderVars = state.has('vars')
+  state.delete('vars')
+  if (!(renderVars || vars.size)) return ''
   const lines = []
   lines.push(`const vars = {}`)
   for (const [ name, { value, comment } ] of vars) {
@@ -103,10 +106,31 @@ function renderInit (init) {
   else return strip(init)
 }
 
-function renderDeclares (vus) {
-  return `const vus = ${vus}
-let url, opts, auth, r, regex, match, matches, extract, output
-let csvPage = {}, csvColumns = {}`
+function renderDeclares (state, vus) {
+  const lines = []
+  lines.push(`const vus = ${vus}`)
+  lines.push(renderObjectState(state))
+  lines.push(renderState(state))
+  return lines.filter(line => line).join('\n')
+}
+
+function renderObjectState (state) {
+  const items = []
+  if (state.has('csvPage')) {
+    items.push(`csvPage`)
+    state.delete('csvPage')
+  }
+  if (state.has('csvColumns')) {
+    items.push('csvColumns')
+    state.delete('csvColumns')
+  }
+  if (!items.length) return ''
+  return 'let ' + items.map(item => item + ' = {}').join(', ')
+}
+
+function renderState (state) {
+  if (!state.size) return ''
+  return 'let ' + [ ...state ].join(', ')
 }
 
 function renderOptions (options) {

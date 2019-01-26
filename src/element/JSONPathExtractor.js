@@ -66,6 +66,9 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
+  result.state.add('matches')
+  result.state.add('output')
+  result.state.add('vars')
   result.imports.set('jsonpath', './build/jsonpath.js')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`

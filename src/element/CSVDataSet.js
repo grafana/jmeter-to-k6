@@ -76,6 +76,9 @@ function sufficient (settings) {
 }
 
 function render (settings, context, result) {
+  result.state.add('csvPage')
+  result.state.add('csvColumns')
+  result.state.add('vars')
   if (settings.names) processNames(settings)
   const { path: rawPath } = settings
   const path = JSON.stringify(rawPath)

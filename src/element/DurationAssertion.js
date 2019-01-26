@@ -13,6 +13,7 @@ function DurationAssertion (node, context) {
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   if (settings.logic) {
+    result.state.add('r')
     Object.assign(result.defaults, { [Check]: {
       [settings.name]: settings.logic
     } })

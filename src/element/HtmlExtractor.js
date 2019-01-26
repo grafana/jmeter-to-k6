@@ -67,6 +67,11 @@ function sufficient (settings) {
 }
 
 function render (settings, result) {
+  result.state.add('output')
+  result.state.add('matches')
+  result.state.add('match')
+  result.state.add('extract')
+  result.state.add('vars')
   result.imports.set('html', 'k6/html')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
