@@ -108,7 +108,10 @@ function renderInit (init) {
 
 function renderDeclares (state, vus) {
   const lines = []
-  lines.push(`const vus = ${vus}`)
+  if (state.has('vus')) {
+    lines.push(`const vus = ${vus}`)
+    state.delete('vus')
+  }
   lines.push(renderObjectState(state))
   lines.push(renderState(state))
   return lines.filter(line => line).join('\n')
