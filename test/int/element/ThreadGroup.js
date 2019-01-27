@@ -47,9 +47,9 @@ test('multiple', t => {
   t.deepEqual(
     result.options,
     { stages: [
-      { duration: '2s', target: 1 },
-      { duration: '4s', target: 3 },
-      { duration: '6s', target: 5 }
+      { target: 1, duration: '2s' },
+      { target: 4, duration: '4s' },
+      { target: 9, duration: '6s' }
     ] }
   )
   t.deepEqual(result.users, [ '', '', '' ])
