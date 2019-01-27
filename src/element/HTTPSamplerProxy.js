@@ -314,13 +314,8 @@ function method (settings) {
 
 function address (settings, auth) {
   if (settings.address) return runtimeString(settings.address)
-  if (addressStatic(settings, auth)) return staticAddress(settings)
-  const protocol = `\${${runtimeString(settings.protocol)}}`
-  const domain = `\${${runtimeString(settings.domain)}}`
-  const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
-  const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
-  const credential = (auth ? `\${username}:\${password}@` : '')
-  return `\`${protocol}://${credential}${domain}${port}${path}\``
+  else if (addressStatic(settings, auth)) return staticAddress(settings)
+  else return dynamicAddress(settings, auth)
 }
 
 function addressStatic (settings, auth) {
@@ -340,6 +335,15 @@ function staticAddress (settings) {
   const port = (settings.port ? `:${settings.port}` : '')
   const raw = `${protocol}://${domain}${port}${path}`
   return JSON.stringify(raw)
+}
+
+function dynamicAddress (settings, auth) {
+  const protocol = `\${${runtimeString(settings.protocol)}}`
+  const domain = `\${${runtimeString(settings.domain)}}`
+  const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
+  const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
+  const credential = (auth ? `\${username}:\${password}@` : '')
+  return `\`${protocol}://${credential}${domain}${port}${path}\``
 }
 
 function renderBody (settings, result) {
