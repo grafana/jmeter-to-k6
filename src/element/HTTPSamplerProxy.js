@@ -264,7 +264,7 @@ function assertions (result, context) {
   }
   if (!checks.length) return
   const dict = `{
-${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join('\n'))}
+${ind(checks.map(([ name, logic ]) => `${name}: ${logic}`).join(',\n'))}
 }`
   result.logic += `
 
