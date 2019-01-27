@@ -42,10 +42,27 @@ function mergeOption (base, update, key) {
       break
     case 'stages':
       if (!base.stages) base.stages = []
-      base.stages.push(...update.stages)
+      mergeStages(base.stages, update.stages)
       break
     default: throw new Error('Unrecognized option: ' + key)
   }
+}
+
+function mergeStages (base, update) {
+  const last = lastTarget(base)
+  for (const stage of update) {
+    if (Array.isArray(stage)) {
+      for (const substage of stage) substage.target += last
+    } else stage.target += last
+  }
+  base.push(...update)
+}
+
+function lastTarget (stages) {
+  if (!stages.length) return 0
+  const stage = stages[stages.length - 1]
+  if (Array.isArray(stage)) return stage[stage.length - 1].target
+  else return stage.target
 }
 
 function mergeImports (base, update) {
