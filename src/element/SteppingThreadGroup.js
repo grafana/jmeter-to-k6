@@ -8,27 +8,15 @@ function SteppingThreadGroup (node, context) {
   if (node.attributes.enabled === 'false') return result
   result.options.stages = []
   result.logic = ''
+  const settings = {}
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
-  const spec = {}
-  for (const prop of props) property(prop, context, result, spec)
+  for (const prop of props) property(prop, context, result, settings)
   const els = children.filter(node => !/Prop$/.test(node.name))
   merge(result, elements(els, context))
-  if (spec.total && spec.step && spec.interval) {
-    const { total, step, interval } = spec
-    const group = []
-    if (total < step) throw new Error('Invalid total threads')
-    const count = Math.ceil(total / step)
-    for (let i = count - 1; i > 0; i--) {
-      const stage = { target: step, duration: interval + 'ms' }
-      group.push(stage)
-    }
-    const remainder = total - (step * (count - 1))
-    const stage = { target: remainder, duration: interval + 'ms' }
-    group.push(stage)
-    result.options.stages.push(group)
-  }
+  if (sufficient(settings)) render(settings, result)
+  else throw new Error('Invalid SteppingThreadGroup')
   result.user = true
   return result
 }
@@ -46,38 +34,165 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, context, result, spec) {
+function property (node, context, result, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'on_sample_error':
-    case 'Threads initial delay':
-    case 'Start users count burst':
-    case 'Stop users count':
-    case 'Stop users period':
-    case 'flighttime':
     case 'main_controller':
-    case 'rampUp':
       break
     case 'comments': {
       const comments = value(node, context)
-      result.prolog += `
-
-/* ${comments} */`
+      result.prolog += `\n\n/* ${comments} */`
       break
     }
+    case 'flighttime':
+      settings.peakTime = Number.parseInt(value(node, context), 10)
+      break
     case 'num_threads':
-      spec.total = Number.parseInt(value(node, context), 10)
+      settings.peakThreads = Number.parseInt(value(node, context), 10)
+      break
+    case 'rampUp':
+      settings.startStepTime = Number.parseInt(value(node, context), 10)
       break
     case 'Start users count':
-      spec.step = Number.parseInt(value(node, context), 10)
+      settings.startStepThreads = Number.parseInt(value(node, context), 10)
+      break
+    case 'Start users count burst':
+      settings.burstThreads = Number.parseInt(value(node, context), 10)
       break
     case 'Start users period':
-      spec.interval = value(node, context)
+      settings.startStepInterval = Number.parseInt(value(node, context), 10)
+      break
+    case 'Stop users count':
+      settings.stopStepThreads = Number.parseInt(value(node, context), 10)
+      break
+    case 'Stop users period':
+      settings.stopStepInterval = Number.parseInt(value(node, context), 10)
+      break
+    case 'Threads initial delay':
+      settings.presleep = Number.parseInt(value(node, context), 10)
       break
     default: throw new Error(
       'Unrecognized SteppingThreadGroup property: ' + name
     )
   }
+}
+
+function sufficient (settings) {
+  return (
+    settings.peakThreads &&
+    settings.startStepThreads &&
+    (settings.peakThreads >= settings.startStepThreads)
+  )
+}
+
+function render (settings, result) {
+  if (settings.comment) result.prolog += `\n\n/* ${settings.comment} */`
+  const stages = []
+  if (settings.presleep) stages.push(presleep(settings))
+  if (settings.burstThreads) stages.push(burst(settings))
+  stages.push(...start(settings, stages[stages.length - 1]))
+  if (settings.peakTime) stages.push(fly(settings))
+  if (settings.stopStepThreads) stages.push(...end(settings))
+  result.options.stages.push(stages)
+}
+
+function presleep () {
+  const [ settings ] = arguments
+
+  return {
+    target: 0,
+    duration: `${settings.presleep}s`
+  }
+}
+
+function burst () {
+  const [ settings ] = arguments
+
+  const duration = settings.startStepTime || 0
+  return {
+    target: settings.burstThreads,
+    duration: `${duration}s`
+  }
+}
+
+function fly () {
+  const [ settings ] = arguments
+
+  return {
+    target: settings.peakThreads,
+    duration: `${settings.peakTime}s`
+  }
+}
+
+function start () {
+  const [ settings ] = arguments
+  let [ , { target: last } = { target: 0 } ] = arguments
+
+  const peak = settings.peakThreads
+  const increase = peak - last
+  const threads = settings.startStepThreads
+  const duration = settings.startStepTime || 0
+  const interval = settings.startStepInterval || 0
+  const count = Math.floor(increase / threads)
+  const steps = []
+  for (let i = count; i > 0; i--) {
+    steps.push({ target: (last + threads), duration: `${duration}s` })
+    last += threads
+  }
+  if (increase % threads) {
+    steps.push({ target: peak, duration: `${duration}s` })
+  }
+  if (interval) return interpolateStart(steps, interval)
+  else return steps
+}
+
+function interpolateStart () {
+  const [ steps, interval ] = arguments
+
+  if (steps.length <= 1) return steps
+  const interpolated = []
+  for (let i = 0; i < (steps.length - 1); i++) {
+    const step = steps[i]
+    interpolated.push(step)
+    interpolated.push({ target: step.target, duration: `${interval}s` })
+  }
+  interpolated.push(steps[steps.length - 1])
+  return interpolated
+}
+
+function end () {
+  const [ settings ] = arguments
+
+  const peak = settings.peakThreads
+  const threads = settings.stopStepThreads
+  const interval = settings.stopStepInterval
+  const count = Math.floor(peak / threads)
+  const steps = []
+  let last = peak
+  for (let i = count; i > 0; i--) {
+    steps.push({ target: (last - threads), duration: '0s' })
+    last -= threads
+  }
+  if (peak % threads) {
+    steps.push({ target: 0, duration: '0s' })
+  }
+  if (interval) return interpolateEnd(steps, interval)
+  else return steps
+}
+
+function interpolateEnd () {
+  const [ steps, interval ] = arguments
+
+  if (steps.length <= 1) return steps
+  const interpolated = []
+  for (let i = 0; i < (steps.length - 1); i++) {
+    const step = steps[i]
+    interpolated.push(step)
+    interpolated.push({ target: step.target, duration: `${interval}s` })
+  }
+  interpolated.push(steps[steps.length - 1])
+  return interpolated
 }
 
 module.exports = SteppingThreadGroup
