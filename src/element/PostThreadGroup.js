@@ -1,23 +1,45 @@
+const ind = require('../ind')
+const strip = require('../strip')
 const merge = require('../merge')
 const elements = require('../elements')
+const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
 function PostThreadGroup (node, context) {
   const result = makeResult()
+  const settings = {}
   if (node.attributes.enabled === 'false') return result
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const children = node.children
   const props = children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, context, result)
+  for (const prop of props) property(prop, context, settings, result)
   const els = children.filter(node => !/Prop$/.test(node.name))
   const childrenResult = elements(els, context)
-  if (childrenResult.logic) {
-    childrenResult.teardown = childrenResult.logic
+  if (infinite(settings)) {
+    if (childrenResult.logic) {
+      childrenResult.teardown += childrenResult.logic
+      delete childrenResult.logic
+    }
+    merge(result, childrenResult)
+  } else {
+    const childrenLogic = childrenResult.logic || ''
     delete childrenResult.logic
+    merge(result, childrenResult)
+    result.teardown += '' +
+`if (__ITER < ${settings.iterations}) {
+${ind(strip(childrenLogic))}
+}`
   }
-  merge(result, childrenResult)
   return result
+}
+
+function infinite (settings) {
+  return (
+    !('infinite' in settings || 'iterations' in settings) ||
+    settings.infinite ||
+    settings.iterations < 0
+  )
 }
 
 function attribute (node, key, result) {
@@ -31,13 +53,12 @@ function attribute (node, key, result) {
   }
 }
 
-function property (node, context, result) {
+function property (node, context, settings, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
     case 'num_threads':
     case 'ramp_time':
     case 'on_sample_error':
-    case 'main_controller':
     case 'scheduler':
     case 'duration':
     case 'delay':
@@ -45,11 +66,28 @@ function property (node, context, result) {
       break
     case 'comments': {
       const comments = value(node, context)
-      result.teardown += `
-
-/* ${comments} */`
+      result.teardown += `\n\n/* ${comments} */`
       break
     }
+    case 'main_controller': {
+      const props = node.children.filter(node => /Prop$/.test(node.name))
+      for (const prop of props) iterations(prop, context, settings, result)
+      break
+    }
+  }
+}
+
+function iterations (node, context, settings, result) {
+  const name = node.attributes.name.split('.').pop()
+  switch (name) {
+    case 'continue_forever':
+      settings.infinite = (value(node, context) === 'true')
+      break
+    case 'loops':
+      settings.iterations = Number.parseInt(text(node.children), 10)
+      break
+    default:
+      throw new Error('Unrecognized ThreadGroup iteration property: ' + name)
   }
 }
 
