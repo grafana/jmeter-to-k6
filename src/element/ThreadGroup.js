@@ -1,3 +1,4 @@
+const { Post } = require('../symbol')
 const merge = require('../merge')
 const elements = require('../elements')
 const ind = require('../ind')
@@ -53,7 +54,6 @@ function attribute (node, key, result) {
 function property (node, context, settings, result) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'on_sample_error':
     case 'scheduler':
     case 'duration':
     case 'delay':
@@ -75,6 +75,9 @@ function property (node, context, settings, result) {
       result.options.stages[0].target = valueParsed
       break
     }
+    case 'on_sample_error':
+      errorResponse(node, result)
+      break
     case 'ramp_time': {
       const valueString = value(node, context)
       result.options.stages[0].duration = valueString + 's'
@@ -95,6 +98,25 @@ function iterations (node, context, settings, result) {
       break
     default:
       throw new Error('Unrecognized ThreadGroup iteration property: ' + name)
+  }
+}
+
+function errorResponse (node, result) {
+  const action = renderAction(text(node.children), result)
+  const logic = `if (Math.floor(r.status/100) !== 2) ${action}`
+  result.defaults.push({ [Post]: [ logic ] })
+}
+
+function renderAction (action, result) {
+  switch (action) {
+    case 'continue': return `{}` // Ignore
+    case 'startnextloop': return `continue` // Continue loop
+    case 'stopthread': // Stop thread
+    case 'stoptest': // Stop test
+    case 'stoptestnow': // Stop test now
+      result.imports.set('fail', { base: 'k6' })
+      return `fail('Request failed: ' + r.status)`
+    default: throw new Error('Unrecognized sampler error response: ' + action)
   }
 }
 

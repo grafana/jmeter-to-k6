@@ -351,8 +351,8 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | comments | string | Freeform comments. | Comment in teardown logic. |
-| on_sample_error | string | ? | ? |
-| main_controller | element | ? | ? |
+| on_sample_error | string | Sample error response. | Sample error response. |
+| main_controller | element | Iteration limiting. | Iteration limit. |
 | num_threads | string | Thread count. | ? |
 | ramp_time | string | Ramp time to thread count. | ? |
 | scheduler | bool | ? | ? |
@@ -434,8 +434,8 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | comments | string | Freeform comments. | Comment in setup logic. |
-| on_sample_error | string | ? | ? |
-| main_controller | element | ? | ? |
+| on_sample_error | string | Sample error response. | Sample error response. |
+| main_controller | element | Iteration limiting. | Iteration limit. |
 | num_threads | string | Thread count. | ? |
 | ramp_time | string | Ramp time to thread count. | ? |
 | scheduler | bool | ? | ? |
@@ -455,16 +455,16 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | comments | string | Freeform comments. | Comment in prolog. |
-| on_sample_error | string | ? | ? |
-| num_threads | string | Ultimate thread count. | Calculate step count. |
-| Threads initial delay | string | ? | ? |
-| Start users count | string | Step thread count. | Option `stages`, VU count. |
-| Start users period | string | Step interval. | Option `stages`, duration. |
-| Stop users count | string | End step thread count. | ? |
-| Stop users period | string | End step interval. | ? |
-| flighttime | string | ? | ? |
+| on_sample_error | string | Sample error response. | Sample error response. |
+| num_threads | string | Peak threads. | Peak threads. |
+| Threads initial delay | string | Presleep time. | Presleep. |
+| Start users count | string | Start step threads. | Start step threads. |
+| Start users period | string | Start step interval | Start step interval. |
+| Stop users count | string | End step threads. | End step threds. |
+| Stop users period | string | End step interval. | End step interval. |
+| flighttime | string | Flight time. | Flight. |
 | main_controller | element | ? | ? |
-| rampUp | string | ? | ? |
+| rampUp | string | Start step ramp time. | Start step ramp time. |
 
 ## TestPlan
 
@@ -492,8 +492,8 @@ No attributes or properties.
 | Name | Type | Description | Action |
 | ---- | ---- | ----------- | ------ |
 | comments | string | Freeform comments. | Comment in VU logic. |
-| on_sample_error | string | ? | ? |
-| main_controller | element | ? | ? |
+| on_sample_error | string | Sample error response. | Sample error response. |
+| main_controller | element | Iteration limiting. | Iteration limit. |
 | num_threads | string | Thread count. | Option `stages`, VU count. |
 | ramp_time | string | Ramp time to thread count. | Option `stages`, duration. |
 | scheduler | bool | ? | ? |

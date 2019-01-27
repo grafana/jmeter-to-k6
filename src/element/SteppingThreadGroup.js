@@ -1,5 +1,7 @@
+const { Post } = require('../symbol')
 const elements = require('../elements')
 const merge = require('../merge')
+const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
@@ -37,7 +39,6 @@ function attribute (node, key, result) {
 function property (node, context, result, settings) {
   const name = node.attributes.name.split('.').pop()
   switch (name) {
-    case 'on_sample_error':
     case 'main_controller':
       break
     case 'comments': {
@@ -50,6 +51,9 @@ function property (node, context, result, settings) {
       break
     case 'num_threads':
       settings.peakThreads = Number.parseInt(value(node, context), 10)
+      break
+    case 'on_sample_error':
+      errorResponse(node, result)
       break
     case 'rampUp':
       settings.startStepTime = Number.parseInt(value(node, context), 10)
@@ -193,6 +197,25 @@ function interpolateEnd () {
   }
   interpolated.push(steps[steps.length - 1])
   return interpolated
+}
+
+function errorResponse (node, result) {
+  const action = renderAction(text(node.children), result)
+  const logic = `if (Math.floor(r.status/100) !== 2) ${action}`
+  result.defaults.push({ [Post]: [ logic ] })
+}
+
+function renderAction (action, result) {
+  switch (action) {
+    case 'continue': return `{}` // Ignore
+    case 'startnextloop': return `continue` // Continue loop
+    case 'stopthread': // Stop thread
+    case 'stoptest': // Stop test
+    case 'stoptestnow': // Stop test now
+      result.imports.set('fail', { base: 'k6' })
+      return `fail('Request failed: ' + r.status)`
+    default: throw new Error('Unrecognized sampler error response: ' + action)
+  }
 }
 
 module.exports = SteppingThreadGroup

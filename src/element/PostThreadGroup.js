@@ -1,3 +1,4 @@
+const { Post } = require('../symbol')
 const ind = require('../ind')
 const strip = require('../strip')
 const merge = require('../merge')
@@ -58,7 +59,6 @@ function property (node, context, settings, result) {
   switch (name) {
     case 'num_threads':
     case 'ramp_time':
-    case 'on_sample_error':
     case 'scheduler':
     case 'duration':
     case 'delay':
@@ -74,6 +74,28 @@ function property (node, context, settings, result) {
       for (const prop of props) iterations(prop, context, settings, result)
       break
     }
+    case 'on_sample_error':
+      errorResponse(node, result)
+      break
+  }
+}
+
+function errorResponse (node, result) {
+  const action = renderAction(text(node.children), result)
+  const logic = `if (Math.floor(r.status/100) !== 2) ${action}`
+  result.defaults.push({ [Post]: [ logic ] })
+}
+
+function renderAction (action, result) {
+  switch (action) {
+    case 'continue': return `{}` // Ignore
+    case 'startnextloop': return `continue` // Continue loop
+    case 'stopthread': // Stop thread
+    case 'stoptest': // Stop test
+    case 'stoptestnow': // Stop test now
+      result.imports.set('fail', { base: 'k6' })
+      return `fail('Request failed: ' + r.status)`
+    default: throw new Error('Unrecognized sampler error response: ' + action)
   }
 }
 
