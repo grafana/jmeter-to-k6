@@ -314,12 +314,32 @@ function method (settings) {
 
 function address (settings, auth) {
   if (settings.address) return runtimeString(settings.address)
+  if (addressStatic(settings, auth)) return staticAddress(settings)
   const protocol = `\${${runtimeString(settings.protocol)}}`
   const domain = `\${${runtimeString(settings.domain)}}`
   const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
   const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
   const credential = (auth ? `\${username}:\${password}@` : '')
   return `\`${protocol}://${credential}${domain}${port}${path}\``
+}
+
+function addressStatic (settings, auth) {
+  if (auth) return false
+  const items = []
+  items.push(settings.protocol)
+  items.push(settings.domain)
+  if (settings.path) items.push(settings.path)
+  if (settings.port) items.push(settings.port)
+  return !items.find(item => (runtimeString(item)[0] === '`'))
+}
+
+function staticAddress (settings) {
+  const protocol = settings.protocol
+  const domain = settings.domain
+  const path = (settings.path || '')
+  const port = (settings.port ? `:${settings.port}` : '')
+  const raw = `${protocol}://${domain}${port}${path}`
+  return JSON.stringify(raw)
 }
 
 function renderBody (settings, result) {

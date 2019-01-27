@@ -18,7 +18,7 @@ test('minimal', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -39,7 +39,7 @@ test('path', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}${"/index.html"}`'}
+url = "http://example.com/index.html"
 opts = {
   redirects: 0
 }
@@ -79,7 +79,7 @@ test('port', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}:${"88"}`'}
+url = "http://example.com:88"
 opts = {
   redirects: 0
 }
@@ -100,7 +100,7 @@ test('timeout', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0,
   timeout: Number.parseInt("300", 10)
@@ -122,7 +122,7 @@ test('encoding', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0,
   headers: {
@@ -146,7 +146,7 @@ test('redirect silent', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 999
 }
@@ -174,7 +174,7 @@ test('body', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -215,7 +215,7 @@ test('params', t => {
   const result = HTTPSamplerProxy(node)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -271,7 +271,7 @@ test('files', t => {
     `"text/html")`
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -343,7 +343,7 @@ test('params files', t => {
     `"text/html")`
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -379,7 +379,7 @@ test('defaults', t => {
   const result = document(tree)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"example.com"}`'}
+url = "http://example.com"
 opts = {
   redirects: 0
 }
@@ -419,7 +419,7 @@ test('auth', t => {
   const result = document(tree)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"2.example.com"}`'}
+url = "http://2.example.com"
 opts = {
   redirects: 0
 }
@@ -466,7 +466,7 @@ test('headers', t => {
   const result = document(tree)
   t.is(result.logic, `
 
-url = ${'`${"http"}://${"2.example.com"}`'}
+url = "http://2.example.com"
 opts = {
   redirects: 0,
   headers: {
