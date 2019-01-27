@@ -338,12 +338,22 @@ function staticAddress (settings) {
 }
 
 function dynamicAddress (settings, auth) {
-  const protocol = `\${${runtimeString(settings.protocol)}}`
-  const domain = `\${${runtimeString(settings.domain)}}`
-  const path = (settings.path ? `\${${runtimeString(settings.path)}}` : '')
-  const port = (settings.port ? `:\${${runtimeString(settings.port)}}` : '')
+  const protocol = component(settings.protocol)
+  const domain = component(settings.domain)
+  const path = (settings.path ? component(settings.path) : '')
+  const port = (settings.port ? `:${component(settings.port)}` : '')
   const credential = (auth ? `\${username}:\${password}@` : '')
   return `\`${protocol}://${credential}${domain}${port}${path}\``
+}
+
+function component (string) {
+  const rendered = runtimeString(string)
+  if (rendered[0] === '`') return `\${${rendered}}`
+  else return staticComponent(string)
+}
+
+function staticComponent (string) {
+  return string.replace('\\', '\\\\').replace('`', '\\`')
 }
 
 function renderBody (settings, result) {

@@ -430,7 +430,7 @@ if (auth = [
 ].find(item => url.includes(item.url))) {
   const username = encodeURIComponent(auth.username)
   const password = encodeURIComponent(auth.password)
-  url = ${'`${"http"}://${username}:${password}@${"2.example.com"}`'}
+  url = ${'`http://${username}:${password}@2.example.com`'}
   opts.auth = auth.mechanism
 }
 r = http.request("GET", url, '', opts)`)
