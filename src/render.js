@@ -11,6 +11,8 @@ const strip = require('./strip')
  * @return {string} k6 script.
  */
 function render (result) {
+  if (result.steppingStages) appendSteppingStages(result)
+  if (result.steppingUser) result.users.push(result.steppingUser)
   const vus = countVus(result.options.stages)
   const raw = [
     renderImports(result.imports),
@@ -31,6 +33,13 @@ function render (result) {
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
   return prettier.format(raw, { semi: false, parser: 'babel' })
+}
+
+function appendSteppingStages () {
+  const [ { options: { stages }, steppingStages } ] = arguments
+  const last = (stages.length ? stages[stages.length - 1].target : 0)
+  for (const stage of steppingStages) stage.target += last
+  stages.push(steppingStages)
 }
 
 function countVus (stages) {
@@ -196,7 +205,7 @@ ${ind(strip(logic))}
     strip(renderCookies(cookies)),
     strip(prolog),
     strip(main)
-  ].filter(item => item).join('\n\n')
+  ].filter(item => item).join(`\n\n`)
   return `export default function (data) {
 ${ind(strip(body))}
 }`
@@ -227,15 +236,20 @@ function renderCookie (name, spec) {
 }
 
 function userRange (i, stages) {
-  const start = stages.slice(0, i).reduce(sumStageThreads, 0) + 1
-  const end = start + threads(stages[i]) - 1
-  return [ start, end ]
+  const low = userLow(i, stages)
+  const high = userHigh(i, stages)
+  return [ low, high ]
 }
-function sumStageThreads (total, stage) { return (total + threads(stage)) }
-function threads (stage) {
-  return Array.isArray(stage) ? stage.reduce(sumStepThreads, 0) : stage.target
+function userLow (i, stages) {
+  if (i === 0) return (stages[i].target ? 1 : 0)
+  return (stages[i - 1].target + 1)
 }
-function sumStepThreads (total, item) { return (total + item.target) }
+function userHigh (i, stages) {
+  const stage = stages[i]
+  if (Array.isArray(stage)) return stage.reduce(peakThreads, 0)
+  else return stage.target
+}
+function peakThreads (peak, item) { return Math.max(peak, item.target) }
 
 function renderTeardown (teardown) {
   if (!teardown) return ''

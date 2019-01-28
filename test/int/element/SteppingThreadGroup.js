@@ -38,13 +38,13 @@ test('basic', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '0s' },
     { target: 4, duration: '0s' },
     { target: 6, duration: '0s' },
     { target: 8, duration: '0s' },
     { target: 10, duration: '0s' }
-  ] ])
+  ])
 })
 
 test('remainder', t => {
@@ -62,13 +62,13 @@ test('remainder', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 23, duration: '0s' },
     { target: 46, duration: '0s' },
     { target: 69, duration: '0s' },
     { target: 92, duration: '0s' },
     { target: 107, duration: '0s' }
-  ] ])
+  ])
 })
 
 test('ramp', t => {
@@ -87,13 +87,13 @@ test('ramp', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' }
-  ] ])
+  ])
 })
 
 test('burst', t => {
@@ -113,12 +113,12 @@ test('burst', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' }
-  ] ])
+  ])
 })
 
 test('start interval', t => {
@@ -138,7 +138,7 @@ test('start interval', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 2, duration: '30s' },
     { target: 4, duration: '5s' },
@@ -148,7 +148,7 @@ test('start interval', t => {
     { target: 8, duration: '5s' },
     { target: 8, duration: '30s' },
     { target: 10, duration: '5s' }
-  ] ])
+  ])
 })
 
 test('presleep', t => {
@@ -168,14 +168,14 @@ test('presleep', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 0, duration: '60s' },
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' }
-  ] ])
+  ])
 })
 
 test('stop', t => {
@@ -195,7 +195,7 @@ test('stop', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
@@ -206,7 +206,7 @@ test('stop', t => {
     { target: 6, duration: '0s' },
     { target: 3, duration: '0s' },
     { target: 0, duration: '0s' }
-  ] ])
+  ])
 })
 
 test('stop interval', t => {
@@ -227,7 +227,7 @@ test('stop interval', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
@@ -241,7 +241,7 @@ test('stop interval', t => {
     { target: 3, duration: '0s' },
     { target: 3, duration: '15s' },
     { target: 0, duration: '0s' }
-  ] ])
+  ])
 })
 
 test('flight', t => {
@@ -263,7 +263,7 @@ test('flight', t => {
 `
   const tree = parseXml(xml)
   const result = document(tree)
-  t.deepEqual(result.options.stages, [ [
+  t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
@@ -278,5 +278,5 @@ test('flight', t => {
     { target: 3, duration: '0s' },
     { target: 3, duration: '15s' },
     { target: 0, duration: '0s' }
-  ] ])
+  ])
 })

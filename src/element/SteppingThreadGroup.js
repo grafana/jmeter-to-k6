@@ -16,10 +16,13 @@ function SteppingThreadGroup (node, context) {
   const props = children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, result, settings)
   const els = children.filter(node => !/Prop$/.test(node.name))
-  merge(result, elements(els, context))
+  const childrenResult = elements(els, context)
+  const childrenLogic = childrenResult.logic || ''
+  delete childrenResult.logic
+  merge(result, childrenResult)
+  result.steppingUser += childrenLogic
   if (sufficient(settings)) render(settings, result)
   else throw new Error('Invalid SteppingThreadGroup')
-  result.user = true
   return result
 }
 
@@ -98,7 +101,7 @@ function render (settings, result) {
   stages.push(...start(settings, stages[stages.length - 1]))
   if (settings.peakTime) stages.push(fly(settings))
   if (settings.stopStepThreads) stages.push(...end(settings))
-  result.options.stages.push(stages)
+  result.steppingStages.push(...stages)
 }
 
 function presleep () {

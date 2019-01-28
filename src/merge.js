@@ -7,6 +7,7 @@
 function merge (base, update) {
   if (update.state) mergeState(base.state, update.state)
   if (update.options) mergeOptions(base.options, update.options)
+  mergeSteppingStages(base, update)
   if (update.imports) mergeImports(base.imports, update.imports)
   if (update.vars) mergeVariables(base, update)
   if (update.constants) mergeConstants(base, update)
@@ -17,6 +18,7 @@ function merge (base, update) {
   if (update.setup) base.setup += update.setup
   if (update.prolog) base.prolog += update.prolog
   if (update.users) base.users.push(...update.users)
+  if (update.steppingUser) base.steppingUser += update.steppingUser
   if (update.teardown) base.teardown += update.teardown
   if ('logic' in update) mergeLogic(base, update)
 }
@@ -27,6 +29,14 @@ function mergeState (base, update) {
 
 function mergeOptions (base, update) {
   for (const key of Object.keys(update)) mergeOption(base, update, key)
+}
+
+function mergeSteppingStages (base, update) {
+  if (!(update.steppingStages && update.steppingStages.length)) return
+  if (base.steppingStages.length) {
+    throw new Error('Multiple SteppingThreadGroups not supported')
+  }
+  base.steppingStages.push(...update.steppingStages)
 }
 
 function mergeOption (base, update, key) {

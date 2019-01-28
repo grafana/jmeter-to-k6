@@ -2,6 +2,7 @@ function makeResult () {
   return {
     state: new Set(),
     options: { stages: [] },
+    steppingStages: [],
     imports: new Map(),
     vars: new Map(),
     constants: new Map(),
@@ -12,6 +13,7 @@ function makeResult () {
     setup: '',
     prolog: '',
     users: [],
+    steppingUser: '',
     teardown: ''
   }
 }

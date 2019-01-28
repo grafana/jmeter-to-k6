@@ -1,6 +1,7 @@
 module.exports = {
   state: new Set(),
   options: { stages: [] },
+  steppingStages: [],
   imports: new Map(),
   vars: new Map(),
   constants: new Map(),
@@ -11,5 +12,6 @@ module.exports = {
   setup: '',
   prolog: '',
   users: [],
+  steppingUser: '',
   teardown: ''
 }
