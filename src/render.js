@@ -32,7 +32,7 @@ function render (result) {
     ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
-  return prettier.format(raw, { semi: false, parser: 'babel' })
+  return prettier.format(raw, { semi: true, parser: 'babel' })
 }
 
 function appendSteppingStages () {
