@@ -96,11 +96,12 @@ function sufficient (settings) {
 function render (settings, result) {
   if (settings.comment) result.prolog += `\n\n/* ${settings.comment} */`
   const stages = []
+  const prior = (stages.length ? stages[stages.length - 1].target : 0)
   if (settings.presleep) stages.push(presleep(settings))
   if (settings.burstThreads) stages.push(burst(settings))
   stages.push(...start(settings, stages[stages.length - 1]))
   if (settings.peakTime) stages.push(fly(settings))
-  if (settings.stopStepThreads) stages.push(...end(settings))
+  if (settings.stopStepThreads) stages.push(end(settings, prior))
   result.steppingStages.push(...stages)
 }
 
@@ -169,21 +170,14 @@ function interpolateStart () {
 }
 
 function end () {
-  const [ settings ] = arguments
+  const [ settings, prior ] = arguments
 
   const peak = settings.peakThreads
   const threads = settings.stopStepThreads
   const interval = settings.stopStepInterval || 0
-  const count = Math.floor(peak / threads)
-  const steps = []
-  let last = peak
-  for (let i = count; i > 0; i--) {
-    steps.push({ target: (last - threads), duration: `${interval}s` })
-    last -= threads
-  }
-  if (peak % threads) {
-    steps.push({ target: 0, duration: `${interval}s` })
-  } else return steps
+  const count = Math.ceil(peak / threads)
+  const duration = (count * interval)
+  return { target: prior, duration: `${duration}s` }
 }
 
 function errorResponse (node, result) {
