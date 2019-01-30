@@ -27,7 +27,8 @@ function IfController (node, context) {
   )
   if (settings.condition) {
     const condition =
-      settings.expression ? `${runtimeString(settings.condition)} === 'true'`
+      settings.expression
+        ? `${runtimeString(settings.condition)}.toLowerCase() === 'true'`
         : code(settings.condition)
     result.logic += `
 
