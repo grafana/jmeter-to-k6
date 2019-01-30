@@ -173,33 +173,17 @@ function end () {
 
   const peak = settings.peakThreads
   const threads = settings.stopStepThreads
-  const interval = settings.stopStepInterval
+  const interval = settings.stopStepInterval || 0
   const count = Math.floor(peak / threads)
   const steps = []
   let last = peak
   for (let i = count; i > 0; i--) {
-    steps.push({ target: (last - threads), duration: '0s' })
+    steps.push({ target: (last - threads), duration: `${interval}s` })
     last -= threads
   }
   if (peak % threads) {
-    steps.push({ target: 0, duration: '0s' })
-  }
-  if (interval) return interpolateEnd(steps, interval)
-  else return steps
-}
-
-function interpolateEnd () {
-  const [ steps, interval ] = arguments
-
-  if (steps.length <= 1) return steps
-  const interpolated = []
-  for (let i = 0; i < (steps.length - 1); i++) {
-    const step = steps[i]
-    interpolated.push(step)
-    interpolated.push({ target: step.target, duration: `${interval}s` })
-  }
-  interpolated.push(steps[steps.length - 1])
-  return interpolated
+    steps.push({ target: 0, duration: `${interval}s` })
+  } else return steps
 }
 
 function errorResponse (node, result) {

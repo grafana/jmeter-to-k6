@@ -234,13 +234,10 @@ test('stop interval', t => {
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' },
     { target: 12, duration: '5s' },
-    { target: 9, duration: '0s' },
     { target: 9, duration: '15s' },
-    { target: 6, duration: '0s' },
     { target: 6, duration: '15s' },
-    { target: 3, duration: '0s' },
     { target: 3, duration: '15s' },
-    { target: 0, duration: '0s' }
+    { target: 0, duration: '15s' }
   ])
 })
 
@@ -271,12 +268,9 @@ test('flight', t => {
     { target: 10, duration: '5s' },
     { target: 12, duration: '5s' },
     { target: 12, duration: '120s' },
-    { target: 9, duration: '0s' },
     { target: 9, duration: '15s' },
-    { target: 6, duration: '0s' },
     { target: 6, duration: '15s' },
-    { target: 3, duration: '0s' },
     { target: 3, duration: '15s' },
-    { target: 0, duration: '0s' }
+    { target: 0, duration: '15s' }
   ])
 })
