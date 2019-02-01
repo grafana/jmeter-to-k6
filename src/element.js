@@ -52,5 +52,6 @@ function element (node, context = makeContext()) {
   context.defaults = extractDefaults(node, result, context)
   const elementResult = route[name](node, context)
   merge(result, elementResult)
+  context.defaults.pop()
   return result
 }

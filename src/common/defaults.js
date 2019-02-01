@@ -41,8 +41,8 @@ function extractDefaults (node, result, context = makeContext()) {
     ]) mergeCategory(values, configValues, key)
   }
   for (const hashTree of node.children.filter(
-    item => item.name === 'hashTree')
-  ) {
+    item => item.name === 'hashTree'
+  )) {
     hashTree.children = hashTree.children.filter(
       item => !(item.type === 'element' && item.name in route)
     )
