@@ -1,0 +1,12 @@
+.circleci/
+*.tgz
+build/
+doc/
+example/
+test/
+.ava.json
+.editorconfig
+.gitattributes
+.jsdoc.json
+ava.config.js
+bundle
