@@ -3,6 +3,7 @@
 # Use to update JMeter compatibility layer.
 # Run in package root to produce file/jmeter-compat.js with latest versions.
 # Commit the new bundle to save.
+# Install browserify before use: npm install --global browserify
 
 rm -rf build
 mkdir -p build
