@@ -8,7 +8,15 @@ rm -rf build
 mkdir -p build
 cd build
 echo '{"name":"-","version":"-"}' >package.json
+echo "module.exports = {
+    buffer: require('buffer'),
+    he: require('he'),
+    iconv: require('iconv-lite'),
+    jsonpath: require('jsonpath'),
+    papaparse: require('papaparse'),
+    perlRegex: require('perl-regex'),
+    yaml: require('yaml')
+}" >package.js
 npm install buffer he iconv-lite jsonpath papaparse perl-regex \
     @babel/runtime yaml
-browserify -r buffer -r he -r iconv-lite:iconv -r jsonpath -r papaparse \
-    -r perl-regex:perlRegex -r yaml > ../file/jmeter-compat.js
+browserify package.js -s jmeterCompat > ../file/jmeter-compat.js
