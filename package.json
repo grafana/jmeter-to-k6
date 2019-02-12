@@ -17,6 +17,9 @@
         "bin": "bin",
         "test": "test"
     },
+    "files": [
+        "file/jmeter-compat.js"
+    ],
     "dependencies": {
         "@babel/runtime": "^7.3.1",
         "@rgrove/parse-xml": "^1.1.1",
