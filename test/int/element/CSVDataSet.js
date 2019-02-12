@@ -12,7 +12,7 @@ test('minimal', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), './build/papaparse.js')
+  t.deepEqual(result.imports.get('papaparse'), { base: './jmeter-compat.js' })
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
@@ -58,7 +58,7 @@ test('rotate', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), './build/papaparse.js')
+  t.deepEqual(result.imports.get('papaparse'), { base: './jmeter-compat.js' })
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
@@ -100,7 +100,7 @@ test('custom names', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), './build/papaparse.js')
+  t.deepEqual(result.imports.get('papaparse'), { base: './jmeter-compat.js' })
   t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
   t.is(result.init, `
 
