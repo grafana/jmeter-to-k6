@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs')
+const path = require('path')
 const yargs = require('yargs')
 const convert = require('../src/convert')
 
@@ -13,7 +14,11 @@ function exit () {
   process.exit(1)
 }
 
-const path = argv._[0] || exit()
-const jmx = fs.readFileSync(path, { encoding: 'utf8' })
+const compatInput = path.join(__dirname, '../file/jmeter-compat.js')
+const input = argv._[0] || exit()
+const compatOutput = path.join('.', 'jmeter-compat.js')
+
+fs.copyFileSync(compatInput, compatOutput)
+const jmx = fs.readFileSync(input, { encoding: 'utf8' })
 const script = convert(jmx)
 console.log(script)
