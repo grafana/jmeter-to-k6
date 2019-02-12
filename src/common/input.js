@@ -10,7 +10,7 @@ function renderInput (component, result) {
     case 'true': return `r.headers` // Response headers
     case 'unescaped':
       // Request body with HTML entities decoded
-      result.imports.set('he', 'he')
+      result.imports.set('he', { base: './jmeter-compat.js' })
       return `he.decode(r.body)`
     case 'URL': return `r.request.url` // Request address
     default:

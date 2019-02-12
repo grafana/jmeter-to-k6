@@ -89,9 +89,9 @@ function render (settings, context, result) {
     settings.names && settings.names.length && !settings.skip1
   )
   if (!customNames) options.header = true
-  result.imports.set('buffer', './build/buffer.js')
-  result.imports.set('iconv', './build/iconv.js')
-  result.imports.set('papaparse', './build/papaparse.js')
+  result.imports.set('buffer', { base: './jmeter-compat.js' })
+  result.imports.set('iconv', { base: './jmeter-compat.js' })
+  result.imports.set('papaparse', { base: './jmeter-compat.js' })
   result.files.set(rawPath, { path: settings.path, binary: true })
   const file = `files[${path}]`
   result.init = `

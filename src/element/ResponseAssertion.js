@@ -113,7 +113,9 @@ function tests (node) {
 }
 
 function check (settings, result) {
-  if (settings.regex) result.imports.set('perlRegex', './build/perl-regex.js')
+  if (settings.regex) {
+    result.imports.set('perlRegex', { base: './jmeter-compat.js' })
+  }
   const expressions = []
   for (const test of settings.tests) expressions.push(expr(test, settings))
   const composite = expressions.join(settings.disjunction ? ' || ' : ' && ')
