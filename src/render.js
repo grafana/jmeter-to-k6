@@ -200,7 +200,7 @@ ${ind(strip(logic))}
       : stages.length === 1
         ? users[0]
         : sections.join(` else `)
-  )
+  ) || ''
   const body = [
     strip(renderCookies(cookies)),
     strip(prolog),
