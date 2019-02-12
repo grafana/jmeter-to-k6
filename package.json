@@ -20,6 +20,9 @@
     "files": [
         "file/jmeter-compat.js"
     ],
+    "bin": {
+        "jmeter-to-k6": "bin/jmeter-to-k6.js"
+    },
     "dependencies": {
         "@rgrove/parse-xml": "^1.1.1",
         "papaparse": "^4.6.3",
