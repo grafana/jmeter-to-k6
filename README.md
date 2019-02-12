@@ -15,14 +15,12 @@ Install dependencies. Also install [Perl 5][1] if using regular expressions:
 
 ```shell
 npm install
-npm install --global browserify
-./bundle
 ```
 
 Convert:
 
 ```shell
-node bin/jmeter-to-k6.js example/full.jmx
+node bin/jmeter-to-k6.js example/full.jmx -o full.js
 ```
 
 [1]: https://www.perl.org/get.html
