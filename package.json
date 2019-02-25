@@ -20,10 +20,15 @@
     "dependencies": {
         "@babel/runtime": "^7.3.1",
         "@rgrove/parse-xml": "^1.1.1",
+        "browserify": "^16.2.3",
+        "chalk": "^2.4.2",
+        "fs-extra": "^7.0.1",
+        "he": "^1.2.0",
         "jsonpath": "^1.0.0",
         "papaparse": "^4.6.3",
         "perl-regex": "^1.0.4",
         "prettier": "^1.16.1",
+        "yaml": "^1.3.2",
         "yargs": "^12.0.5"
     },
     "devDependencies": {
@@ -44,6 +49,7 @@
         "test-int": "cross-env NODE_PATH=src:test ava test/int",
         "test-unit": "cross-env NODE_PATH=src:test ava test/unit",
         "test": "npm-run-all test-unit test-int",
-        "test-hoc": "cross-env NODE_PATH=src:test ava"
+        "test-hoc": "cross-env NODE_PATH=src:test ava",
+        "install": "scripts/bundle.js"
     }
 }
