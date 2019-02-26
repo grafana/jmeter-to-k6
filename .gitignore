@@ -11,4 +11,5 @@ api/
 
 # Build dir
 build/
+vendor/
 _build/

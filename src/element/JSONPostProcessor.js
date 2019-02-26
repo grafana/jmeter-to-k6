@@ -73,7 +73,7 @@ function render (settings, result) {
   result.state.add('extract')
   result.state.add('vars')
   const defs = settings.defaults
-  result.imports.set('jsonpath', './build/jsonpath.js')
+  result.imports.set('jsonpath', './libs/jsonpath.js')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
   const transport = renderTransport(settings, result)
