@@ -29,7 +29,7 @@ const script = convert(jmx);
 if (output) {
   console.log(`Starting conversion of: ${chalk.green(path.resolve(input))}\n`);
   fs.ensureDirSync(output);
-  fs.copySync("./vendor", `${output}/libs`);
+  fs.copySync(path.resolve(__dirname, "../vendor"), `${output}/libs`);
 
   fs.outputFileSync(`${output}/test.js`, script);
   console.log(`Success! Created test at ${chalk.green(path.resolve(`${output}/test.js`))}`);
