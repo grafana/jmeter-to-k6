@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs = require("fs");
+const fs = require("fs-extra");
 const browserify = require("browserify");
 
 const DEPS_DIST_DIR = "vendor";
@@ -14,14 +14,12 @@ const DEPS = [
   "yaml"
 ];
 
-if (!fs.existsSync(DEPS_DIST_DIR)) {
-  fs.mkdirSync(DEPS_DIST_DIR);
-}
+fs.ensureDirSync(DEPS_DIST_DIR);
 
 DEPS.forEach(pkgName => {
   const filePath = `${DEPS_DIST_DIR}/${pkgName}.js`;
-  browserify()
-    .require(`${pkgName}`)
+  browserify({ standalone: pkgName })
+    .require(pkgName)
     .bundle()
     .pipe(fs.createWriteStream(filePath));
 });
