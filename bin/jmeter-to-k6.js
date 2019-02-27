@@ -34,6 +34,6 @@ if (output) {
   fs.outputFileSync(`${output}/test.js`, script);
   console.log(`Success! Created test at ${chalk.green(path.resolve(`${output}/test.js`))}`);
 } else {
-  console.log(`Please specify the test directory: \n  ${chalk.cyan("jmeter-to-jk6")} ${chalk.green("<jmx-file> -o <test-dir>")}\n`);
-  console.log(`For example: \n  ${chalk.cyan("jmeter-to-jk6")} ${chalk.green("load-test")}`);
+  console.log(`Please specify the output directory: \n  ${chalk.cyan("jmeter-to-k6")} ${chalk.green("-o <output-dir> <jmx-file>")}\n`);
+  console.log(`For example: \n  ${chalk.cyan("jmeter-to-k6")} ${chalk.green("-o load-test")} ${chalk.green("/path/to/some.jmx")}`);
 }
