@@ -15,7 +15,7 @@ Note that this will install the tool globally, skip the `-g` if you only want to
 **Convert**:
 
 ```shell
-jmeter-to-k6.js example/full.jmx -o full
+jmeter-to-k6 example/full.jmx -o full
 ```
 
 This will create a directory `./full/` with a file called `test.js` and a sub-directory called `libs`.
