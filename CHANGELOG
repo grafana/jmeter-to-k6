@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.1] - 2019-02-27
+## [0.1.16] - 2019-02-27
 ### Added
 - This CHANGELOG file
 
@@ -18,10 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HTMLExtractor: can't use array indexing on [Selection](https://docs.k6.io/docs/selection-k6html) object ([#8](https://github.com/loadimpact/jmeter-to-k6/issues/8))
 - RandomController: conversion generating out-of-bounds indexes for `switch` statement ([#9](https://github.com/loadimpact/jmeter-to-k6/issues/9))
 
+## 0.1.1 to 0.1.15 - 2019-02-26
+### Fixed
+- Problems with NPM publishing process
+
 ## [0.1.0] - 2019-02-26
 ### Added
 - All the initial code
 
 [Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.1
+[0.1.16]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.16
 [0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
