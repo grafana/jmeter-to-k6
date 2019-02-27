@@ -15,7 +15,7 @@ test('convert', t => {
   const result = RandomController(node)
   t.is(result.logic, `
 
-{ const index = Math.floor(Math.random()*(3+1)); switch (index) {
+{ const index = Math.floor(Math.random()*(3)); switch (index) {
   case 0:
     // Fake
     break

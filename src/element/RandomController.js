@@ -79,7 +79,7 @@ ${ind(strip(logic))}
   }
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
-  const index = `Math.floor(Math.random()*(${blocks.length}+1))`
+  const index = `Math.floor(Math.random()*(${blocks.length}))`
   result.logic += '' +
 `{ const index = ${index}; switch (index) {
 ${ind(blocks.join('\n'))}
