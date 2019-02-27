@@ -1,31 +1,30 @@
 # jmeter-to-k6
 
-Convert JMeter jmx to k6 JS.
+Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 
 ## Usage
 
-Download:
+**Install**:
 
 ```shell
-git clone https://github.com/loadimpact/jmeter-to-k6.git
-cd jmeter-to-k6
+npm install -g jmeter-to-k6
 ```
 
-Install dependencies. Also install [Perl 5][1] if using regular expressions:
+Note that this will install the tool globally, skip the `-g` if you only want to install it to `./node_modules`.
+
+**Convert**:
 
 ```shell
-npm install
-npm install --global browserify
-./bundle
+jmeter-to-k6.js example/full.jmx -o full
 ```
 
-Convert:
+This will create a directory `./full/` with a file called `test.js` and a sub-directory called `libs`.
+
+**Run test in k6**:
 
 ```shell
-node bin/jmeter-to-k6.js example/full.jmx
+k6 run full/test.js
 ```
-
-[1]: https://www.perl.org/get.html
 
 ## Other similar tools
 
