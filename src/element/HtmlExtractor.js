@@ -124,7 +124,7 @@ function namedSelect (index) {
 
 function randomSelect () {
   const index = `Math.floor(Math.random()*matches.size())`
-  const extract = `matches[${index}]`
+  const extract = `matches.eq(${index})`
   return `(matches.size() === 0 ? null : ${extract})`
 }
 

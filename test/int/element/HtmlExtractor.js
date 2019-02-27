@@ -41,7 +41,7 @@ test('random', t => {
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
-  match = (matches.size() === 0 ? null : matches[Math.floor(Math.random()*matches.size())])
+  match = (matches.size() === 0 ? null : matches.eq(Math.floor(Math.random()*matches.size())))
   extract = (match ? match.text() : null)
   if (extract) vars[output] = extract
 }`)
