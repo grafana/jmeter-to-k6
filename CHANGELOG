@@ -1,0 +1,27 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.1.1] - 2019-02-27
+### Added
+- This CHANGELOG file
+
+### Updated
+- New install and usage instructions in README based on NPM publishing and refactoring of JS output
+
+### Fixed
+- ResponseAssertion: status code equality check is now number based ([#6](https://github.com/loadimpact/jmeter-to-k6/issues/6))
+- HTMLExtractor: can't use array indexing on [Selection](https://docs.k6.io/docs/selection-k6html) object ([#8](https://github.com/loadimpact/jmeter-to-k6/issues/8))
+- RandomController: conversion generating out-of-bounds indexes for `switch` statement ([#9](https://github.com/loadimpact/jmeter-to-k6/issues/9))
+
+## [0.1.0] - 2019-02-26
+### Added
+- All the initial code
+
+[Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
