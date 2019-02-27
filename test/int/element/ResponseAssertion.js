@@ -101,6 +101,24 @@ test('equal field', t => {
   })
 })
 
+test('equal status', t => {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<ResponseAssertion>
+  <stringProp name="test_field">response_code</stringProp>
+  <intProp name="test_type">8</intProp>
+  <collectionProp name="test_strings">
+    <stringProp>200</stringProp>
+  </collectionProp>
+</ResponseAssertion>
+`
+  const tree = parseXml(xml)
+  const node = tree.children[0]
+  const result = ResponseAssertion(node)
+  t.deepEqual(result.defaults[0][Check], {
+    'ResponseAssertion': 'return (r.status === 200)'
+  })
+})
+
 test('equal header', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>

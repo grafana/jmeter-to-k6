@@ -158,7 +158,11 @@ function completeString (test, settings) {
       `Object.values(${settings.operand})` +
       `.includes(${JSON.stringify(test)})`
     )
-  } else return `${settings.operand} === ${JSON.stringify(test)}`
+  } else if (/status$/.test(settings.operand)) {
+    return `${settings.operand} === ${parseInt(test)}`
+  } else {
+    return `${settings.operand} === ${JSON.stringify(test)}`
+  }
 }
 
 function partialString (test, settings) {
