@@ -4,6 +4,7 @@ build/
 doc/
 example/
 test/
+vendor/
 .ava.json
 .editorconfig
 .gitattributes
