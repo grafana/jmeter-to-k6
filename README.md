@@ -10,7 +10,7 @@ Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 npm install -g jmeter-to-k6
 ```
 
-Note that this will install the tool globally, skip the `-g` if you only want to install it to `./node_modules`.
+Note that this will install the tool globally, skip the `-g` if you only want to install it to `./node_modules`. On Linux, installing globally with `-g` will currently (as of Feb 28th, 2019) not work because of an issue with the postinstall process.
 
 **Convert**:
 
