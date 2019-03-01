@@ -1,12 +1,12 @@
-# jmeter-to-k6
-
-![CircleCI branch](https://img.shields.io/circleci/project/github/loadimpact/jmeter-to-k6/master.svg) ![npm](https://img.shields.io/npm/dw/jmeter-to-k6.svg)
+# jmeter-to-k6 ![CircleCI branch](https://img.shields.io/circleci/project/github/loadimpact/jmeter-to-k6/master.svg)
 
 Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 
 ## Usage
 
 **Install**:
+
+![npm](https://img.shields.io/npm/v/jmeter-to-k6.svg) ![npm](https://img.shields.io/npm/dw/jmeter-to-k6.svg)
 
 Globally, and preferably using [nvm](https://github.com/creationix/nvm) (at least on Unix/Linux systems to avoid filesystem permission issues when using sudo):
 ```shell
