@@ -6,7 +6,7 @@ Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 
 **Install**:
 
-Globally, and preferably using [nvm](https://github.com/creationix/nvm) (at least on Unix/Linux systems to avoid permission issues):
+Globally, and preferably using [nvm](https://github.com/creationix/nvm) (at least on Unix/Linux systems to avoid filesystem permission issues when using sudo):
 ```shell
 npm install -g jmeter-to-k6
 ```
