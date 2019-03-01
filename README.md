@@ -1,5 +1,7 @@
 # jmeter-to-k6
 
+![CircleCI branch](https://img.shields.io/circleci/project/github/loadimpact/jmeter-to-k6/master.svg) ![npm](https://img.shields.io/npm/dw/jmeter-to-k6.svg)
+
 Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 
 ## Usage
