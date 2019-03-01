@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.17] - 2019-03-01
+### Updated
+- Installation and usage instructions to recommend [nvm](https://github.com/creationix/nvm) to avoid filesystem permission issues when installing the tool globally with `npm install -g ...`
+
+### Fixed
+- Installtion issues on Linux and Windows caused by postinstall process not being executed correctly
+
 ## [0.1.16] - 2019-02-27
 ### Added
 - This CHANGELOG file
@@ -26,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - All the initial code
 
-[Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.17...HEAD
+[0.1.17]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.16
 [0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
