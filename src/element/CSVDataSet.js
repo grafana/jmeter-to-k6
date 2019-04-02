@@ -89,9 +89,9 @@ function render (settings, context, result) {
     settings.names && settings.names.length && !settings.skip1
   )
   if (!customNames) options.header = true
-  result.imports.set('buffer', './libs/buffer.js')
-  result.imports.set('iconv', './libs/iconv-lite.js')
-  result.imports.set('papaparse', './libs/papaparse.js')
+  result.imports.set('buffer', 'buffer/')
+  result.imports.set('iconv', 'iconv-lite')
+  result.imports.set('papaparse', 'papaparse')
   result.files.set(rawPath, { path: settings.path, binary: true })
   const file = `files[${path}]`
   result.init = `

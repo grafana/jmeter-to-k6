@@ -13,3 +13,6 @@ api/
 build/
 vendor/
 _build/
+
+# Deploy dir
+libs/
