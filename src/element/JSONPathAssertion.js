@@ -13,12 +13,12 @@ function JSONPathAssertion (node, context) {
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
   if (settings.path && settings.format) {
-    result.imports.set('jsonpath', './libs/jsonpath.js')
+    result.imports.set('jsonpath', 'jsonpath')
     if (settings.format === 'YAML') {
-      result.imports.set('yaml', './libs/yaml.js')
+      result.imports.set('yaml', 'yaml')
     }
     if (settings.regex) {
-      result.imports.set('perlRegex', './libs/perl-regex.js')
+      result.imports.set('perlRegex', 'perl-regex')
     }
     const logic = render(settings)
     result.defaults.push({ [Check]: { [settings.name]: logic } })

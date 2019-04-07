@@ -1,6 +1,8 @@
+const buildCompat = require('./build')
 const prettier = require('prettier')
 const expand = require('./expand')
 const ind = require('./ind')
+const sort = require('./sort')
 const strip = require('./strip')
 
 /**
@@ -10,12 +12,13 @@ const strip = require('./strip')
  *
  * @return {string} k6 script.
  */
-function render (result) {
+async function render (result) {
+  const [ nativeImports, compatImports ] = classifyImports(result)
   if (result.steppingStages) appendSteppingStages(result)
   if (result.steppingUser) result.users.push(result.steppingUser)
   const vus = countVus(result.options.stages)
   const raw = [
-    renderImports(result.imports),
+    renderImports(nativeImports, compatImports),
     renderConstants(result.constants),
     renderVariables(result.vars, result.state),
     renderDeclares(result.state, vus),
@@ -32,7 +35,9 @@ function render (result) {
     ),
     renderTeardown(result.teardown)
   ].filter(section => section).join('\n\n')
-  return prettier.format(raw, { semi: true, parser: 'babel' })
+  const main = prettier.format(raw, { semi: true, parser: 'babel' })
+  const compat = await buildCompat(compatImports)
+  return { main, compat }
 }
 
 function appendSteppingStages () {
@@ -49,29 +54,65 @@ function countVus (stages) {
   )
 }
 
-function renderImports (imports) {
-  const directImports = []
-  const indirectImports = {}
-  for (const [ name, spec ] of imports) {
-    if (typeof spec === 'object') {
-      const { base } = spec
-      if (!(base in indirectImports)) indirectImports[base] = []
-      indirectImports[base].push(name)
-    } else directImports.push([ name, spec ])
-  }
+function renderImports (native, compat) {
   const lines = []
-  for (const [ name, path ] of directImports) {
-    lines.push(renderImport(name, path))
-  }
-  for (const key of Object.keys(indirectImports)) {
-    const name = `{ ${indirectImports[key].join(', ')} }`
-    lines.push(renderImport(name, key))
-  }
+  nativeImports(native, lines)
+  compatImports(compat, lines)
   return lines.join(`\n`)
 }
 
-function renderImport (name, path) {
-  return `import ${name} from ${JSON.stringify(path)}`
+function classifyImports (result) {
+  const native = new Map()
+  const compat = new Map()
+  for (const [ name, spec ] of result.imports) {
+    const base = (typeof spec === 'object' ? spec.base : spec)
+    if (/^k6/.test(base)) {
+      native.set(name, spec)
+    } else {
+      compat.set(name, spec)
+    }
+  }
+  return [ native, compat ]
+}
+
+function nativeImports (native, lines) {
+  const { direct, indirect } = aggregateImports(native)
+  for (const [ name, id ] of direct) {
+    lines.push(`import ${name} from ${JSON.stringify(id)};`)
+  }
+  for (const id of Object.keys(indirect)) {
+    const destructure = `{ ${indirect[id].join(`, `)} }`
+    lines.push(`import ${destructure} from ${JSON.stringify(id)};`)
+  }
+}
+
+function aggregateImports (imports) {
+  const direct = []
+  const indirect = {}
+  for (const [ name, spec ] of imports) {
+    if (typeof spec === 'object') {
+      const { base } = spec
+      if (!(base in indirect)) {
+        indirect[base] = []
+      }
+      indirect[base].push(name)
+    } else {
+      direct.push([ name, spec ])
+    }
+  }
+  return { direct, indirect }
+}
+
+function compatImports (compat, lines) {
+  if (!compat.size) {
+    return
+  }
+  const entries = [ ...compat ]
+    .map(([ name ]) => name)
+    .sort(sort.caseInsensitive)
+  lines.push(`import {
+${ind(entries.join(`,\n`))}
+} from "./libs/compat.js";`)
 }
 
 function renderConstants (constants) {

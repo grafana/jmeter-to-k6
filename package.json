@@ -24,6 +24,7 @@
         "@babel/runtime": "^7.3.1",
         "@rgrove/parse-xml": "^1.1.1",
         "browserify": "^16.2.3",
+        "buffer": "^5.2.1",
         "chalk": "^2.4.2",
         "fs-extra": "^7.0.1",
         "he": "^1.2.0",
@@ -32,6 +33,8 @@
         "papaparse": "^4.6.3",
         "perl-regex": "^1.0.4",
         "prettier": "^1.16.1",
+        "tinyify": "^2.5.0",
+        "tmp": "^0.1.0",
         "yaml": "^1.3.2",
         "yargs": "^12.0.5"
     },
@@ -53,7 +56,6 @@
         "test-int": "cross-env NODE_PATH=src:test ava test/int",
         "test-unit": "cross-env NODE_PATH=src:test ava test/unit",
         "test": "npm-run-all test-unit test-int",
-        "test-hoc": "cross-env NODE_PATH=src:test ava",
-        "postinstall": "node scripts/bundle.js"
+        "test-hoc": "cross-env NODE_PATH=src:test ava"
     }
 }
