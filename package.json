@@ -50,7 +50,7 @@
         "standard": "^12.0.1"
     },
     "scripts": {
-        "lint-js": "standard",
+        "lint-js": "standard --verbose | snazzy",
         "lint": "npm-run-all lint-js",
         "doc": "jsdoc -c .jsdoc.json --pedantic",
         "test-int": "cross-env NODE_PATH=src:test ava test/int",
