@@ -1,6 +1,7 @@
 module.exports = (...args) => { return property(...args) }
 
 const properties = require('./properties')
+const run = require('../string/run')
 const value = require('../value')
 
 function property (node, context) {
@@ -28,7 +29,10 @@ function decodeBool (value) {
   }
 }
 
-function decodeString (value) { return value || null }
+function decodeString (value) {
+  if (value) return run(value)
+  else return null
+}
 
 function extractElement (node, context) {
   const type = node.attributes.elementType

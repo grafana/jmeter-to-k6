@@ -466,9 +466,9 @@ ${ind(credentials.join(',\n'))}
 
 function renderCredential (credential) {
   const items = []
-  items.push(`url: ${runtimeString(credential.url)}`)
-  items.push(`username: ${runtimeString(credential.username)}`)
-  items.push(`password: ${runtimeString(credential.password)}`)
+  items.push(`url: ${credential.url}`)
+  items.push(`username: ${credential.username}`)
+  items.push(`password: ${credential.password}`)
   items.push(`mechanism: ${renderMechanism(credential.mechanism)}`)
   return `{ ${items.join(', ')} }`
 }
