@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import BeanShellPreProcessor from 'element/BeanShellPreProcessor'
 
@@ -12,7 +13,8 @@ print(b)</stringProp>
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BeanShellPreProcessor(node)
+  const context = makeContext()
+  const result = BeanShellPreProcessor(node, context)
   t.is(result.logic, `
 
 /* BeanShellPreProcessor
@@ -32,12 +34,13 @@ test('file', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BeanShellPreProcessor(node)
+  const context = makeContext()
+  const result = BeanShellPreProcessor(node, context)
   t.is(result.logic, `
 
 /* BeanShellPreProcessor
 
-file: file.script
+file: "file.script"
 
 */`)
 })
