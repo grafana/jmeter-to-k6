@@ -18,7 +18,7 @@ test('1 header', t => {
   const node = tree.children[0]
   const result = HeaderManager(node)
   t.deepEqual(result.defaults, [ { [Header]: new Map([
-    [ 'User-Agent', 'k6-load-tester' ]
+    [ '"User-Agent"', '"k6-load-tester"' ]
   ]) } ])
 })
 
@@ -45,8 +45,8 @@ test('3 headers', t => {
   const node = tree.children[0]
   const result = HeaderManager(node)
   t.deepEqual(result.defaults, [ { [Header]: new Map([
-    [ 'User-Agent', 'k6-load-tester' ],
-    [ 'Accept-Charset', 'utf-8' ],
-    [ 'Accept-Encoding', 'gzip, deflate' ]
+    [ '"User-Agent"', '"k6-load-tester"' ],
+    [ '"Accept-Charset"', '"utf-8"' ],
+    [ '"Accept-Encoding"', '"gzip, deflate"' ]
   ]) } ])
 })

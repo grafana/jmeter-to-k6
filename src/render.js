@@ -132,9 +132,11 @@ function renderConstant (key, value) {
 }
 
 function renderHeaders (headers) {
-  const entries = {}
-  for (const [ key, value ] of headers) entries[key] = value
-  return entries
+  const items = []
+  for (const [ name, value ] of headers) {
+    items.push(`[${name}]: ${value}`)
+  }
+  return items.join(`,\n`)
 }
 
 function renderVariables (vars, state) {
