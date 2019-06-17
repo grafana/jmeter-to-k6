@@ -36,7 +36,7 @@ function decodeString (value) {
 
 function extractElement (node, context) {
   const type = node.attributes.elementType
-  if (type === 'Arguments') return extractArguments(node)
+  if (type === 'Arguments') return extractArguments(node, context)
   else throw new Error('Unrecognized elementProp type: ' + type)
 }
 
