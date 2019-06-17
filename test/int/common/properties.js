@@ -15,7 +15,7 @@ test('properties', t => {
   const node = tree.children[0]
   const result = properties(node)
   t.deepEqual(result, {
-    description: 'The most hargled of all',
+    description: '"The most hargled of all"',
     alive: true,
     comingForYou: true,
     stoppable: false
