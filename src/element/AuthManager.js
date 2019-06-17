@@ -9,9 +9,7 @@ function AuthManager (node, context) {
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
   for (const prop of props) property(prop, context, settings)
-  if (Object.keys(settings).length) {
-    result.defaults.push({ [Authentication]: settings })
-  }
+  if (settings.length) result.defaults.push({ [Authentication]: settings })
   return result
 }
 
