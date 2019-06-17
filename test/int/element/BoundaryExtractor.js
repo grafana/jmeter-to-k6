@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import { Post } from 'symbol'
 import BoundaryExtractor from 'element/BoundaryExtractor'
@@ -14,7 +15,7 @@ test('match 1', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -37,7 +38,7 @@ test('match 3', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -60,7 +61,7 @@ test('random', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -84,7 +85,7 @@ test('default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -108,7 +109,7 @@ test('default clear', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -131,7 +132,7 @@ test('distribute', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
@@ -157,7 +158,7 @@ test('distribute default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = BoundaryExtractor(node)
+  const result = BoundaryExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("START" + '(.*)' + "END", 'g')
 matches = (() => {
