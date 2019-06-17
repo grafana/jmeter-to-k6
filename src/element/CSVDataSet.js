@@ -170,7 +170,7 @@ function renderLimited (result, path, file, customNames) {
    * Read CSV line: ${path}
    * NOTE: In JMeter all Virtual Users (aka Threads) can read from the same
    * CSVDataSet. In k6 there's no data sharing between VUs. Instead you can
-   * usethe __VU global variable to help partition the data (if running in
+   * use the __VU global variable to help partition the data (if running in
    * the Load Impact cloud you'll also have to use LI_INSTANCE_ID).
    */
   const path = ${path}
