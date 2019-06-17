@@ -355,7 +355,7 @@ function staticAddress (settings) {
 }
 
 function dynamicAddress (settings, auth) {
-  const protocol = component(settings.protocol)
+  const protocol = component(JSON.parse(settings.protocol))
   const domain = component(settings.domain)
   const path = (settings.path ? component(settings.path) : '')
   const port = (settings.port ? `:${component(settings.port)}` : '')
