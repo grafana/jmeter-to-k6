@@ -27,7 +27,7 @@ csvPage["file.csv"] = 0`)
    * Read CSV line: "file.csv"
    * NOTE: In JMeter all Virtual Users (aka Threads) can read from the same
    * CSVDataSet. In k6 there's no data sharing between VUs. Instead you can
-   * usethe __VU global variable to help partition the data (if running in
+   * use the __VU global variable to help partition the data (if running in
    * the Load Impact cloud you'll also have to use LI_INSTANCE_ID).
    */
   const path = "file.csv"
@@ -73,7 +73,7 @@ csvPage["file.csv"] = 0`)
    * Read CSV line: "file.csv"
    * NOTE: In JMeter all Virtual Users (aka Threads) can read from the same
    * CSVDataSet. In k6 there's no data sharing between VUs. Instead you can
-   * usethe __VU global variable to help partition the data (if running in
+   * use the __VU global variable to help partition the data (if running in
    * the Load Impact cloud you'll also have to use LI_INSTANCE_ID).
    */
   const path = "file.csv"
@@ -116,7 +116,7 @@ csvColumns["file.csv"] = {"first":0,"second":1,"thi,rd":2}`)
    * Read CSV line: "file.csv"
    * NOTE: In JMeter all Virtual Users (aka Threads) can read from the same
    * CSVDataSet. In k6 there's no data sharing between VUs. Instead you can
-   * usethe __VU global variable to help partition the data (if running in
+   * use the __VU global variable to help partition the data (if running in
    * the Load Impact cloud you'll also have to use LI_INSTANCE_ID).
    */
   const path = "file.csv"
