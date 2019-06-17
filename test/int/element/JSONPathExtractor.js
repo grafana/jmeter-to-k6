@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import { Post } from 'symbol'
 import JSONPathExtractor from 'element/JSONPathExtractor'
@@ -14,7 +15,7 @@ test('json', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathExtractor(node)
+  const result = JSONPathExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const serial = r.body
@@ -44,7 +45,7 @@ test('yaml', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathExtractor(node)
+  const result = JSONPathExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const serial = r.body
@@ -75,7 +76,7 @@ test('input var', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathExtractor(node)
+  const result = JSONPathExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const serial = vars["input"] || ''
@@ -106,7 +107,7 @@ test('default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathExtractor(node)
+  const result = JSONPathExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   const serial = r.body
