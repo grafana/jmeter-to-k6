@@ -1,5 +1,6 @@
 const { Post } = require('../symbol')
 const ind = require('../ind')
+const literal = require('../literal')
 const runtimeString = require('../string/run')
 const text = require('../text')
 const value = require('../value')
@@ -34,13 +35,13 @@ function property (node, context, settings) {
     case 'scope':
       break
     case 'attribute':
-      settings.attribute = value(node, context)
+      settings.attribute = literal(node, context)
       break
     case 'comments':
       settings.comment = value(node, context)
       break
     case 'default':
-      settings.default = value(node, context)
+      settings.default = literal(node, context)
       break
     case 'default_empty_value':
       settings.clear = (value(node, context) === 'true')
@@ -102,7 +103,7 @@ ${write}`
 
 function renderDistribute (settings) {
   const def = renderDefault(settings)
-  const attr = (settings.attribute ? JSON.stringify(settings.attribute) : null)
+  const attr = settings.attribute
   const extract = (attr ? `match.attr(${attr})` : `match.text()`)
   return '' + (def ? `vars[output] = ${def}\n` : '') +
 `vars[output + '_matchNr'] = matches.size()
@@ -130,7 +131,7 @@ function randomSelect () {
 
 function renderExtract (settings) {
   if (settings.attribute) {
-    const attr = JSON.stringify(settings.attribute)
+    const attr = settings.attribute
     return `(match ? match.attr(${attr}) : null)`
   } else return `(match ? match.text() : null)`
 }
@@ -142,9 +143,11 @@ function renderWrite (settings) {
 }
 
 function renderDefault (settings) {
-  if (settings.clear) return `''`
-  else if (settings.default) return JSON.stringify(settings.default)
-  else return ''
+  return (
+    (settings.clear && `''`) ||
+    settings.default ||
+    ''
+  )
 }
 
 module.exports = HtmlExtractor
