@@ -13,7 +13,7 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
-  const settings = { auth: [], headers: new Map(), protocol: 'http' }
+  const settings = { auth: [], headers: new Map(), protocol: '"http"' }
   applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
