@@ -213,10 +213,18 @@ ${ind(sections.join(',\n'))}
 
 function renderOption (options, key) {
   switch (key) {
-    case 'hosts': return `hosts: ${JSON.stringify(options.hosts)}`
+    case 'hosts': return `hosts: ${renderHosts(options.hosts)}`
     case 'stages': return `stages: ${JSON.stringify(expand(options.stages))}`
     default: throw new Error('Unrecognized option: ' + key)
   }
+}
+
+function renderHosts (hosts) {
+  const items = []
+  for (const [ name, value ] of Object.entries(hosts)) {
+    items.push(`[${name}]: ${value}`)
+  }
+  return items.join(`,\n`)
 }
 
 function renderSetup (setup) {

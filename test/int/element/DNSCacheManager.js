@@ -22,7 +22,7 @@ test('1 entry', t => {
   const tree = parseXml(xml)
   const result = document(tree)
   t.deepEqual(result.options.hosts, {
-    'example.com': '1.1.1.1'
+    '"example.com"': '"1.1.1.1"'
   })
 })
 
@@ -54,8 +54,8 @@ test('3 entries', t => {
   const tree = parseXml(xml)
   const result = document(tree)
   t.deepEqual(result.options.hosts, {
-    '1.example.com': '1.1.1.1',
-    '2.example.com': '2.2.2.2',
-    '3.example.com': '3.3.3.3'
+    '"1.example.com"': '"1.1.1.1"',
+    '"2.example.com"': '"2.2.2.2"',
+    '"3.example.com"': '"3.3.3.3"'
   })
 })
