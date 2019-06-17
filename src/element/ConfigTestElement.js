@@ -3,7 +3,7 @@ const makeResult = require('../result')
 
 function ConfigTestElement (node, context) {
   const result = makeResult()
-  const props = properties(node, context)
+  const props = properties(node, context, true)
   for (const key of Object.keys(props)) {
     if (props[key] === null) delete props[key]
   }

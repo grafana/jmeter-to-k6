@@ -2,19 +2,25 @@ module.exports = (...args) => { return property(...args) }
 
 const properties = require('./properties')
 const run = require('../string/run')
+const text = require('../text')
 const value = require('../value')
 
-function property (node, context) {
+function property (node, context, raw = false) {
   const name = node.attributes.name.split('.').pop()
-  return { [name]: extractValue(node, context) }
+  if (raw) return { [name]: extractRaw(node) }
+  else return { [name]: extractValue(node, context, raw) }
 }
 
-function extractValue (node, context) {
+function extractRaw (node) {
+  return text(node.children) || null
+}
+
+function extractValue (node, context, raw) {
   const type = node.name.split('Prop')[0]
   const encoded = value(node, context)
   switch (type) {
     case 'bool': return decodeBool(encoded)
-    case 'element': return extractElement(node, context)
+    case 'element': return extractElement(node, context, raw)
     case 'string': case 'long': return decodeString(encoded)
     default: throw new Error('Unrecognized property type: ' + type)
   }
@@ -34,16 +40,16 @@ function decodeString (value) {
   else return null
 }
 
-function extractElement (node, context) {
+function extractElement (node, context, raw) {
   const type = node.attributes.elementType
-  if (type === 'Arguments') return extractArguments(node, context)
+  if (type === 'Arguments') return extractArguments(node, context, raw)
   else throw new Error('Unrecognized elementProp type: ' + type)
 }
 
-function extractArguments (node, context) {
+function extractArguments (node, context, raw) {
   const collection = node.children.find(item => item.name === 'collectionProp')
   const elements = collection.children.filter(
     item => item.type === 'element' && item.name.endsWith('Prop')
   )
-  return elements.map(element => properties(element, context))
+  return elements.map(element => properties(element, context, raw))
 }

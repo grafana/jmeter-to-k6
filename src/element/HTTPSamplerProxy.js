@@ -3,6 +3,7 @@ const ind = require('../ind')
 const literal = require('../literal')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
+const string = require('../string/convert')
 const text = require('../text')
 const value = require('../value')
 const makeContext = require('../context')
@@ -25,21 +26,21 @@ function HTTPSamplerProxy (node, context = makeContext()) {
 function applyDefaults (settings, context) {
   const { defaults } = context
   for (const scope of defaults) {
-    applyLevelDefaults(settings, scope)
+    applyLevelDefaults(settings, scope, context)
     applyAuths(settings, scope)
     applyHeaders(settings, scope)
   }
 }
 
-function applyLevelDefaults (settings, scope) {
+function applyLevelDefaults (settings, scope, context) {
   if (!scope.HTTPRequestDefaults) return
   const values = scope.HTTPRequestDefaults
   for (const key of Object.keys(values)) {
-    applyDefault(settings, key, values[key])
+    applyDefault(settings, key, values[key], context)
   }
 }
 
-function applyDefault (settings, key, value) {
+function applyDefault (settings, key, value, context) {
   switch (key) {
     case 'BROWSER_COMPATIBLE_MULTIPART':
     case 'concurrentPool':
@@ -55,15 +56,23 @@ function applyDefault (settings, key, value) {
     case 'use_keepalive':
       break
     case 'Arguments':
-      settings.params = value
+      const params = []
+      for (const item of value) {
+        const param = {}
+        for (const key of Object.keys(item)) {
+          param[key] = runtimeString(item[key])
+        }
+        params.push(param)
+      }
+      settings.params = params
       break
     case 'auto_redirects':
     case 'follow_redirect':
       if (settings.followSilent) break
-      settings.followSilent = (value === 'true')
+      settings.followSilent = (string(value, context) === 'true')
       break
     case 'concurrentDwn': {
-      const concurrentDownload = (value === 'true')
+      const concurrentDownload = (string(value, context) === 'true')
       if (concurrentDownload) {
         throw new Error('Concurrent resource download not implemented')
       }
@@ -76,17 +85,24 @@ function applyDefault (settings, key, value) {
       settings.domain = value
       break
     case 'embedded_url_re': {
-      const referenceConstraint = value
+      const referenceConstraint = string(value, context)
       if (referenceConstraint) {
         throw new Error('k6 does not support constraining referenced URLs')
       }
       break
     }
     case 'Files':
-      settings.files = value
+      const files = []
+      for (const item of value) {
+        const file = {}
+        for (const key of Object.keys(item)) {
+          file[key] = runtimeString(item[key])
+        }
+      }
+      settings.files = files
       break
     case 'md5': {
-      const md5 = (value === 'true')
+      const md5 = (string(value, context) === 'true')
       if (md5) throw new Error('Response digesting not implemented')
       break
     }
@@ -103,10 +119,10 @@ function applyDefault (settings, key, value) {
       settings.port = value
       break
     case 'postBodyRaw':
-      settings.rawBody = (value === 'true')
+      settings.rawBody = (string(value, context) === 'true')
       break
     case 'protocol':
-      settings.protocol = value
+      if (value) settings.protocol = runtimeString(value)
       break
     case 'response_timeout':
       settings.responseTimeout = value

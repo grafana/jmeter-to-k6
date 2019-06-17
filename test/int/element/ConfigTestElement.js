@@ -36,9 +36,9 @@ test('FTPRequestDefaults', t => {
     port: '765',
     filename: 'WorldDominationPlan.txt',
     localfilename: 'InnocentDocument.txt',
-    binarymode: false,
-    saveresponse: false,
-    upload: false
+    binarymode: 'false',
+    saveresponse: 'false',
+    upload: 'false'
   } } ])
 })
 
@@ -120,7 +120,7 @@ test('LDAPRequestDefaults', t => {
   t.deepEqual(result.defaults, [ { LDAPRequestDefaults: {
     servername: 'localhost',
     port: '767',
-    'user_defined': false,
+    'user_defined': 'false',
     test: 'add'
   } } ])
 })
@@ -158,9 +158,9 @@ test('TCPSamplerConfig', t => {
   const result = ConfigTestElement(node)
   t.deepEqual(result.defaults, [ { TCPSamplerConfig: {
     server: 'localhost',
-    reUseConnection: true,
+    reUseConnection: 'true',
     port: '799',
-    nodelay: false,
-    closeConnection: false
+    nodelay: 'false',
+    closeConnection: 'false'
   } } ])
 })
