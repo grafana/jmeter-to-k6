@@ -2,6 +2,7 @@ const buildCompat = require('./build')
 const prettier = require('prettier')
 const expand = require('./expand')
 const ind = require('./ind')
+const paste = require('./paste')
 const sort = require('./sort')
 const strip = require('./strip')
 
@@ -136,7 +137,8 @@ function renderHeaders (headers) {
   for (const [ name, value ] of headers) {
     items.push(`[${name}]: ${value}`)
   }
-  return items.join(`,\n`)
+  const content = items.join(`,\n`)
+  return `{ ${content} }`
 }
 
 function renderVariables (vars, state) {
@@ -226,7 +228,8 @@ function renderHosts (hosts) {
   for (const [ name, value ] of Object.entries(hosts)) {
     items.push(`[${name}]: ${value}`)
   }
-  return items.join(`,\n`)
+  const content = items.join(`,\n`)
+  return `{ ${content} }`
 }
 
 function renderSetup (setup) {
@@ -270,20 +273,31 @@ function renderCookies (cookies) {
 }
 
 function renderCookie (name, spec) {
-  const address =
-    'http' + (spec.secure ? 's' : '') + '://' +
-    spec.domain +
-    (spec.path || '')
-  const attributes = []
-  if (spec.domain) attributes.push(`domain: ${spec.domain}`)
-  if (spec.path) attributes.push(`path: ${spec.path}`)
-  if ('secure' in spec) attributes.push(`secure: ${spec.secure}`)
+  const address = renderCookieAddress(spec)
+  const attributes = renderCookieAttributes(spec)
   return (
     `jar.set(${address}` +
-    `, ${name}` +
+    `, ${JSON.stringify(name)}` +
     `, ${spec.value}` +
-    `, ${attributes.join(`, `)})`
+    `, ${attributes})`
   )
+}
+
+function renderCookieAddress (spec) {
+  const protocol = (spec.secure ? 'https' : 'http')
+  const scheme = `${protocol}://`
+  const domain = spec.domain
+  const path = spec.path || null
+  return paste(JSON.stringify(scheme), domain, path)
+}
+
+function renderCookieAttributes (spec) {
+  const items = []
+  if (spec.domain) items.push(`domain: ${spec.domain}`)
+  if (spec.path) items.push(`path: ${spec.path}`)
+  if ('secure' in spec) items.push(`secure: ${spec.secure}`)
+  const content = items.join(`, `)
+  return `{ ${content} }`
 }
 
 function userRange (i, stages) {
