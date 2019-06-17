@@ -1,6 +1,7 @@
 const { Authentication, Check, Delay, Header, Post } = require('../symbol')
 const ind = require('../ind')
 const literal = require('../literal')
+const paste = require('../paste')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
 const string = require('../string/convert')
@@ -110,9 +111,11 @@ function applyDefault (settings, key, value, context) {
       settings.method = value
       break
     case 'path': {
-      const path = value
-      if (/^https?:\/\//.test(path)) settings.address = path
-      else settings.path = path
+      const path = runtimeString(value)
+      if (
+        /^["`]https?:\/\//.test(path) ||
+        /^`\${vars[`.+`]}/.test(path)
+      ) settings.address = path
       break
     }
     case 'port':
@@ -221,8 +224,11 @@ function property (node, context, settings) {
       settings.method = text(node.children)
       break
     case 'path': {
-      const path = text(node.children)
-      if (/^https?:\/\//.test(path)) settings.address = path
+      const path = literal(node, context)
+      if (
+        /^["`]https?:\/\//.test(path) ||
+        /^`\${vars[`.+`]}/.test(path)
+      ) settings.address = path
       else settings.path = path
       break
     }
@@ -330,7 +336,7 @@ function method (settings) {
 }
 
 function address (settings, auth) {
-  if (settings.address) return runtimeString(settings.address)
+  if (settings.address) return settings.address
   else if (addressStatic(settings, auth)) return staticAddress(settings)
   else return dynamicAddress(settings, auth)
 }
@@ -348,28 +354,20 @@ function addressStatic (settings, auth) {
 function staticAddress (settings) {
   const protocol = JSON.parse(settings.protocol)
   const domain = settings.domain
-  const path = (settings.path || '')
+  const path = settings.path ? JSON.parse(settings.path) : ''
   const port = (settings.port ? `:${settings.port}` : '')
   const raw = `${protocol}://${domain}${port}${path}`
   return JSON.stringify(raw)
 }
 
 function dynamicAddress (settings, auth) {
-  const protocol = component(JSON.parse(settings.protocol))
-  const domain = component(settings.domain)
-  const path = (settings.path ? component(settings.path) : '')
-  const port = (settings.port ? `:${component(settings.port)}` : '')
-  const credential = (auth ? `\${username}:\${password}@` : '')
-  return `\`${protocol}://${credential}${domain}${port}${path}\``
-}
-
-function component (string) {
-  if (string[0] === '`') return `\${${string}}`
-  else return staticComponent(string)
-}
-
-function staticComponent (string) {
-  return string.replace('\\', '\\\\').replace('`', '\\`')
+  const protocol = settings.protocol
+  const domain = JSON.stringify(settings.domain)
+  const path = settings.path || null
+  const port = settings.port || null
+  /* eslint-disable-next-line no-template-curly-in-string */
+  const credential = (auth ? '`${username}:${password}@`' : null)
+  return paste(protocol, '"://"', credential, domain, port, path)
 }
 
 function renderBody (settings, result) {
