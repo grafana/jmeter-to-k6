@@ -1,6 +1,7 @@
 const { Runtime } = require('../symbol')
 const elements = require('../elements')
 const ind = require('../ind')
+const literal = require('../literal')
 const merge = require('../merge')
 const strip = require('../strip')
 const value = require('../value')
@@ -47,10 +48,10 @@ function property (node, context, settings) {
       settings.end = Number.parseInt(value(node, context), 10)
       break
     case 'inputVal':
-      settings.input = value(node, context)
+      settings.input = literal(node, context)
       break
     case 'returnVal':
-      settings.output = value(node, context)
+      settings.output = literal(node, context)
       break
     case 'startIndex':
       settings.start = Number.parseInt(value(node, context), 10)
@@ -77,10 +78,11 @@ function render (settings, result, context, childrenLogic) {
   result.logic = `\n\n`
   if (settings.comment) result.logic += `/* ${settings.comment} */\n`
   const components = []
-  components.push(JSON.stringify(settings.input + settings.separator))
+  components.push(settings.input)
+  if (settings.separator) components.push(JSON.stringify(settings.separator))
   components.push(`i`)
   const input = `vars[${components.join(' + ')}]`
-  const output = `vars[${JSON.stringify(settings.output)}]`
+  const output = `vars[${settings.output}]`
   result.logic += '' +
 `for (let i = ${settings.start}, first = true; i <= ${settings.end}; i++) {
   ${output} = ${input}

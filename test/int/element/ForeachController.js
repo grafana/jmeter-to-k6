@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import ForeachController from 'element/ForeachController'
 
@@ -15,11 +16,11 @@ test('separated', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = ForeachController(node)
+  const result = ForeachController(node, makeContext())
   t.is(result.logic, `
 
 for (let i = 3, first = true; i <= 15; i++) {
-  vars["output"] = vars["input_" + i]
+  vars["output"] = vars["input" + "_" + i]
   // Fake
   first = false
 }`)
@@ -38,7 +39,7 @@ test('unseparated', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = ForeachController(node)
+  const result = ForeachController(node, makeContext())
   t.is(result.logic, `
 
 for (let i = 3, first = true; i <= 15; i++) {
