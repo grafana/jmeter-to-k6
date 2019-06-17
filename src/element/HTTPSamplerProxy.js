@@ -1,5 +1,6 @@
 const { Authentication, Check, Delay, Header, Post } = require('../symbol')
 const ind = require('../ind')
+const literal = require('../literal')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
 const text = require('../text')
@@ -216,7 +217,7 @@ function property (node, context, settings) {
       settings.rawBody = (value(node, context) === 'true')
       break
     case 'protocol': {
-      const protocol = value(node, context)
+      const protocol = literal(node, context)
       if (protocol) settings.protocol = protocol
       break
     }
@@ -325,11 +326,11 @@ function addressStatic (settings, auth) {
   items.push(settings.domain)
   if (settings.path) items.push(settings.path)
   if (settings.port) items.push(settings.port)
-  return !items.find(item => (runtimeString(item)[0] === '`'))
+  return !items.find(item => item[0] === '`')
 }
 
 function staticAddress (settings) {
-  const protocol = settings.protocol
+  const protocol = JSON.parse(settings.protocol)
   const domain = settings.domain
   const path = (settings.path || '')
   const port = (settings.port ? `:${settings.port}` : '')
@@ -347,8 +348,7 @@ function dynamicAddress (settings, auth) {
 }
 
 function component (string) {
-  const rendered = runtimeString(string)
-  if (rendered[0] === '`') return `\${${rendered}}`
+  if (string[0] === '`') return `\${${string}}`
   else return staticComponent(string)
 }
 
@@ -365,7 +365,7 @@ function renderBody (settings, result) {
 function renderRawBody (params) {
   const node = params[0]
   const value = node.value.split(/\r\n|\r|\n/).join('\r\n')
-  return (value ? runtimeString(value) : `''`)
+  return value
 }
 
 function renderStructuredBody (params, files, result) {
@@ -384,7 +384,7 @@ function renderParams (params, result) {
 
 function renderParam (node) {
   if (!node.name) throw new Error('Query parameter missing name')
-  return `[${runtimeString(node.name)}]: ${runtimeString(node.value)}`
+  return `[${node.name}]: ${node.value}`
 }
 
 function renderFiles (nodes, result) {
@@ -398,11 +398,11 @@ function renderFile (node, result, files) {
   if (!(node.path && node.paramname)) return
   result.imports.set('http', 'k6/http')
   result.files.set(node.paramname, { path: node.path, binary: true })
-  const name = runtimeString(node.paramname)
+  const name = node.paramname
   const params = []
   params.push(`files[${name}]`)
   params.push(`${name}`)
-  if (node.mimetype) params.push(runtimeString(node.mimetype))
+  if (node.mimetype) params.push(node.mimetype)
   const value = `http.file(${params.join(', ')})`
   files.push(`[${name}]: ${value}`)
 }
@@ -434,7 +434,7 @@ function renderHeaders (settings) {
   }
   if (settings.headers) {
     for (const [ name, value ] of settings.headers) {
-      const header = `[${runtimeString(name)}]: ${runtimeString(value)}`
+      const header = `[${name}]: ${value}`
       items.push(header)
     }
   }

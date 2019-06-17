@@ -362,7 +362,7 @@ r = http.request(
 )`)
 })
 
-test('defaults', t => {
+test.only('defaults', t => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan>
   <ConfigTestElement guiclass="HttpDefaultsGui">
