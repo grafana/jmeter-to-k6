@@ -264,15 +264,15 @@ function renderCookie (name, spec) {
     'http' + (spec.secure ? 's' : '') + '://' +
     spec.domain +
     (spec.path || '')
-  const attributes = {}
-  if (spec.domain) attributes.domain = spec.domain
-  if (spec.path) attributes.path = spec.path
-  if ('secure' in spec) attributes.secure = spec.secure
+  const attributes = []
+  if (spec.domain) attributes.push(`domain: ${spec.domain}`)
+  if (spec.path) attributes.push(`path: ${spec.path}`)
+  if ('secure' in spec) attributes.push(`secure: ${spec.secure}`)
   return (
-    `jar.set(${JSON.stringify(address)}` +
-    `, ${JSON.stringify(name)}` +
-    `, ${JSON.stringify(spec.value)}` +
-    `, ${JSON.stringify(attributes)})`
+    `jar.set(${address}` +
+    `, ${name}` +
+    `, ${spec.value}` +
+    `, ${attributes.join(`, `)})`
   )
 }
 
