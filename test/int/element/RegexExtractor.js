@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import { Post } from 'symbol'
 import RegexExtractor from 'element/RegexExtractor'
@@ -14,7 +15,7 @@ test('match 1', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
@@ -52,7 +53,7 @@ test('match 2', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
@@ -90,7 +91,7 @@ test('random', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp(".+: (.+)")
 matches = (() => {
@@ -129,7 +130,7 @@ test('default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
@@ -169,7 +170,7 @@ test('default clear', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
@@ -208,7 +209,7 @@ test('distribute', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
@@ -246,7 +247,7 @@ test('distribute default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = RegexExtractor(node)
+  const result = RegexExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `regex = new RegExp("(.+): (.+)")
 matches = (() => {
