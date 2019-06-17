@@ -13,7 +13,7 @@ test('minimal', t => {
   const node = tree.children[0]
   const result = CSVDataSet(node)
   t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
   t.is(result.init, `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])
@@ -59,7 +59,7 @@ test('rotate', t => {
   const node = tree.children[0]
   const result = CSVDataSet(node)
   t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
   t.is(result.init, `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])
@@ -101,7 +101,7 @@ test('custom names', t => {
   const node = tree.children[0]
   const result = CSVDataSet(node)
   t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('file.csv'), { path: 'file.csv', binary: true })
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
   t.is(result.init, `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])

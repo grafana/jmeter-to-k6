@@ -155,15 +155,15 @@ function renderFiles (files) {
   if (!files.size) return null
   const lines = []
   lines.push(`const files = {}`)
-  for (const [ name, spec ] of files) lines.push(renderFile(name, spec))
+  for (const [ path, spec ] of files) lines.push(renderFile(path, spec))
   return lines.join('\n')
 }
 
-function renderFile (name, { path, binary }) {
+function renderFile (path, { binary }) {
   const params = []
-  params.push(JSON.stringify(path))
+  params.push(path)
   if (binary) params.push(`'b'`)
-  return `files[${JSON.stringify(name)}] = open(${params.join(', ')})`
+  return `files[${path}] = open(${params.join(', ')})`
 }
 
 function renderInit (init) {

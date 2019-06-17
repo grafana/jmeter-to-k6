@@ -1,3 +1,4 @@
+const literal = require('../literal')
 const papaparse = require('papaparse')
 const ind = require('../ind')
 const value = require('../value')
@@ -38,7 +39,7 @@ function property (node, context, settings) {
       settings.encoding = value(node, context)
       break
     case 'filename':
-      settings.path = value(node, context)
+      settings.path = literal(node, context)
       break
     case 'ignoreFirstLine':
       settings.skip1 = (value(node, context) === 'true')
@@ -81,8 +82,7 @@ function render (settings, context, result) {
   result.state.add('vars')
   result.state.add('vus')
   if (settings.names) processNames(settings)
-  const { path: rawPath } = settings
-  const path = JSON.stringify(rawPath)
+  const { path } = settings
   const options = { delimiter: settings.delimiter }
   if (settings.quoted) options.quoteChar = '"'
   const customNames = (
@@ -92,7 +92,7 @@ function render (settings, context, result) {
   result.imports.set('buffer', 'buffer/')
   result.imports.set('iconv', 'iconv-lite')
   result.imports.set('papaparse', 'papaparse')
-  result.files.set(rawPath, { path: settings.path, binary: true })
+  result.files.set(path, { binary: true })
   const file = `files[${path}]`
   result.init = `
 
