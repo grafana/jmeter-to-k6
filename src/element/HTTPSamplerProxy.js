@@ -175,7 +175,14 @@ function property (node, context, settings) {
       const params = []
       const items = node.children.filter(node => /Prop$/.test(node.name))[0]
         .children.filter(node => /Prop$/.test(node.name))
-      for (const item of items) params.push(properties(item, context))
+        .map(node => properties(node, context, true))
+      for (const item of items) {
+        const param = {}
+        for (const [ key, value ] of Object.entries(item)) {
+          param[key] = runtimeString(value)
+        }
+        params.push(param)
+      }
       settings.params = params
       break
     }
