@@ -19,7 +19,7 @@ test('string nonempty', t => {
   const tree = parseXml(xml)
   const node = tree.children[0]
   const result = property(node)
-  t.deepEqual(result, { description: 'The most hargled of all' })
+  t.deepEqual(result, { description: '"The most hargled of all"' })
 })
 
 test('bool empty', t => {
@@ -75,8 +75,8 @@ test('Arguments', t => {
   const node = tree.children[0]
   const result = property(node)
   t.deepEqual(result, { TrueRulers: [
-    { running: false, moniker: 'HAL' },
-    { running: true, moniker: 'Multivac' },
-    { runningEverything: true, moniker: 'Master Control Program' }
+    { running: false, moniker: '"HAL"' },
+    { running: true, moniker: '"Multivac"' },
+    { runningEverything: true, moniker: '"Master Control Program"' }
   ] })
 })

@@ -22,7 +22,7 @@ test('1 cookie', t => {
   const result = document(tree)
   t.is(result.imports.get('http'), 'k6/http')
   t.deepEqual(result.cookies, new Map([
-    [ 'theme', { value: 'light' } ]
+    [ 'theme', { value: '"light"' } ]
   ]))
 })
 
@@ -51,8 +51,8 @@ test('3 cookies', t => {
   const tree = parseXml(xml)
   const result = document(tree)
   t.deepEqual(result.cookies, new Map([
-    [ 'theme', { value: 'light' } ],
-    [ 'username', { value: 'User759' } ],
-    [ 'session', { value: '908234908' } ]
+    [ 'theme', { value: '"light"' } ],
+    [ 'username', { value: '"User759"' } ],
+    [ 'session', { value: '"908234908"' } ]
   ]))
 })

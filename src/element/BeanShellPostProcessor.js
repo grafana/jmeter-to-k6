@@ -1,3 +1,4 @@
+const literal = require('../literal')
 const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
@@ -35,7 +36,7 @@ function property (node, context, settings) {
       settings.comment = value(node, context)
       break
     case 'filename':
-      settings.path = value(node, context)
+      settings.path = literal(node, context)
       break
     case 'script':
       settings.code = text(node.children)

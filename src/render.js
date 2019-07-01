@@ -2,6 +2,7 @@ const buildCompat = require('./build')
 const prettier = require('prettier')
 const expand = require('./expand')
 const ind = require('./ind')
+const paste = require('./paste')
 const sort = require('./sort')
 const strip = require('./strip')
 
@@ -132,9 +133,12 @@ function renderConstant (key, value) {
 }
 
 function renderHeaders (headers) {
-  const entries = {}
-  for (const [ key, value ] of headers) entries[key] = value
-  return entries
+  const items = []
+  for (const [ name, value ] of headers) {
+    items.push(`[${name}]: ${value}`)
+  }
+  const content = items.join(`,\n`)
+  return `{ ${content} }`
 }
 
 function renderVariables (vars, state) {
@@ -155,15 +159,15 @@ function renderFiles (files) {
   if (!files.size) return null
   const lines = []
   lines.push(`const files = {}`)
-  for (const [ name, spec ] of files) lines.push(renderFile(name, spec))
+  for (const [ path, spec ] of files) lines.push(renderFile(path, spec))
   return lines.join('\n')
 }
 
-function renderFile (name, { path, binary }) {
+function renderFile (path, { binary }) {
   const params = []
-  params.push(JSON.stringify(path))
+  params.push(path)
   if (binary) params.push(`'b'`)
-  return `files[${JSON.stringify(name)}] = open(${params.join(', ')})`
+  return `files[${path}] = open(${params.join(', ')})`
 }
 
 function renderInit (init) {
@@ -213,10 +217,19 @@ ${ind(sections.join(',\n'))}
 
 function renderOption (options, key) {
   switch (key) {
-    case 'hosts': return `hosts: ${JSON.stringify(options.hosts)}`
+    case 'hosts': return `hosts: ${renderHosts(options.hosts)}`
     case 'stages': return `stages: ${JSON.stringify(expand(options.stages))}`
     default: throw new Error('Unrecognized option: ' + key)
   }
+}
+
+function renderHosts (hosts) {
+  const items = []
+  for (const [ name, value ] of Object.entries(hosts)) {
+    items.push(`[${name}]: ${value}`)
+  }
+  const content = items.join(`,\n`)
+  return `{ ${content} }`
 }
 
 function renderSetup (setup) {
@@ -260,20 +273,31 @@ function renderCookies (cookies) {
 }
 
 function renderCookie (name, spec) {
-  const address =
-    'http' + (spec.secure ? 's' : '') + '://' +
-    spec.domain +
-    (spec.path || '')
-  const attributes = {}
-  if (spec.domain) attributes.domain = spec.domain
-  if (spec.path) attributes.path = spec.path
-  if ('secure' in spec) attributes.secure = spec.secure
+  const address = renderCookieAddress(spec)
+  const attributes = renderCookieAttributes(spec)
   return (
-    `jar.set(${JSON.stringify(address)}` +
+    `jar.set(${address}` +
     `, ${JSON.stringify(name)}` +
-    `, ${JSON.stringify(spec.value)}` +
-    `, ${JSON.stringify(attributes)})`
+    `, ${spec.value}` +
+    `, ${attributes})`
   )
+}
+
+function renderCookieAddress (spec) {
+  const protocol = (spec.secure ? 'https' : 'http')
+  const scheme = `${protocol}://`
+  const domain = spec.domain
+  const path = spec.path || null
+  return paste(JSON.stringify(scheme), domain, path)
+}
+
+function renderCookieAttributes (spec) {
+  const items = []
+  if (spec.domain) items.push(`domain: ${spec.domain}`)
+  if (spec.path) items.push(`path: ${spec.path}`)
+  if ('secure' in spec) items.push(`secure: ${spec.secure}`)
+  const content = items.join(`, `)
+  return `{ ${content} }`
 }
 
 function userRange (i, stages) {

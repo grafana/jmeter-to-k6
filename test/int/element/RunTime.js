@@ -27,7 +27,7 @@ test('foreach', t => {
 {
   const deadline = Date.now() + 5000
   for (let i = 5, first = true; i <= 500; i++) {
-    vars["output"] = vars["input_" + i]
+    vars["output"] = vars["input" + "_" + i]
     // Fake
     // Fake
     // Fake

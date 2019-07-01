@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import { Check } from 'symbol'
 import JSONPathAssertion from 'element/JSONPathAssertion'
@@ -14,7 +15,7 @@ test('json extant', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -35,7 +36,7 @@ test('yaml extant', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return yaml.parse(r.body) }
@@ -57,7 +58,7 @@ test('nonextant', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -79,7 +80,7 @@ test('null', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -101,7 +102,7 @@ test('string', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -124,7 +125,7 @@ test('regex', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -147,7 +148,7 @@ test('not string', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }
@@ -171,7 +172,7 @@ test('not regex', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSONPathAssertion(node)
+  const result = JSONPathAssertion(node, makeContext())
   t.deepEqual(result.defaults[0][Check], {
     'JSONPathAssertion': `const body = (() => {
   try { return JSON.parse(r.body) }

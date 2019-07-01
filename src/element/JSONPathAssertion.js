@@ -1,4 +1,6 @@
 const { Check } = require('../symbol')
+const literal = require('../literal')
+const text = require('../text')
 const value = require('../value')
 const makeResult = require('../result')
 
@@ -49,10 +51,11 @@ function property (node, context, settings) {
       settings.name += ` - ${value(node, context)}`
       break
     case 'JSON_PATH':
-      settings.path = value(node, context)
+      settings.path = literal(node, context)
       break
     case 'EXPECTED_VALUE':
-      settings.test = value(node, context)
+      if (text(node.children) === '[]') settings.test = '[]'
+      else settings.test = literal(node, context)
       break
     case 'EXPECT_NULL':
       if (value(node, context) === 'true') settings.test = null
@@ -84,7 +87,7 @@ function render (settings) {
   catch (e) { return null }
 })()
 if (!body) return false
-const values = jsonpath.query(body, ${JSON.stringify(settings.path)})
+const values = jsonpath.query(body, ${settings.path})
 ${test(settings)}`
 }
 
@@ -106,9 +109,8 @@ function itemExpr (settings) {
   if (settings.test === null) return 'value === null'
   else {
     const value = '(typeof value === "object" ? JSON.stringify(value) : value)'
-    const test = JSON.stringify(settings.test)
-    if (settings.regex) return `perlRegex.match(${value}, ${test})`
-    else return `${value} === ${test}`
+    if (settings.regex) return `perlRegex.match(${value}, ${settings.test})`
+    else return `${value} === ${settings.test}`
   }
 }
 

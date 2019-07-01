@@ -1,5 +1,6 @@
 const { Post } = require('../symbol')
 const ind = require('../ind')
+const literal = require('../literal')
 const renderInput = require('../common/input')
 const runtimeString = require('../string/run')
 const text = require('../text')
@@ -36,7 +37,7 @@ function property (node, context, settings) {
       settings.comment = value(node, context)
       break
     case 'default':
-      settings.default = value(node, context)
+      settings.default = literal(node, context)
       break
     case 'default_empty_value':
       settings.clear = (text(node.children) === 'true')
@@ -164,9 +165,11 @@ ${ind(construct)}
 }
 
 function renderDefault (settings) {
-  if (settings.clear) return `''`
-  else if (settings.default) return JSON.stringify(settings.default)
-  else return null
+  return (
+    (settings.clear && `''`) ||
+    settings.default ||
+    null
+  )
 }
 
 function renderConstruct (settings) {

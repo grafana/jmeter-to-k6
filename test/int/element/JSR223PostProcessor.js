@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import JSR223PostProcessor from 'element/JSR223PostProcessor'
 
@@ -13,7 +14,7 @@ print(b)</stringProp>
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSR223PostProcessor(node)
+  const result = JSR223PostProcessor(node, makeContext())
   t.is(result.logic, `
 
 /* JSR223PostProcessor
@@ -36,14 +37,14 @@ test('file', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = JSR223PostProcessor(node)
+  const result = JSR223PostProcessor(node, makeContext())
   t.is(result.logic, `
 
 /* JSR223PostProcessor
 
 language: groovy
 
-file: file.script
+file: "file.script"
 
 */`)
 })

@@ -1,11 +1,10 @@
 const render = require('./render')
-
-const find = /(?:^|\\\\|[^\\])\${.*}/
+const { variable } = require('../expression')
 
 // Render runtime string
 // May contain runtime resolved interpolation
 function runtimeString (value) {
-  if (find.test(value)) return unescape(render(value))
+  if (variable.test(value)) return unescape(render(value))
   else return JSON.stringify(value)
 }
 

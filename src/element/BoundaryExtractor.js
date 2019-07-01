@@ -1,4 +1,5 @@
 const { Post } = require('../symbol')
+const literal = require('../literal')
 const renderInput = require('../common/input')
 const runtimeString = require('../string/run')
 const text = require('../text')
@@ -35,19 +36,19 @@ function property (node, context, settings) {
       settings.comment = value(node, context)
       break
     case 'default':
-      settings.default = value(node, context)
+      settings.default = literal(node, context)
       break
     case 'default_empty_value':
       settings.clear = (text(node.children) === 'true')
       break
     case 'lboundary':
-      settings.left = value(node, context)
+      settings.left = literal(node, context)
       break
     case 'match_number':
       settings.index = Number.parseInt(text(node.children), 10)
       break
     case 'rboundary':
-      settings.right = value(node, context)
+      settings.right = literal(node, context)
       break
     case 'refname':
       settings.output = text(node.children)
@@ -81,8 +82,8 @@ function render (settings, result) {
   result.state.add('vars')
   let logic = ''
   if (settings.comment) logic += `/* ${settings.comment} */\n`
-  const left = JSON.stringify(escape(settings.left))
-  const right = JSON.stringify(escape(settings.right))
+  const left = escape(settings.left)
+  const right = escape(settings.right)
   const regex = `new RegExp(${left} + '(.*)' + ${right}, 'g')`
   const input = renderInput(settings.component, result)
   const transport = renderTransport(settings)
@@ -98,7 +99,7 @@ ${transport}`
 }
 
 function escape (string) {
-  return string.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+  return string.replace(/[-/^$*+?.()|[\]{}]|\\\\/g, '\\\\$&')
 }
 
 function renderTransport (settings) {
@@ -148,9 +149,11 @@ function renderWrite (settings) {
 }
 
 function renderDefault (settings) {
-  if (settings.clear) return `''`
-  else if (settings.default) return JSON.stringify(settings.default)
-  else return null
+  return (
+    (settings.clear && `''`) ||
+    settings.default ||
+    null
+  )
 }
 
 module.exports = BoundaryExtractor

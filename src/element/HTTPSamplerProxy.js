@@ -1,7 +1,10 @@
 const { Authentication, Check, Delay, Header, Post } = require('../symbol')
 const ind = require('../ind')
+const literal = require('../literal')
+const paste = require('../paste')
 const properties = require('../common/properties')
 const runtimeString = require('../string/run')
+const string = require('../string/convert')
 const text = require('../text')
 const value = require('../value')
 const makeContext = require('../context')
@@ -11,7 +14,7 @@ function HTTPSamplerProxy (node, context = makeContext()) {
   const result = makeResult()
   if (node.attributes.enabled === 'false') return result
   result.init = ''
-  const settings = { auth: [], headers: new Map(), protocol: 'http' }
+  const settings = { auth: [], headers: new Map(), protocol: '"http"' }
   applyDefaults(settings, context)
   for (const key of Object.keys(node.attributes)) attribute(node, key, result)
   const props = node.children.filter(node => /Prop$/.test(node.name))
@@ -24,21 +27,21 @@ function HTTPSamplerProxy (node, context = makeContext()) {
 function applyDefaults (settings, context) {
   const { defaults } = context
   for (const scope of defaults) {
-    applyLevelDefaults(settings, scope)
+    applyLevelDefaults(settings, scope, context)
     applyAuths(settings, scope)
     applyHeaders(settings, scope)
   }
 }
 
-function applyLevelDefaults (settings, scope) {
+function applyLevelDefaults (settings, scope, context) {
   if (!scope.HTTPRequestDefaults) return
   const values = scope.HTTPRequestDefaults
   for (const key of Object.keys(values)) {
-    applyDefault(settings, key, values[key])
+    applyDefault(settings, key, values[key], context)
   }
 }
 
-function applyDefault (settings, key, value) {
+function applyDefault (settings, key, value, context) {
   switch (key) {
     case 'BROWSER_COMPATIBLE_MULTIPART':
     case 'concurrentPool':
@@ -54,15 +57,23 @@ function applyDefault (settings, key, value) {
     case 'use_keepalive':
       break
     case 'Arguments':
-      settings.params = value
+      const params = []
+      for (const item of value) {
+        const param = {}
+        for (const key of Object.keys(item)) {
+          param[key] = runtimeString(item[key])
+        }
+        params.push(param)
+      }
+      settings.params = params
       break
     case 'auto_redirects':
     case 'follow_redirect':
       if (settings.followSilent) break
-      settings.followSilent = (value === 'true')
+      settings.followSilent = (string(value, context) === 'true')
       break
     case 'concurrentDwn': {
-      const concurrentDownload = (value === 'true')
+      const concurrentDownload = (string(value, context) === 'true')
       if (concurrentDownload) {
         throw new Error('Concurrent resource download not implemented')
       }
@@ -75,17 +86,24 @@ function applyDefault (settings, key, value) {
       settings.domain = value
       break
     case 'embedded_url_re': {
-      const referenceConstraint = value
+      const referenceConstraint = string(value, context)
       if (referenceConstraint) {
         throw new Error('k6 does not support constraining referenced URLs')
       }
       break
     }
     case 'Files':
-      settings.files = value
+      const files = []
+      for (const item of value) {
+        const file = {}
+        for (const key of Object.keys(item)) {
+          file[key] = runtimeString(item[key])
+        }
+      }
+      settings.files = files
       break
     case 'md5': {
-      const md5 = (value === 'true')
+      const md5 = (string(value, context) === 'true')
       if (md5) throw new Error('Response digesting not implemented')
       break
     }
@@ -93,19 +111,21 @@ function applyDefault (settings, key, value) {
       settings.method = value
       break
     case 'path': {
-      const path = value
-      if (/^https?:\/\//.test(path)) settings.address = path
-      else settings.path = path
+      const path = runtimeString(value)
+      if (
+        /^["`]https?:\/\//.test(path) ||
+        /^`\${vars[`.+`]}/.test(path)
+      ) settings.address = path
       break
     }
     case 'port':
       settings.port = value
       break
     case 'postBodyRaw':
-      settings.rawBody = (value === 'true')
+      settings.rawBody = (string(value, context) === 'true')
       break
     case 'protocol':
-      settings.protocol = value
+      if (value) settings.protocol = runtimeString(value)
       break
     case 'response_timeout':
       settings.responseTimeout = value
@@ -155,7 +175,14 @@ function property (node, context, settings) {
       const params = []
       const items = node.children.filter(node => /Prop$/.test(node.name))[0]
         .children.filter(node => /Prop$/.test(node.name))
-      for (const item of items) params.push(properties(item, context))
+        .map(node => properties(node, context, true))
+      for (const item of items) {
+        const param = {}
+        for (const [ key, value ] of Object.entries(item)) {
+          param[key] = runtimeString(value)
+        }
+        params.push(param)
+      }
       settings.params = params
       break
     }
@@ -204,8 +231,11 @@ function property (node, context, settings) {
       settings.method = text(node.children)
       break
     case 'path': {
-      const path = text(node.children)
-      if (/^https?:\/\//.test(path)) settings.address = path
+      const path = literal(node, context)
+      if (
+        /^["`]https?:\/\//.test(path) ||
+        /^`\${vars[`.+`]}/.test(path)
+      ) settings.address = path
       else settings.path = path
       break
     }
@@ -216,7 +246,7 @@ function property (node, context, settings) {
       settings.rawBody = (value(node, context) === 'true')
       break
     case 'protocol': {
-      const protocol = value(node, context)
+      const protocol = literal(node, context)
       if (protocol) settings.protocol = protocol
       break
     }
@@ -313,7 +343,7 @@ function method (settings) {
 }
 
 function address (settings, auth) {
-  if (settings.address) return runtimeString(settings.address)
+  if (settings.address) return settings.address
   else if (addressStatic(settings, auth)) return staticAddress(settings)
   else return dynamicAddress(settings, auth)
 }
@@ -325,35 +355,26 @@ function addressStatic (settings, auth) {
   items.push(settings.domain)
   if (settings.path) items.push(settings.path)
   if (settings.port) items.push(settings.port)
-  return !items.find(item => (runtimeString(item)[0] === '`'))
+  return !items.find(item => item[0] === '`')
 }
 
 function staticAddress (settings) {
-  const protocol = settings.protocol
+  const protocol = JSON.parse(settings.protocol)
   const domain = settings.domain
-  const path = (settings.path || '')
+  const path = settings.path ? JSON.parse(settings.path) : ''
   const port = (settings.port ? `:${settings.port}` : '')
   const raw = `${protocol}://${domain}${port}${path}`
   return JSON.stringify(raw)
 }
 
 function dynamicAddress (settings, auth) {
-  const protocol = component(settings.protocol)
-  const domain = component(settings.domain)
-  const path = (settings.path ? component(settings.path) : '')
-  const port = (settings.port ? `:${component(settings.port)}` : '')
-  const credential = (auth ? `\${username}:\${password}@` : '')
-  return `\`${protocol}://${credential}${domain}${port}${path}\``
-}
-
-function component (string) {
-  const rendered = runtimeString(string)
-  if (rendered[0] === '`') return `\${${rendered}}`
-  else return staticComponent(string)
-}
-
-function staticComponent (string) {
-  return string.replace('\\', '\\\\').replace('`', '\\`')
+  const protocol = settings.protocol
+  const domain = JSON.stringify(settings.domain)
+  const path = settings.path || null
+  const port = settings.port || null
+  /* eslint-disable-next-line no-template-curly-in-string */
+  const credential = (auth ? '`${username}:${password}@`' : null)
+  return paste(protocol, '"://"', credential, domain, port, path)
 }
 
 function renderBody (settings, result) {
@@ -365,7 +386,7 @@ function renderBody (settings, result) {
 function renderRawBody (params) {
   const node = params[0]
   const value = node.value.split(/\r\n|\r|\n/).join('\r\n')
-  return (value ? runtimeString(value) : `''`)
+  return value
 }
 
 function renderStructuredBody (params, files, result) {
@@ -384,7 +405,7 @@ function renderParams (params, result) {
 
 function renderParam (node) {
   if (!node.name) throw new Error('Query parameter missing name')
-  return `[${runtimeString(node.name)}]: ${runtimeString(node.value)}`
+  return `[${node.name}]: ${node.value}`
 }
 
 function renderFiles (nodes, result) {
@@ -398,11 +419,11 @@ function renderFile (node, result, files) {
   if (!(node.path && node.paramname)) return
   result.imports.set('http', 'k6/http')
   result.files.set(node.paramname, { path: node.path, binary: true })
-  const name = runtimeString(node.paramname)
+  const name = node.paramname
   const params = []
   params.push(`files[${name}]`)
   params.push(`${name}`)
-  if (node.mimetype) params.push(runtimeString(node.mimetype))
+  if (node.mimetype) params.push(node.mimetype)
   const value = `http.file(${params.join(', ')})`
   files.push(`[${name}]: ${value}`)
 }
@@ -434,7 +455,7 @@ function renderHeaders (settings) {
   }
   if (settings.headers) {
     for (const [ name, value ] of settings.headers) {
-      const header = `[${runtimeString(name)}]: ${runtimeString(value)}`
+      const header = `[${name}]: ${value}`
       items.push(header)
     }
   }
@@ -466,9 +487,9 @@ ${ind(credentials.join(',\n'))}
 
 function renderCredential (credential) {
   const items = []
-  items.push(`url: ${runtimeString(credential.url)}`)
-  items.push(`username: ${runtimeString(credential.username)}`)
-  items.push(`password: ${runtimeString(credential.password)}`)
+  items.push(`url: ${credential.url}`)
+  items.push(`username: ${credential.username}`)
+  items.push(`password: ${credential.password}`)
   items.push(`mechanism: ${renderMechanism(credential.mechanism)}`)
   return `{ ${items.join(', ')} }`
 }

@@ -1,4 +1,5 @@
 const { Post } = require('../symbol')
+const literal = require('../literal')
 const runtimeString = require('../string/run')
 const text = require('../text')
 const value = require('../value')
@@ -35,7 +36,7 @@ function property (node, context, settings) {
       settings.comment = value(node, context)
       break
     case 'DEFAULT':
-      settings.default = value(node, context)
+      settings.default = literal(node, context)
       break
     case 'INPUT_FORMAT':
       settings.format = text(node.children)
@@ -77,7 +78,7 @@ function render (settings, result) {
   const parse = renderParse(settings, result)
   const query = JSON.stringify(settings.query)
   const output = runtimeString(settings.output)
-  const def = (settings.default ? JSON.stringify(settings.default) : '')
+  const def = settings.default || ''
   logic += '' +
 `{
   const serial = ${input}

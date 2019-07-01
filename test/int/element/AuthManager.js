@@ -20,9 +20,9 @@ test('1 entry', t => {
   const result = AuthManager(node)
   t.deepEqual(result.defaults, [ { [Authentication]: [
     {
-      url: 'example.com',
-      username: 'User123',
-      password: 'secret1',
+      url: '"example.com"',
+      username: '"User123"',
+      password: '"secret1"',
       mechanism: 'BASIC'
     }
   ] } ])
@@ -55,21 +55,21 @@ test('3 entries', t => {
   const result = AuthManager(node)
   t.deepEqual(result.defaults, [ { [Authentication]: [
     {
-      url: '1.example.com',
-      username: 'User123',
-      password: 'secret1',
+      url: '"1.example.com"',
+      username: '"User123"',
+      password: '"secret1"',
       mechanism: 'BASIC'
     },
     {
-      url: '2.example.com',
-      username: 'User456',
-      password: 'secret2',
+      url: '"2.example.com"',
+      username: '"User456"',
+      password: '"secret2"',
       mechanism: 'BASIC'
     },
     {
-      url: '3.example.com',
-      username: 'User789',
-      password: 'secret3',
+      url: '"3.example.com"',
+      username: '"User789"',
+      password: '"secret3"',
       mechanism: 'BASIC'
     }
   ] } ])

@@ -1,4 +1,5 @@
 import test from 'ava'
+import makeContext from 'context'
 import parseXml from '@rgrove/parse-xml'
 import { Post } from 'symbol'
 import HtmlExtractor from 'element/HtmlExtractor'
@@ -13,7 +14,7 @@ test('named', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -35,7 +36,7 @@ test('random', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -58,7 +59,7 @@ test('attribute', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -81,7 +82,7 @@ test('default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -104,7 +105,7 @@ test('default clear', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -126,7 +127,7 @@ test('distribute text', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -151,7 +152,7 @@ test('distribute attribute', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
@@ -176,7 +177,7 @@ test('distribute default', t => {
 `
   const tree = parseXml(xml)
   const node = tree.children[0]
-  const result = HtmlExtractor(node)
+  const result = HtmlExtractor(node, makeContext())
   const logic = result.defaults[0][Post][0]
   t.is(logic, `{
   output = "output"
