@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Dockerfile and installation instructions on how to use Docker image from DockerHub.
 
+### Fixed
+- Prefer evaluation of variables at runtime to work correctly with dynamic variables, sourced from CSV or response data.
+
 ## [0.1.17] - 2019-03-01
 ### Updated
 - Installation and usage instructions to recommend [nvm](https://github.com/creationix/nvm) to avoid filesystem permission issues when installing the tool globally with `npm install -g ...`
