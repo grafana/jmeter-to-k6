@@ -5,11 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.18] - 2019-07-05
 ### Added
 - Dockerfile and installation instructions on how to use Docker image from DockerHub.
 
 ### Fixed
 - Prefer evaluation of variables at runtime to work correctly with dynamic variables, sourced from CSV or response data.
+- Pinned jsonpath dependency version to fix problem introduced in newest version.
 
 ## [0.1.17] - 2019-03-01
 ### Updated
@@ -38,7 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - All the initial code
 
-[Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.17...HEAD
+[Unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...HEAD
+[0.1.18]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.16
 [0.1.0]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.1.0
