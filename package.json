@@ -29,7 +29,7 @@
         "fs-extra": "^7.0.1",
         "he": "^1.2.0",
         "iconv-lite": "^0.4.24",
-        "jsonpath": "^1.0.0",
+        "jsonpath": "1.0.1",
         "papaparse": "^4.6.3",
         "perl-regex": "^1.0.4",
         "prettier": "^1.16.1",
