@@ -11,3 +11,6 @@ vendor/
 .jsdoc.json
 ava.config.js
 bundle
+*.code-workspace
+Dockerfile
+.dockerignore
