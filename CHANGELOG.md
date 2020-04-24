@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.19] - 2020-04-24
+
+-   Switch from standardjs to prettier and eslint + airbnb
+-   Add husky git hooks to enforce test and lint on commit and push.
+-   Add Noop element for elements that make no sense outside of JMeter (currently ResultCollector) to avoid unnecessary crashes.
+
 ## [0.1.18] - 2019-07-05
 
 ### Added
@@ -57,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   All the initial code
 
 [unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...HEAD
+[0.1.19]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...v0.1.19
 [0.1.18]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.0...v0.1.16
