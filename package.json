@@ -29,6 +29,7 @@
         "eslint-config-prettier": "^6.11.0",
         "fs-extra": "^7.0.1",
         "he": "^1.2.0",
+        "husky": "^4.2.5",
         "iconv-lite": "^0.4.24",
         "jsonpath": "1.0.1",
         "papaparse": "^4.6.3",
@@ -50,8 +51,7 @@
         "jsdoc": "^3.5.5",
         "mock-require": "^3.0.2",
         "npm-run-all": "^4.1.5",
-        "sinon": "^7.1.1",
-        "snazzy": "^8.0.0"
+        "sinon": "^7.1.1"
     },
     "scripts": {
         "lint": "eslint ./src",
@@ -63,5 +63,11 @@
         "test-unit": "cross-env NODE_PATH=src:test ava test/unit",
         "test": "npm-run-all test-unit test-int",
         "test-hoc": "cross-env NODE_PATH=src:test ava"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn lint && yarn format",
+            "pre-push": "yarn test"
+        }
     }
 }
