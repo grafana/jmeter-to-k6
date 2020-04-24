@@ -1,6 +1,6 @@
 // Null element for use in tests
-function Fake (node, context) {
-  return { logic: '\n// Fake' }
+function Fake(_node, _context) {
+  return { logic: '\n// Fake' };
 }
 
-module.exports = Fake
+module.exports = Fake;

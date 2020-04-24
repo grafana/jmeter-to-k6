@@ -14,7 +14,7 @@ function renderInput (component, result) {
       return `he.decode(r.body)`
     case 'URL': return `r.request.url` // Request address
     default:
-      throw new Error('Unrecognized input: ' + component)
+      throw new Error(`Unrecognized input: ${  component}`)
   }
 }
 

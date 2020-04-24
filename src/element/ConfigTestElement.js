@@ -5,7 +5,7 @@ function ConfigTestElement (node, context) {
   const result = makeResult()
   const props = properties(node, context, true)
   for (const key of Object.keys(props)) {
-    if (props[key] === null) delete props[key]
+    if (props[key] === null) {delete props[key]}
   }
   if ('comments' in props) {
     result.logic = `
@@ -34,7 +34,7 @@ function ConfigTestElement (node, context) {
     case 'TCPConfigGui':
       result.defaults.push({ TCPSamplerConfig: props })
       break
-    default: throw new Error('Unrecognized ConfigTestElement type: ' + type)
+    default: throw new Error(`Unrecognized ConfigTestElement type: ${  type}`)
   }
   return result
 }

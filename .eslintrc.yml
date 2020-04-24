@@ -1,0 +1,29 @@
+env:
+  browser: true
+  commonjs: true
+  es6: true
+extends:
+  - airbnb-base
+  - prettier
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parserOptions:
+  ecmaVersion: 2018
+rules:
+  no-use-before-define:
+    - error
+    - functions: false
+  no-unused-vars:
+    - error
+    - argsIgnorePattern: ^_
+  curly:
+    - error
+    - all
+  no-restricted-syntax:
+    - error
+    - ForInStatement
+    - LabeledStatement
+    - WithStatement
+  no-continue:
+    - 0

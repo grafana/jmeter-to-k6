@@ -13,17 +13,17 @@ function variable (node, context = makeContext()) {
   const nameNode = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'name'
   })
-  if (!nameNode) throw new Error('Variable missing name')
+  if (!nameNode) {throw new Error('Variable missing name')}
   const valueNode = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'value'
   })
-  if (!valueNode) throw new Error('Variable missing value')
+  if (!valueNode) {throw new Error('Variable missing value')}
   const description = properties.find(item => {
     return item.attributes.name.split('.').pop() === 'desc'
   })
   const result = { vars: new Map() }
   const spec = { value: text(valueNode.children) }
-  if (description) spec.comment = text(description.children)
+  if (description) {spec.comment = text(description.children)}
   const name = text(nameNode.children)
   result.vars.set(name, spec)
   context.vars.set(name, spec.value)

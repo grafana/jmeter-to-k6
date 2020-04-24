@@ -1,17 +1,16 @@
 /* eslint-disable no-template-curly-in-string */
 
-import test from 'ava'
-import convert from 'convert'
-import fs from 'fs'
+import test from 'ava';
+import convert from 'convert';
+import fs from 'fs';
 
-test('runtime', async t => {
-  const xml = fs.readFileSync(
-    'test/material/runtime-evaluation.jmx',
-    'utf8'
-  )
-  const { main } = await convert(xml)
-  t.is(main, '' +
-`import http from "k6/http";
+test('runtime', async (t) => {
+  const xml = fs.readFileSync('test/material/runtime-evaluation.jmx', 'utf8');
+  const { main } = await convert(xml);
+  t.is(
+    main,
+    '' +
+      `import http from "k6/http";
 import { check } from "k6";
 import { buffer, iconv, papaparse } from "./libs/compat.js";
 
@@ -32,10 +31,10 @@ csvPage["file.csv"] = 0;
 csvColumns["file.csv"] = { query: 0 };
 
 export let options = {
-  stages: [{ target: 1, duration: "1s" }]
+  stages: [{ target: 1, duration: "1s" }],
 };
 
-export default function(data) {
+export default function (data) {
   {
     /*
      * Read CSV line: "file.csv"
@@ -63,11 +62,12 @@ export default function(data) {
     if (__ITER < 1) {
       url = ${'`http://example.com?search=${vars[`query`]}`'};
       opts = {
-        redirects: 999
+        redirects: 999,
       };
       r = http.request("GET", url, "", opts);
     }
   }
 }
-`)
-})
+`
+  );
+});

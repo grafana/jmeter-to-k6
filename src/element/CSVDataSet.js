@@ -1,142 +1,170 @@
-const literal = require('../literal')
-const papaparse = require('papaparse')
-const ind = require('../ind')
-const value = require('../value')
-const makeResult = require('../result')
+/* eslint-disable no-param-reassign */
+const papaparse = require('papaparse');
+const literal = require('../literal');
+const ind = require('../ind');
+const value = require('../value');
+const makeResult = require('../result');
 
-function CSVDataSet (node, context) {
-  const result = makeResult()
-  if (node.attributes.enabled === 'false') return result
-  const settings = {}
-  for (const key of Object.keys(node.attributes)) attribute(node, key, result)
-  const props = node.children.filter(node => /Prop$/.test(node.name))
-  for (const prop of props) property(prop, context, settings)
-  if (sufficient(settings)) render(settings, context, result)
-  return result
+function CSVDataSet(node, context) {
+  const result = makeResult();
+  if (node.attributes.enabled === 'false') {
+    return result;
+  }
+  const settings = {};
+  for (const key of Object.keys(node.attributes)) {
+    attribute(node, key, result);
+  }
+  const props = node.children.filter((item) => /Prop$/.test(item.name));
+  for (const prop of props) {
+    property(prop, context, settings);
+  }
+  if (sufficient(settings)) {
+    render(settings, context, result);
+  }
+  return result;
 }
 
-function attribute (node, key, result) {
+function attribute(_node, key, _result) {
   switch (key) {
     case 'enabled':
     case 'guiclass':
     case 'testclass':
     case 'testname':
-      break
-    default: throw new Error('Unrecognized CSVDataSet attribute: ' + key)
+      break;
+    default:
+      throw new Error(`Unrecognized CSVDataSet attribute: ${key}`);
   }
 }
 
-function property (node, context, settings) {
-  const name = node.attributes.name.split('.').pop()
+function property(node, context, settings) {
+  const name = node.attributes.name.split('.').pop();
   switch (name) {
     case 'comments':
-      settings.comment = value(node, context)
-      break
+      settings.comment = value(node, context);
+      break;
     case 'delimiter':
-      settings.delimiter = value(node, context).replace('\\t', '\t')
-      break
+      settings.delimiter = value(node, context).replace('\\t', '\t');
+      break;
     case 'fileEncoding':
-      settings.encoding = value(node, context)
-      break
+      settings.encoding = value(node, context);
+      break;
     case 'filename':
-      settings.path = literal(node, context)
-      break
+      settings.path = literal(node, context);
+      break;
     case 'ignoreFirstLine':
-      settings.skip1 = (value(node, context) === 'true')
-      break
+      settings.skip1 = value(node, context) === 'true';
+      break;
     case 'quotedData':
-      settings.quoted = (value(node, context) === 'true')
-      break
+      settings.quoted = value(node, context) === 'true';
+      break;
     case 'recycle':
-      settings.recycle = (value(node, context) === 'true')
-      break
+      settings.recycle = value(node, context) === 'true';
+      break;
     case 'shareMode': {
-      const share = value(node, context).split('.').pop()
+      const share = value(node, context).split('.').pop();
       if (share !== 'all') {
-        throw new Error('Unsupported sharing mode: ' + share)
+        throw new Error(`Unsupported sharing mode: ${share}`);
       }
-      break
+      break;
     }
     case 'stopThread': {
-      const stopThread = (value(node, context) === 'true')
-      if (stopThread) throw new Error('k6 does not support stopping thread')
-      break
+      const stopThread = value(node, context) === 'true';
+      if (stopThread) {
+        throw new Error('k6 does not support stopping thread');
+      }
+      break;
     }
     case 'variableNames':
-      settings.names = value(node, context)
-      break
-    default: throw new Error('Unrecognized CSVDataSet property: ' + name)
+      settings.names = value(node, context);
+      break;
+    default:
+      throw new Error(`Unrecognized CSVDataSet property: ${name}`);
   }
 }
 
-function sufficient (settings) {
-  return (
-    settings.delimiter &&
-    settings.path
-  )
+function sufficient(settings) {
+  return settings.delimiter && settings.path;
 }
 
-function render (settings, context, result) {
-  result.state.add('csvPage')
-  result.state.add('csvColumns')
-  result.state.add('vars')
-  result.state.add('vus')
-  if (settings.names) processNames(settings)
-  const { path } = settings
-  const options = { delimiter: settings.delimiter }
-  if (settings.quoted) options.quoteChar = '"'
-  const customNames = (
-    settings.names && settings.names.length && !settings.skip1
-  )
-  if (!customNames) options.header = true
-  result.imports.set('buffer', 'buffer/')
-  result.imports.set('iconv', 'iconv-lite')
-  result.imports.set('papaparse', 'papaparse')
-  result.files.set(path, { binary: true })
-  const file = `files[${path}]`
+function render(settings, context, result) {
+  result.state.add('csvPage');
+  result.state.add('csvColumns');
+  result.state.add('vars');
+  result.state.add('vus');
+  if (settings.names) {
+    processNames(settings);
+  }
+  const { path } = settings;
+  const options = { delimiter: settings.delimiter };
+  if (settings.quoted) {
+    options.quoteChar = '"';
+  }
+  const customNames =
+    settings.names && settings.names.length && !settings.skip1;
+  if (!customNames) {
+    options.header = true;
+  }
+  result.imports.set('buffer', 'buffer/');
+  result.imports.set('iconv', 'iconv-lite');
+  result.imports.set('papaparse', 'papaparse');
+  result.files.set(path, { binary: true });
+  const file = `files[${path}]`;
   result.init = `
 
 ${file} = buffer.Buffer.from([ ...${file} ])
 ${file} = iconv.decode(${file}, ${renderEncoding(settings)})
 ${file} = papaparse.parse(${file}, ${JSON.stringify(options)}).data
-csvPage[${path}] = 0` + (customNames ? renderNames(settings, path) : '')
-  renderRead(settings, result, path, file, customNames)
+csvPage[${path}] = 0${customNames ? renderNames(settings, path) : ''}`;
+  renderRead(settings, result, path, file, customNames);
 }
 
-function processNames (settings) {
-  const { data: [ names ] } = papaparse.parse(settings.names, {
+function processNames(settings) {
+  const {
+    data: [names],
+  } = papaparse.parse(settings.names, {
     delimiter: settings.delimiter,
-    quoteChar: '"'
-  })
-  settings.names = names
+    quoteChar: '"',
+  });
+  settings.names = names;
 }
 
-function renderNames (settings, path) {
-  const names = settings.names
-  const dict = {}
-  for (let i = 0; i < names.length; i++) dict[names[i]] = i
-  return `\ncsvColumns[${path}] = ${JSON.stringify(dict)}`
+function renderNames(settings, path) {
+  const { names } = settings;
+  const dict = {};
+  for (let i = 0; i < names.length; i += 1) {
+    dict[names[i]] = i;
+  }
+  return `\ncsvColumns[${path}] = ${JSON.stringify(dict)}`;
 }
 
-function renderEncoding (settings) {
-  const { fileEncoding: encoding } = settings
-  if (!encoding) return `'utf8'`
+function renderEncoding(settings) {
+  const { fileEncoding: encoding } = settings;
+  if (!encoding) {
+    return `'utf8'`;
+  }
   switch (encoding) {
-    case 'UTF-8': return `'utf8'`
-    case 'UTF-16': return `'utf16'`
-    case 'US-ASCII': return `'ascii'`
-    default: return encoding
+    case 'UTF-8':
+      return `'utf8'`;
+    case 'UTF-16':
+      return `'utf16'`;
+    case 'US-ASCII':
+      return `'ascii'`;
+    default:
+      return encoding;
   }
 }
 
-function renderRead (settings, result, path, file, customNames) {
-  if (settings.recycle) renderRotate(result, path, file, customNames)
-  else renderLimited(result, path, file, customNames)
+function renderRead(settings, result, path, file, customNames) {
+  if (settings.recycle) {
+    renderRotate(result, path, file, customNames);
+  } else {
+    renderLimited(result, path, file, customNames);
+  }
 }
 
-function renderRotate (result, path, file, customNames) {
-  const page = `csvPage[path]`
-  const transport = renderTransport(customNames)
+function renderRotate(result, path, file, customNames) {
+  const page = `csvPage[path]`;
+  const transport = renderTransport(customNames);
   result.prolog += `
 
 {
@@ -157,12 +185,12 @@ function renderRotate (result, path, file, customNames) {
   } else ${page}++
   const record = file[index]
 ${ind(transport)}
-}`
+}`;
 }
 
-function renderLimited (result, path, file, customNames) {
-  const page = `csvPage[path]`
-  const transport = renderTransport(customNames)
+function renderLimited(result, path, file, customNames) {
+  const page = `csvPage[path]`;
+  const transport = renderTransport(customNames);
   result.prolog += `
 
 {
@@ -187,18 +215,17 @@ ${ind(ind(ind(transport)))}
       ${page}++
     }
   }
-}`
+}`;
 }
 
-function renderTransport (customNames) {
+function renderTransport(customNames) {
   if (customNames) {
     return `for (const name of Object.keys(csvColumns[path])) {
   const index = csvColumns[path][name]
   vars[name] = record[index]
-}`
-  } else {
-    return `for (const name of Object.keys(record)) vars[name] = record[name]`
+}`;
   }
+  return `for (const name of Object.keys(record)) vars[name] = record[name]`;
 }
 
-module.exports = CSVDataSet
+module.exports = CSVDataSet;

@@ -1,8 +1,8 @@
-const string = require('./string/convert')
-const text = require('./text')
+const string = require("./string/convert");
+const text = require("./text");
 
-function value (node, context) {
-  return string(text(node.children))
+function value(node, _) {
+  return string(text(node.children));
 }
 
-module.exports = value
+module.exports = value;

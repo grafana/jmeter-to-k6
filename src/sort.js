@@ -1,9 +1,15 @@
-function caseInsensitive (a, b) {
-  a = a.toLowerCase()
-  b = b.toLowerCase()
-  return a > b ? 1 : a < b ? -1 : 0
+function caseInsensitive(a, b) {
+  const left = a.toLowerCase();
+  const right = b.toLowerCase();
+  if (left > right) {
+    return 1;
+  }
+  if (left < right) {
+    return -1;
+  }
+  return 0;
 }
 
 Object.assign(exports, {
-  caseInsensitive
-})
+  caseInsensitive,
+});

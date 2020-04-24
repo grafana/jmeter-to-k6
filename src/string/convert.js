@@ -1,15 +1,17 @@
-const interpolate = require('./interpolate')
+const interpolate = require("./interpolate");
 
-const find = /(?:^|\\\\|[^\\])\${.*}/
+const find = /(?:^|\\\\|[^\\])\${.*}/;
 
 // Evaluate convert time string
-function string (value, context) {
-  if (find.test(value)) return unescape(interpolate(value, context))
-  else return value
+function convertTimeString(value, context) {
+  if (find.test(value)) {
+    return unescape(interpolate(value, context));
+  }
+  return value;
 }
 
-function unescape (string) {
-  return string.replace(/\\([\\$,])/g, '$1')
+function unescape(string) {
+  return string.replace(/\\([\\$,])/g, "$1");
 }
 
-module.exports = string
+module.exports = convertTimeString;

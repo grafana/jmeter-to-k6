@@ -1,8 +1,8 @@
 const browserify = require('browserify')
 const fs = require('fs')
-const ind = require('./ind')
 const tinyify = require('tinyify')
 const tmp = require('tmp')
+const ind = require('./ind')
 
 async function buildCompat (imports) {
   if (!imports.size) {

@@ -1,8 +1,10 @@
-module.exports = (...args) => { return elements(...args) }
+module.exports = (...args) => {
+  return elements(...args);
+};
 
-const merge = require('./merge')
-const element = require('./element')
-const makeResult = require('./result')
+const merge = require('./merge');
+const element = require('./element');
+const makeResult = require('./result');
 
 /**
  * Convert child elements
@@ -11,9 +13,11 @@ const makeResult = require('./result')
  *
  * @return {ConvertResult}
  */
-function elements (nodes, context) {
-  const result = makeResult()
-  nodes = nodes.filter(node => node.type === 'element')
-  for (const node of nodes) merge(result, element(node, context))
-  return result
+function elements(input, context) {
+  const result = makeResult();
+  const nodes = input.filter((node) => node.type === 'element');
+  for (const node of nodes) {
+    merge(result, element(node, context));
+  }
+  return result;
 }
