@@ -1,8 +1,8 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import document from 'document'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import document from 'document';
 
-test('1 entry', t => {
+test('1 entry', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -18,15 +18,15 @@ test('1 entry', t => {
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.options.hosts, {
-    '"example.com"': '"1.1.1.1"'
-  })
-})
+    '"example.com"': '"1.1.1.1"',
+  });
+});
 
-test('3 entries', t => {
+test('3 entries', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -50,12 +50,12 @@ test('3 entries', t => {
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.options.hosts, {
     '"1.example.com"': '"1.1.1.1"',
     '"2.example.com"': '"2.2.2.2"',
-    '"3.example.com"': '"3.3.3.3"'
-  })
-})
+    '"3.example.com"': '"3.3.3.3"',
+  });
+});

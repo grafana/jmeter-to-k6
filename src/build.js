@@ -1,96 +1,96 @@
-const browserify = require('browserify')
-const fs = require('fs')
-const tinyify = require('tinyify')
-const tmp = require('tmp')
-const ind = require('./ind')
+const browserify = require('browserify');
+const fs = require('fs');
+const tinyify = require('tinyify');
+const tmp = require('tmp');
+const ind = require('./ind');
 
-async function buildCompat (imports) {
+async function buildCompat(imports) {
   if (!imports.size) {
-    return null
+    return null;
   }
-  const index = renderIndex(imports)
-  const [ dir, cleanupDir ] = await makeDir()
+  const index = renderIndex(imports);
+  const [dir, cleanupDir] = await makeDir();
   try {
-    await stageModules(dir)
-    await stageIndex(dir, index)
-    return bundle(dir)
+    await stageModules(dir);
+    await stageIndex(dir, index);
+    return bundle(dir);
   } finally {
-    cleanupDir()
+    cleanupDir();
   }
 }
 
-function renderIndex (imports) {
-  const entries = []
-  for (const [ name, spec ] of imports) {
+function renderIndex(imports) {
+  const entries = [];
+  for (const [name, spec] of imports) {
     if (typeof spec === 'object') {
-      entries.push(indirectEntry(name, spec))
+      entries.push(indirectEntry(name, spec));
     } else {
-      entries.push(directEntry(name, spec))
+      entries.push(directEntry(name, spec));
     }
   }
   return `Object.assign(exports, {
 ${ind(entries.join(`,\n`))}
-})`
+})`;
 }
 
-function directEntry (name, id) {
-  return `${name}: require(${JSON.stringify(id)})`
+function directEntry(name, id) {
+  return `${name}: require(${JSON.stringify(id)})`;
 }
 
-function indirectEntry (name, spec) {
-  return `${name}: require(${JSON.stringify(spec.base)}).${name}`
+function indirectEntry(name, spec) {
+  return `${name}: require(${JSON.stringify(spec.base)}).${name}`;
 }
 
-async function makeDir () {
+async function makeDir() {
   return new Promise((resolve, reject) => {
     tmp.dir((error, path, cleanup) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve([ path, cleanup ])
+        resolve([path, cleanup]);
       }
-    })
-  })
+    });
+  });
 }
 
-async function stageModules (dir) {
+async function stageModules(dir) {
   return new Promise((resolve, reject) => {
-    const target = `${__dirname}/../node_modules`
-    fs.symlink(target, `${dir}/node_modules`, error => {
+    const target = `${__dirname}/../node_modules`;
+    fs.symlink(target, `${dir}/node_modules`, (error) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve()
+        resolve();
       }
-    })
-  })
+    });
+  });
 }
 
-async function stageIndex (dir, index) {
+async function stageIndex(dir, index) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(`${dir}/index.js`, index, error => {
+    fs.writeFile(`${dir}/index.js`, index, (error) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve()
+        resolve();
       }
-    })
-  })
+    });
+  });
 }
 
-async function bundle (dir) {
+async function bundle(dir) {
   return new Promise((resolve, reject) => {
-    const bundler = browserify(`${dir}/index.js`, { standalone: 'Compat' })
-    bundler.plugin(tinyify, { flat: false })
+    const bundler = browserify(`${dir}/index.js`, { standalone: 'Compat' });
+    bundler.plugin(tinyify, { flat: false });
     bundler.bundle((error, buffer) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        const string = buffer.toString('utf8')
-        resolve(string)
+        const string = buffer.toString('utf8');
+        resolve(string);
       }
-    })
-  })
+    });
+  });
 }
 
-module.exports = buildCompat
+module.exports = buildCompat;

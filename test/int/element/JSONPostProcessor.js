@@ -1,21 +1,23 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import { Post } from 'symbol'
-import JSONPostProcessor from 'element/JSONPostProcessor'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import { Post } from 'symbol';
+import JSONPostProcessor from 'element/JSONPostProcessor';
 
-test('named', t => {
+test('named', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
   <stringProp name="match_numbers">1</stringProp>
   <stringProp name="referenceNames">output</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const body = (() => {
@@ -31,22 +33,25 @@ test('named', t => {
       if (extract) vars[output] = extract
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('random', t => {
+test('random', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
   <stringProp name="match_numbers">0</stringProp>
   <stringProp name="referenceNames">output</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const body = (() => {
@@ -62,10 +67,11 @@ test('random', t => {
       if (extract) vars[output] = extract
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('default', t => {
+test('default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
@@ -73,12 +79,14 @@ test('default', t => {
   <stringProp name="referenceNames">output</stringProp>
   <stringProp name="defaultValues">--NOTFOUND--</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const defaults = ["--NOTFOUND--"]
@@ -96,22 +104,25 @@ test('default', t => {
       vars[output] = extract || defaultValue
     }
   } else defaults.forEach((value, i) => { vars[outputs[i]] = value })
-}`)
-})
+}`
+  );
+});
 
-test('multiple', t => {
+test('multiple', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book;$.author;$.publisher</stringProp>
   <stringProp name="match_numbers">1</stringProp>
   <stringProp name="referenceNames">book;author;publisher</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book","$.author","$.publisher"]
   const outputs = ["book","author","publisher"]
   const body = (() => {
@@ -127,10 +138,11 @@ test('multiple', t => {
       if (extract) vars[output] = extract
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('multiple default', t => {
+test('multiple default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book;$.author;$.publisher</stringProp>
@@ -138,12 +150,14 @@ test('multiple default', t => {
   <stringProp name="referenceNames">book;author;publisher</stringProp>
   <stringProp name="defaultValues">--NONE--;--NONE--;--NONE--</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book","$.author","$.publisher"]
   const outputs = ["book","author","publisher"]
   const defaults = ["--NONE--","--NONE--","--NONE--"]
@@ -161,10 +175,11 @@ test('multiple default', t => {
       vars[output] = extract || defaultValue
     }
   } else defaults.forEach((value, i) => { vars[outputs[i]] = value })
-}`)
-})
+}`
+  );
+});
 
-test('combine', t => {
+test('combine', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
@@ -172,12 +187,14 @@ test('combine', t => {
   <stringProp name="referenceNames">output</stringProp>
   <boolProp name="compute_concat">true</boolProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const body = (() => {
@@ -194,22 +211,25 @@ test('combine', t => {
       vars[output + '_ALL'] = matches.join(',')
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('distribute', t => {
+test('distribute', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
   <stringProp name="match_numbers">-1</stringProp>
   <stringProp name="referenceNames">output</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const body = (() => {
@@ -227,10 +247,11 @@ test('distribute', t => {
       }
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('distribute default', t => {
+test('distribute default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSONPostProcessor>
   <stringProp name="jsonPathExprs">$.book</stringProp>
@@ -238,12 +259,14 @@ test('distribute default', t => {
   <stringProp name="referenceNames">output</stringProp>
   <stringProp name="defaultValues">--NOTFOUND--</stringProp>
 </JSONPostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPostProcessor(node)
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPostProcessor(node);
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const queries = ["$.book"]
   const outputs = ["output"]
   const defaults = ["--NOTFOUND--"]
@@ -264,5 +287,6 @@ test('distribute default', t => {
       if (!matches.length) vars[output] = defaultValue
     }
   } else defaults.forEach((value, i) => { vars[outputs[i]] = value })
-}`)
-})
+}`
+  );
+});

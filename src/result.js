@@ -1,4 +1,4 @@
-function makeResult () {
+function makeResult() {
   return {
     state: new Set(),
     options: { stages: [] },
@@ -14,8 +14,8 @@ function makeResult () {
     prolog: '',
     users: [],
     steppingUser: '',
-    teardown: ''
-  }
+    teardown: '',
+  };
 }
 
-module.exports = makeResult
+module.exports = makeResult;

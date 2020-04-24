@@ -1,6 +1,6 @@
-const makeContext = require('../context')
-const merge = require('../merge')
-const variable = require('./variable')
+const makeContext = require('../context');
+const merge = require('../merge');
+const variable = require('./variable');
 
 /**
  * Convert variables collection
@@ -9,14 +9,14 @@ const variable = require('./variable')
  *
  * @return {ConvertResult}
  */
-function variables (node, context = makeContext()) {
-  const result = { vars: new Map() }
-  const items = node.children.filter(item => item.type === 'element')
+function variables(node, context = makeContext()) {
+  const result = { vars: new Map() };
+  const items = node.children.filter((item) => item.type === 'element');
   for (const item of items) {
-    const itemResult = variable(item, context)
-    merge(result, itemResult)
+    const itemResult = variable(item, context);
+    merge(result, itemResult);
   }
-  return result
+  return result;
 }
 
-module.exports = variables
+module.exports = variables;

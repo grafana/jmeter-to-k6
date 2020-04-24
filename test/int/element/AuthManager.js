@@ -1,9 +1,9 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import { Authentication } from 'symbol'
-import AuthManager from 'element/AuthManager'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import { Authentication } from 'symbol';
+import AuthManager from 'element/AuthManager';
 
-test('1 entry', t => {
+test('1 entry', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <AuthManager>
   <collectionProp name="auth_list">
@@ -14,21 +14,25 @@ test('1 entry', t => {
     </elementProp>
   </collectionProp>
 </AuthManager>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = AuthManager(node)
-  t.deepEqual(result.defaults, [ { [Authentication]: [
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = AuthManager(node);
+  t.deepEqual(result.defaults, [
     {
-      url: '"example.com"',
-      username: '"User123"',
-      password: '"secret1"',
-      mechanism: 'BASIC'
-    }
-  ] } ])
-})
+      [Authentication]: [
+        {
+          url: '"example.com"',
+          username: '"User123"',
+          password: '"secret1"',
+          mechanism: 'BASIC',
+        },
+      ],
+    },
+  ]);
+});
 
-test('3 entries', t => {
+test('3 entries', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <AuthManager>
   <collectionProp name="auth_list">
@@ -49,28 +53,32 @@ test('3 entries', t => {
     </elementProp>
   </collectionProp>
 </AuthManager>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = AuthManager(node)
-  t.deepEqual(result.defaults, [ { [Authentication]: [
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = AuthManager(node);
+  t.deepEqual(result.defaults, [
     {
-      url: '"1.example.com"',
-      username: '"User123"',
-      password: '"secret1"',
-      mechanism: 'BASIC'
+      [Authentication]: [
+        {
+          url: '"1.example.com"',
+          username: '"User123"',
+          password: '"secret1"',
+          mechanism: 'BASIC',
+        },
+        {
+          url: '"2.example.com"',
+          username: '"User456"',
+          password: '"secret2"',
+          mechanism: 'BASIC',
+        },
+        {
+          url: '"3.example.com"',
+          username: '"User789"',
+          password: '"secret3"',
+          mechanism: 'BASIC',
+        },
+      ],
     },
-    {
-      url: '"2.example.com"',
-      username: '"User456"',
-      password: '"secret2"',
-      mechanism: 'BASIC'
-    },
-    {
-      url: '"3.example.com"',
-      username: '"User789"',
-      password: '"secret3"',
-      mechanism: 'BASIC'
-    }
-  ] } ])
-})
+  ]);
+});

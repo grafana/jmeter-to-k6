@@ -4,5 +4,5 @@ Object.assign(module.exports, {
   Delay: Symbol('Delay'),
   Header: Symbol('Header'),
   Post: Symbol('Post'),
-  Runtime: Symbol('Runtime')
-})
+  Runtime: Symbol('Runtime'),
+});

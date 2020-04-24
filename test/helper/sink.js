@@ -1,5 +1,5 @@
-const mockRequire = require('mock-require')
-const sinon = require('sinon')
+const mockRequire = require('mock-require');
+const sinon = require('sinon');
 
 /**
  * Sink module
@@ -10,10 +10,10 @@ const sinon = require('sinon')
  *
  * @return {function} Anonymous spy.
  */
-function sink (path) {
-  const sinked = sinon.spy()
-  mockRequire(path, sinked)
-  return sinked
+function sink(path) {
+  const sinked = sinon.spy();
+  mockRequire(path, sinked);
+  return sinked;
 }
 
-module.exports = sink
+module.exports = sink;

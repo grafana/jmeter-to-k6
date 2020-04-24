@@ -1,10 +1,10 @@
-import test from 'ava'
-import makeContext from 'context'
-import parseXml from '@rgrove/parse-xml'
-import { Post } from 'symbol'
-import JSONPathExtractor from 'element/JSONPathExtractor'
+import test from 'ava';
+import makeContext from 'context';
+import parseXml from '@rgrove/parse-xml';
+import { Post } from 'symbol';
+import JSONPathExtractor from 'element/JSONPathExtractor';
 
-test('json', t => {
+test('json', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
   <stringProp name="SUBJECT">BODY</stringProp>
@@ -12,12 +12,14 @@ test('json', t => {
   <stringProp name="JSONPATH">$.book</stringProp>
   <stringProp name="VAR">output</stringProp>
 </com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPathExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPathExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const serial = r.body
   const input = (() => {
     try { return JSON.parse(serial) }
@@ -31,10 +33,11 @@ test('json', t => {
   for (let i = 0; i < matches.length; i++) {
     vars[output + '_' + (i+1)] = matches[i]
   }
-}`)
-})
+}`
+  );
+});
 
-test('yaml', t => {
+test('yaml', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
   <stringProp name="SUBJECT">BODY</stringProp>
@@ -42,12 +45,14 @@ test('yaml', t => {
   <stringProp name="JSONPATH">$.book</stringProp>
   <stringProp name="VAR">output</stringProp>
 </com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPathExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPathExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const serial = r.body
   const input = (() => {
     try { return yaml.parse(serial) }
@@ -61,10 +66,11 @@ test('yaml', t => {
   for (let i = 0; i < matches.length; i++) {
     vars[output + '_' + (i+1)] = matches[i]
   }
-}`)
-})
+}`
+  );
+});
 
-test('input var', t => {
+test('input var', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
   <stringProp name="SUBJECT">VAR</stringProp>
@@ -73,12 +79,14 @@ test('input var', t => {
   <stringProp name="JSONPATH">$.book</stringProp>
   <stringProp name="VAR">output</stringProp>
 </com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPathExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPathExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const serial = vars["input"] || ''
   const input = (() => {
     try { return JSON.parse(serial) }
@@ -92,10 +100,11 @@ test('input var', t => {
   for (let i = 0; i < matches.length; i++) {
     vars[output + '_' + (i+1)] = matches[i]
   }
-}`)
-})
+}`
+  );
+});
 
-test('default', t => {
+test('default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
   <stringProp name="SUBJECT">BODY</stringProp>
@@ -104,12 +113,14 @@ test('default', t => {
   <stringProp name="VAR">output</stringProp>
   <stringProp name="DEFAULT">--NOTFOUND--</stringProp>
 </com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSONPathExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSONPathExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   const serial = r.body
   const input = (() => {
     try { return JSON.parse(serial) }
@@ -123,5 +134,6 @@ test('default', t => {
   for (let i = 0; i < matches.length; i++) {
     vars[output + '_' + (i+1)] = matches[i]
   }
-}`)
-})
+}`
+  );
+});

@@ -1,10 +1,10 @@
-import test from 'ava'
-import makeContext from 'context'
-import parseXml from '@rgrove/parse-xml'
-import { Post } from 'symbol'
-import RegexExtractor from 'element/RegexExtractor'
+import test from 'ava';
+import makeContext from 'context';
+import parseXml from '@rgrove/parse-xml';
+import { Post } from 'symbol';
+import RegexExtractor from 'element/RegexExtractor';
 
-test('match 1', t => {
+test('match 1', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -12,12 +12,14 @@ test('match 1', t => {
   <stringProp name="template">$0$</stringProp>
   <stringProp name="refname">output</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -39,10 +41,11 @@ if (match) {
   delete vars[output + '_g']
   delete vars[output + '_g0']
   delete vars[output + '_g1']
-}`)
-})
+}`
+  );
+});
 
-test('match 2', t => {
+test('match 2', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -50,12 +53,14 @@ test('match 2', t => {
   <stringProp name="template">$0$</stringProp>
   <stringProp name="refname">output</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -77,10 +82,11 @@ if (match) {
   delete vars[output + '_g']
   delete vars[output + '_g0']
   delete vars[output + '_g1']
-}`)
-})
+}`
+  );
+});
 
-test('random', t => {
+test('random', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">.+: (.+)</stringProp>
@@ -88,12 +94,14 @@ test('random', t => {
   <stringProp name="template">$0$</stringProp>
   <stringProp name="refname">output</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp(".+: (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp(".+: (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -115,10 +123,11 @@ if (match) {
   delete vars[output + '_g']
   delete vars[output + '_g0']
   delete vars[output + '_g1']
-}`)
-})
+}`
+  );
+});
 
-test('default', t => {
+test('default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -127,12 +136,14 @@ test('default', t => {
   <stringProp name="refname">output</stringProp>
   <stringProp name="default">--NOTFOUND--</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -155,10 +166,11 @@ if (match) {
   delete vars[output + '_g']
   delete vars[output + '_g0']
   delete vars[output + '_g1']
-}`)
-})
+}`
+  );
+});
 
-test('default clear', t => {
+test('default clear', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -167,12 +179,14 @@ test('default clear', t => {
   <stringProp name="refname">output</stringProp>
   <boolProp name="default_empty_value">true</boolProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -195,10 +209,11 @@ if (match) {
   delete vars[output + '_g']
   delete vars[output + '_g0']
   delete vars[output + '_g1']
-}`)
-})
+}`
+  );
+});
 
-test('distribute', t => {
+test('distribute', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -206,12 +221,14 @@ test('distribute', t => {
   <stringProp name="template">$0$</stringProp>
   <stringProp name="refname">output</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -232,10 +249,11 @@ for (let i = 0; i < matches.length; i++) {
     const name = output + '_' + i + '_g' + j
     vars[name] = match[j]
   }
-}`)
-})
+}`
+  );
+});
 
-test('distribute default', t => {
+test('distribute default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <RegexExtractor>
   <stringProp name="regex">(.+): (.+)</stringProp>
@@ -244,12 +262,14 @@ test('distribute default', t => {
   <stringProp name="refname">output</stringProp>
   <stringProp name="default">--NOTFOUND--</stringProp>
 </RegexExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = RegexExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `regex = new RegExp("(.+): (.+)")
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = RegexExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `regex = new RegExp("(.+): (.+)")
 matches = (() => {
   const matches = []
   while (match = regex.exec(r.body)) matches.push(match)
@@ -271,5 +291,6 @@ for (let i = 0; i < matches.length; i++) {
     const name = output + '_' + i + '_g' + j
     vars[name] = match[j]
   }
-}`)
-})
+}`
+  );
+});

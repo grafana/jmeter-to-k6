@@ -1,6 +1,6 @@
-const loadUncached = require('./load')
-const mockRequire = require('mock-require')
-const sinon = require('sinon')
+const loadUncached = require('./load');
+const mockRequire = require('mock-require');
+const sinon = require('sinon');
 
 /**
  * Spy module
@@ -13,11 +13,11 @@ const sinon = require('sinon')
  *
  * @return {function} Spied procedure.
  */
-function spy (path) {
-  const original = loadUncached(path)
-  const spied = sinon.spy(original)
-  mockRequire(path, spied)
-  return spied
+function spy(path) {
+  const original = loadUncached(path);
+  const spied = sinon.spy(original);
+  mockRequire(path, spied);
+  return spied;
 }
 
-module.exports = spy
+module.exports = spy;

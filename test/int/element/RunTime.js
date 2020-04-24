@@ -1,8 +1,8 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import document from 'document'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import document from 'document';
 
-test('foreach', t => {
+test('foreach', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan>
   <RunTime>
@@ -19,10 +19,12 @@ test('foreach', t => {
     </ForeachController>
   </RunTime>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.is(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.is(
+    result.logic,
+    `
 
 {
   const deadline = Date.now() + 5000
@@ -34,10 +36,11 @@ test('foreach', t => {
     first = false
     if (Date.now() >= deadline) break
   }
-}`)
-})
+}`
+  );
+});
 
-test('loop', t => {
+test('loop', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan>
   <RunTime>
@@ -50,10 +53,12 @@ test('loop', t => {
     </LoopController>
   </RunTime>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.is(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.is(
+    result.logic,
+    `
 
 {
   const deadline = Date.now() + 5000
@@ -64,10 +69,11 @@ test('loop', t => {
     first = false
     if (Date.now() >= deadline) break
   } }
-}`)
-})
+}`
+  );
+});
 
-test('while', t => {
+test('while', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan>
   <RunTime>
@@ -80,10 +86,12 @@ test('while', t => {
     </WhileController>
   </RunTime>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.is(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.is(
+    result.logic,
+    `
 
 {
   const deadline = Date.now() + 5000
@@ -94,5 +102,6 @@ test('while', t => {
     first = false
     if (Date.now() >= deadline) break
   } }
-}`)
-})
+}`
+  );
+});

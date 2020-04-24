@@ -7,17 +7,13 @@
     "tags": {
         "allowUnknownTags": false
     },
-    "plugins": [
-        "plugins/markdown"
-    ],
+    "plugins": ["plugins/markdown"],
     "templates": {
         "default": {
             "outputSourceFiles": false
         }
     },
     "source": {
-        "include": [
-            "src"
-        ]
+        "include": ["src"]
     }
 }

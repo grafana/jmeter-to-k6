@@ -1,2 +1,2 @@
-const stub = require('helper/stub')
-module.exports = stub('element')
+const stub = require('helper/stub');
+module.exports = stub('element');

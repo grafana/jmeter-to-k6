@@ -1,58 +1,58 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import property from 'common/property'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import property from 'common/property';
 
-test('string empty', t => {
+test('string empty', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <stringProp name="description"/>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { description: null })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, { description: null });
+});
 
-test('string nonempty', t => {
+test('string nonempty', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <stringProp name="description">The most hargled of all</stringProp>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { description: '"The most hargled of all"' })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, { description: '"The most hargled of all"' });
+});
 
-test('bool empty', t => {
+test('bool empty', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <boolProp name="flag"/>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { flag: null })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, { flag: null });
+});
 
-test('bool true', t => {
+test('bool true', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <boolProp name="flag">true</boolProp>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { flag: true })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, { flag: true });
+});
 
-test('bool false', t => {
+test('bool false', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <boolProp name="flag">false</boolProp>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { flag: false })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, { flag: false });
+});
 
-test('Arguments', t => {
+test('Arguments', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <elementProp elementType="Arguments" name="TrueRulers">
   <collectionProp>
@@ -70,13 +70,15 @@ test('Arguments', t => {
     </elementProp>
   </collectionProp>
 </elementProp>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = property(node)
-  t.deepEqual(result, { TrueRulers: [
-    { running: false, moniker: '"HAL"' },
-    { running: true, moniker: '"Multivac"' },
-    { runningEverything: true, moniker: '"Master Control Program"' }
-  ] })
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = property(node);
+  t.deepEqual(result, {
+    TrueRulers: [
+      { running: false, moniker: '"HAL"' },
+      { running: true, moniker: '"Multivac"' },
+      { runningEverything: true, moniker: '"Master Control Program"' },
+    ],
+  });
+});

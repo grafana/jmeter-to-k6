@@ -1,7 +1,7 @@
-const elements = require('../elements')
+const elements = require('../elements');
 
-function hashTree (node, context) {
-  return elements(node.children, context)
+function hashTree(node, context) {
+  return elements(node.children, context);
 }
 
-module.exports = hashTree
+module.exports = hashTree;

@@ -1,12 +1,12 @@
-const makeContext = require("../context");
-const match = require("./match");
+const makeContext = require('../context');
+const match = require('./match');
 
-const left = "(?:^|\\\\\\\\|[^\\\\])\\${";
-const right = "}";
+const left = '(?:^|\\\\\\\\|[^\\\\])\\${';
+const right = '}';
 
 function interpolate(input, context = makeContext()) {
   let text = input;
-  const ranges = match(text, left, right, "g");
+  const ranges = match(text, left, right, 'g');
   if (!ranges.length) {
     return text;
   }
@@ -26,10 +26,10 @@ function replace(string, [start, end], context) {
 function evaluate(input, context) {
   const text = interpolate(input, context);
 
-  if (text === "") {
-    return "";
+  if (text === '') {
+    return '';
   }
-  if (text.substring(0, 2) === "__") {
+  if (text.substring(0, 2) === '__') {
     return func(text, context);
   }
 
@@ -39,8 +39,8 @@ function evaluate(input, context) {
 function func(string, _context) {
   const name = /^__([^(]+)\(/.exec(string)[1];
   switch (name) {
-    case "threadNum":
-      throw new Error("__threadNum invalid at convert time");
+    case 'threadNum':
+      throw new Error('__threadNum invalid at convert time');
     default:
       throw new Error(`JMeter function not implemented: __${name}`);
   }

@@ -1,9 +1,9 @@
-import test from 'ava'
-import makeContext from 'context'
-import parseXml from '@rgrove/parse-xml'
-import JSR223PostProcessor from 'element/JSR223PostProcessor'
+import test from 'ava';
+import makeContext from 'context';
+import parseXml from '@rgrove/parse-xml';
+import JSR223PostProcessor from 'element/JSR223PostProcessor';
 
-test('code', t => {
+test('code', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSR223PostProcessor>
   <stringProp name="script">a = 1
@@ -11,11 +11,13 @@ b = a * 5
 print(b)</stringProp>
   <stringProp name="scriptLanguage">groovy</stringProp>
 </JSR223PostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSR223PostProcessor(node, makeContext())
-  t.is(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSR223PostProcessor(node, makeContext());
+  t.is(
+    result.logic,
+    `
 
 /* JSR223PostProcessor
 
@@ -25,20 +27,23 @@ a = 1
 b = a * 5
 print(b)
 
-*/`)
-})
+*/`
+  );
+});
 
-test('file', t => {
+test('file', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <JSR223PostProcessor>
   <stringProp name="filename">file.script</stringProp>
   <stringProp name="scriptLanguage">groovy</stringProp>
 </JSR223PostProcessor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = JSR223PostProcessor(node, makeContext())
-  t.is(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = JSR223PostProcessor(node, makeContext());
+  t.is(
+    result.logic,
+    `
 
 /* JSR223PostProcessor
 
@@ -46,5 +51,6 @@ language: groovy
 
 file: "file.script"
 
-*/`)
-})
+*/`
+  );
+});

@@ -1,8 +1,8 @@
-const parseXml = require('@rgrove/parse-xml')
-const document = require('./document')
+const parseXml = require('@rgrove/parse-xml');
+const document = require('./document');
 
-function analyze (xml) {
-  return document(parseXml(xml))
+function analyze(xml) {
+  return document(parseXml(xml));
 }
 
-module.exports = analyze
+module.exports = analyze;

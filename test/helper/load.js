@@ -1,4 +1,4 @@
-const decache = require('decache')
+const decache = require('decache');
 
 /**
  * Load module without caching
@@ -7,10 +7,10 @@ const decache = require('decache')
  *
  * @return Module default export.
  */
-function loadUncached (path) {
-  const module = require(path)
-  decache(path)
-  return module
+function loadUncached(path) {
+  const module = require(path);
+  decache(path);
+  return module;
 }
 
-module.exports = loadUncached
+module.exports = loadUncached;

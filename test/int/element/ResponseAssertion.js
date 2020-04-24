@@ -1,9 +1,9 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import { Check } from 'symbol'
-import ResponseAssertion from 'element/ResponseAssertion'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import { Check } from 'symbol';
+import ResponseAssertion from 'element/ResponseAssertion';
 
-test('match field', t => {
+test('match field', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -12,17 +12,17 @@ test('match field', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion':
-      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "s"))'
-  })
-})
+    ResponseAssertion:
+      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "s"))',
+  });
+});
 
-test('contain field', t => {
+test('contain field', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -31,17 +31,17 @@ test('contain field', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion':
-      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "m"))'
-  })
-})
+    ResponseAssertion:
+      'return (perlRegex.match(r.body, "Herbert\'s Bakery", "m"))',
+  });
+});
 
-test('match header', t => {
+test('match header', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_headers</stringProp>
@@ -50,19 +50,18 @@ test('match header', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
+    ResponseAssertion:
       'return (Object.values(r.headers).find(value =>' +
-      ' perlRegex.match(value, "Herbert\'s Bakery", "s")))'
-    )
-  })
-})
+      ' perlRegex.match(value, "Herbert\'s Bakery", "s")))',
+  });
+});
 
-test('contain header', t => {
+test('contain header', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_headers</stringProp>
@@ -71,19 +70,18 @@ test('contain header', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
+    ResponseAssertion:
       'return (Object.values(r.headers).find(value =>' +
-      ' perlRegex.match(value, "Herbert\'s Bakery", "m")))'
-    )
-  })
-})
+      ' perlRegex.match(value, "Herbert\'s Bakery", "m")))',
+  });
+});
 
-test('equal field', t => {
+test('equal field', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -92,16 +90,16 @@ test('equal field', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': 'return (r.body === "Herbert\'s Bakery")'
-  })
-})
+    ResponseAssertion: 'return (r.body === "Herbert\'s Bakery")',
+  });
+});
 
-test('equal status', t => {
+test('equal status', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_code</stringProp>
@@ -110,16 +108,16 @@ test('equal status', t => {
     <stringProp>200</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': 'return (r.status === 200)'
-  })
-})
+    ResponseAssertion: 'return (r.status === 200)',
+  });
+});
 
-test('equal header', t => {
+test('equal header', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_headers</stringProp>
@@ -128,18 +126,17 @@ test('equal header', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
-      'return (Object.values(r.headers).includes("Herbert\'s Bakery"))'
-    )
-  })
-})
+    ResponseAssertion:
+      'return (Object.values(r.headers).includes("Herbert\'s Bakery"))',
+  });
+});
 
-test('substring field', t => {
+test('substring field', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -148,16 +145,16 @@ test('substring field', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': 'return (r.body.includes("Herbert\'s Bakery"))'
-  })
-})
+    ResponseAssertion: 'return (r.body.includes("Herbert\'s Bakery"))',
+  });
+});
 
-test('substring header', t => {
+test('substring header', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_headers</stringProp>
@@ -166,19 +163,18 @@ test('substring header', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
+    ResponseAssertion:
       'return (Object.values(r.headers).find(value =>' +
-      ' value.includes("Herbert\'s Bakery")))'
-    )
-  })
-})
+      ' value.includes("Herbert\'s Bakery")))',
+  });
+});
 
-test('negate', t => {
+test('negate', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -187,16 +183,16 @@ test('negate', t => {
     <stringProp>Herbert's Bakery</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': 'return !(r.body === "Herbert\'s Bakery")'
-  })
-})
+    ResponseAssertion: 'return !(r.body === "Herbert\'s Bakery")',
+  });
+});
 
-test('conjunction', t => {
+test('conjunction', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -207,20 +203,19 @@ test('conjunction', t => {
     <stringProp>Buy something delicious today.</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
+    ResponseAssertion:
       'return (r.body.includes("Herbert\'s Bakery")' +
       ' && r.body.includes("The best pastries!")' +
-      ' && r.body.includes("Buy something delicious today."))'
-    )
-  })
-})
+      ' && r.body.includes("Buy something delicious today."))',
+  });
+});
 
-test('disjunction', t => {
+test('disjunction', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ResponseAssertion>
   <stringProp name="test_field">response_data</stringProp>
@@ -231,15 +226,14 @@ test('disjunction', t => {
     <stringProp>Buy something delicious today.</stringProp>
   </collectionProp>
 </ResponseAssertion>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ResponseAssertion(node)
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ResponseAssertion(node);
   t.deepEqual(result.defaults[0][Check], {
-    'ResponseAssertion': (
+    ResponseAssertion:
       'return (r.body.includes("Herbert\'s Bakery")' +
       ' || r.body.includes("The best pastries!")' +
-      ' || r.body.includes("Buy something delicious today."))'
-    )
-  })
-})
+      ' || r.body.includes("Buy something delicious today."))',
+  });
+});

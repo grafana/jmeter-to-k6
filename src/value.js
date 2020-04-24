@@ -1,5 +1,5 @@
-const string = require("./string/convert");
-const text = require("./text");
+const string = require('./string/convert');
+const text = require('./text');
 
 function value(node, _) {
   return string(text(node.children));

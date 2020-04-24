@@ -1,26 +1,31 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import CSVDataSet from 'element/CSVDataSet'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import CSVDataSet from 'element/CSVDataSet';
 
-test('minimal', t => {
+test('minimal', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <CSVDataSet>
   <stringProp name="delimiter">,</stringProp>
   <stringProp name="filename">file.csv</stringProp>
 </CSVDataSet>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
-  t.is(result.init, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = CSVDataSet(node);
+  t.is(result.imports.get('papaparse'), 'papaparse');
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true });
+  t.is(
+    result.init,
+    `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])
 files["file.csv"] = iconv.decode(files["file.csv"], 'utf8')
 files["file.csv"] = papaparse.parse(files["file.csv"], {"delimiter":",","header":true}).data
-csvPage["file.csv"] = 0`)
-  t.is(result.prolog, `
+csvPage["file.csv"] = 0`
+  );
+  t.is(
+    result.prolog,
+    `
 
 {
   /*
@@ -44,29 +49,35 @@ csvPage["file.csv"] = 0`)
       csvPage[path]++
     }
   }
-}`)
-})
+}`
+  );
+});
 
-test('rotate', t => {
+test('rotate', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <CSVDataSet>
   <stringProp name="delimiter">,</stringProp>
   <stringProp name="filename">file.csv</stringProp>
   <boolProp name="recycle">true</boolProp>
 </CSVDataSet>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
-  t.is(result.init, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = CSVDataSet(node);
+  t.is(result.imports.get('papaparse'), 'papaparse');
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true });
+  t.is(
+    result.init,
+    `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])
 files["file.csv"] = iconv.decode(files["file.csv"], 'utf8')
 files["file.csv"] = papaparse.parse(files["file.csv"], {"delimiter":",","header":true}).data
-csvPage["file.csv"] = 0`)
-  t.is(result.prolog, `
+csvPage["file.csv"] = 0`
+  );
+  t.is(
+    result.prolog,
+    `
 
 {
   /*
@@ -86,30 +97,36 @@ csvPage["file.csv"] = 0`)
   } else csvPage[path]++
   const record = file[index]
   for (const name of Object.keys(record)) vars[name] = record[name]
-}`)
-})
+}`
+  );
+});
 
-test('custom names', t => {
+test('custom names', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <CSVDataSet>
   <stringProp name="delimiter">,</stringProp>
   <stringProp name="filename">file.csv</stringProp>
   <stringProp name="variableNames">first,second,"thi,rd"</stringProp>
 </CSVDataSet>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = CSVDataSet(node)
-  t.is(result.imports.get('papaparse'), 'papaparse')
-  t.deepEqual(result.files.get('"file.csv"'), { binary: true })
-  t.is(result.init, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = CSVDataSet(node);
+  t.is(result.imports.get('papaparse'), 'papaparse');
+  t.deepEqual(result.files.get('"file.csv"'), { binary: true });
+  t.is(
+    result.init,
+    `
 
 files["file.csv"] = buffer.Buffer.from([ ...files["file.csv"] ])
 files["file.csv"] = iconv.decode(files["file.csv"], 'utf8')
 files["file.csv"] = papaparse.parse(files["file.csv"], {"delimiter":","}).data
 csvPage["file.csv"] = 0
-csvColumns["file.csv"] = {"first":0,"second":1,"thi,rd":2}`)
-  t.is(result.prolog, `
+csvColumns["file.csv"] = {"first":0,"second":1,"thi,rd":2}`
+  );
+  t.is(
+    result.prolog,
+    `
 
 {
   /*
@@ -136,5 +153,6 @@ csvColumns["file.csv"] = {"first":0,"second":1,"thi,rd":2}`)
       csvPage[path]++
     }
   }
-}`)
-})
+}`
+  );
+});

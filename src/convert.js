@@ -1,8 +1,8 @@
-const analyze = require('./analyze')
-const render = require('./render')
+const analyze = require('./analyze');
+const render = require('./render');
 
-function convert (xml) {
-  return render(analyze(xml))
+function convert(xml) {
+  return render(analyze(xml));
 }
 
-module.exports = convert
+module.exports = convert;

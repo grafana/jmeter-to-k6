@@ -1,8 +1,8 @@
-const render = require("./render");
-const { variable } = require("../expression");
+const render = require('./render');
+const { variable } = require('../expression');
 
 function unescape(string) {
-  return string.replace(/\\([\\$,])/g, "$1");
+  return string.replace(/\\([\\$,])/g, '$1');
 }
 
 // Render runtime string

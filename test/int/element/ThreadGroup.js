@@ -1,8 +1,8 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import document from 'document'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import document from 'document';
 
-test('minimal', t => {
+test('minimal', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -14,14 +14,14 @@ test('minimal', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.deepEqual(result.options, { stages: [ { duration: '2s', target: 1 } ] })
-  t.deepEqual(result.users, [ '' ])
-})
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.deepEqual(result.options, { stages: [{ duration: '2s', target: 1 }] });
+  t.deepEqual(result.users, ['']);
+});
 
-test('multiple', t => {
+test('multiple', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -41,21 +41,20 @@ test('multiple', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.deepEqual(
-    result.options,
-    { stages: [
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.deepEqual(result.options, {
+    stages: [
       { target: 1, duration: '2s' },
       { target: 4, duration: '4s' },
-      { target: 9, duration: '6s' }
-    ] }
-  )
-  t.deepEqual(result.users, [ '', '', '' ])
-})
+      { target: 9, duration: '6s' },
+    ],
+  });
+  t.deepEqual(result.users, ['', '', '']);
+});
 
-test('iterations', t => {
+test('iterations', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -70,10 +69,13 @@ test('iterations', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.is(result.users[0], `if (__ITER < 50) {
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.is(
+    result.users[0],
+    `if (__ITER < 50) {
 
-}`)
-})
+}`
+  );
+});

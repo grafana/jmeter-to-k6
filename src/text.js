@@ -9,7 +9,7 @@ function reduce(text, node) {
 }
 
 function extractText(nodes) {
-  return nodes.reduce(reduce, "");
+  return nodes.reduce(reduce, '');
 }
 
 module.exports = extractText;

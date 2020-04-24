@@ -13,5 +13,5 @@ module.exports = {
   prolog: '',
   users: [],
   steppingUser: '',
-  teardown: ''
-}
+  teardown: '',
+};

@@ -1,54 +1,60 @@
-import test from 'ava'
-import makeContext from 'context'
-import parseXml from '@rgrove/parse-xml'
-import { Post } from 'symbol'
-import HtmlExtractor from 'element/HtmlExtractor'
+import test from 'ava';
+import makeContext from 'context';
+import parseXml from '@rgrove/parse-xml';
+import { Post } from 'symbol';
+import HtmlExtractor from 'element/HtmlExtractor';
 
-test('named', t => {
+test('named', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
   <stringProp name="match_number">1</stringProp>
   <stringProp name="refname">output</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
   extract = (match ? match.text() : null)
   if (extract) vars[output] = extract
-}`)
-})
+}`
+  );
+});
 
-test('random', t => {
+test('random', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
   <stringProp name="match_number">0</stringProp>
   <stringProp name="refname">output</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (matches.size() === 0 ? null : matches.eq(Math.floor(Math.random()*matches.size())))
   extract = (match ? match.text() : null)
   if (extract) vars[output] = extract
-}`)
-})
+}`
+  );
+});
 
-test('attribute', t => {
+test('attribute', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
@@ -56,22 +62,25 @@ test('attribute', t => {
   <stringProp name="attribute">name</stringProp>
   <stringProp name="refname">output</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
   extract = (match ? match.attr("name") : null)
   if (extract) vars[output] = extract
-}`)
-})
+}`
+  );
+});
 
-test('default', t => {
+test('default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
@@ -79,22 +88,25 @@ test('default', t => {
   <stringProp name="refname">output</stringProp>
   <stringProp name="default">--NOTFOUND--</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
   extract = (match ? match.text() : null)
   vars[output] = extract || "--NOTFOUND--"
-}`)
-})
+}`
+  );
+});
 
-test('default clear', t => {
+test('default clear', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
@@ -102,34 +114,39 @@ test('default clear', t => {
   <stringProp name="refname">output</stringProp>
   <boolProp name="default_empty_value">true</boolProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
   match = (1 > matches.size() ? null : matches.eq(0))
   extract = (match ? match.text() : null)
   vars[output] = extract || ''
-}`)
-})
+}`
+  );
+});
 
-test('distribute text', t => {
+test('distribute text', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
   <stringProp name="match_number">-1</stringProp>
   <stringProp name="refname">output</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
@@ -138,10 +155,11 @@ test('distribute text', t => {
     match = matches.eq(i)
     vars[output + '_' + (i+1)] = match.text()
   }
-}`)
-})
+}`
+  );
+});
 
-test('distribute attribute', t => {
+test('distribute attribute', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
@@ -149,12 +167,14 @@ test('distribute attribute', t => {
   <stringProp name="attribute">name</stringProp>
   <stringProp name="refname">output</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
@@ -163,10 +183,11 @@ test('distribute attribute', t => {
     match = matches.eq(i)
     vars[output + '_' + (i+1)] = match.attr("name")
   }
-}`)
-})
+}`
+  );
+});
 
-test('distribute default', t => {
+test('distribute default', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HtmlExtractor>
   <stringProp name="expr">div span</stringProp>
@@ -174,12 +195,14 @@ test('distribute default', t => {
   <stringProp name="refname">output</stringProp>
   <stringProp name="default">--NOTFOUND--</stringProp>
 </HtmlExtractor>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HtmlExtractor(node, makeContext())
-  const logic = result.defaults[0][Post][0]
-  t.is(logic, `{
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HtmlExtractor(node, makeContext());
+  const logic = result.defaults[0][Post][0];
+  t.is(
+    logic,
+    `{
   output = "output"
   const doc = html.parseHTML(r.body)
   matches = doc.find("div span")
@@ -189,5 +212,6 @@ test('distribute default', t => {
     match = matches.eq(i)
     vars[output + '_' + (i+1)] = match.text()
   }
-}`)
-})
+}`
+  );
+});

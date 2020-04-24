@@ -1,6 +1,6 @@
-const loadUncached = require('./load')
-const mockRequire = require('mock-require')
-const sinon = require('sinon')
+const loadUncached = require('./load');
+const mockRequire = require('mock-require');
+const sinon = require('sinon');
 
 /**
  * Stub module
@@ -13,11 +13,11 @@ const sinon = require('sinon')
  *
  * @return {function} Stubbed procedure.
  */
-function stub (path) {
-  const original = loadUncached(path)
-  const stubbed = sinon.stub({ original }, 'original')
-  mockRequire(path, stubbed)
-  return stubbed
+function stub(path) {
+  const original = loadUncached(path);
+  const stubbed = sinon.stub({ original }, 'original');
+  mockRequire(path, stubbed);
+  return stubbed;
 }
 
-module.exports = stub
+module.exports = stub;

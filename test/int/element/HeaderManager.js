@@ -1,9 +1,9 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import { Header } from 'symbol'
-import HeaderManager from 'element/HeaderManager'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import { Header } from 'symbol';
+import HeaderManager from 'element/HeaderManager';
 
-test('1 header', t => {
+test('1 header', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HeaderManager>
   <collectionProp name="headers">
@@ -13,16 +13,16 @@ test('1 header', t => {
     </elementProp>
   </collectionProp>
 </HeaderManager>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HeaderManager(node)
-  t.deepEqual(result.defaults, [ { [Header]: new Map([
-    [ '"User-Agent"', '"k6-load-tester"' ]
-  ]) } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HeaderManager(node);
+  t.deepEqual(result.defaults, [
+    { [Header]: new Map([['"User-Agent"', '"k6-load-tester"']]) },
+  ]);
+});
 
-test('3 headers', t => {
+test('3 headers', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <HeaderManager>
   <collectionProp name="headers">
@@ -40,13 +40,17 @@ test('3 headers', t => {
     </elementProp>
   </collectionProp>
 </HeaderManager>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = HeaderManager(node)
-  t.deepEqual(result.defaults, [ { [Header]: new Map([
-    [ '"User-Agent"', '"k6-load-tester"' ],
-    [ '"Accept-Charset"', '"utf-8"' ],
-    [ '"Accept-Encoding"', '"gzip, deflate"' ]
-  ]) } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = HeaderManager(node);
+  t.deepEqual(result.defaults, [
+    {
+      [Header]: new Map([
+        ['"User-Agent"', '"k6-load-tester"'],
+        ['"Accept-Charset"', '"utf-8"'],
+        ['"Accept-Encoding"', '"gzip, deflate"'],
+      ]),
+    },
+  ]);
+});

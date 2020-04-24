@@ -1,2 +1,2 @@
-const sink = require('helper/sink')
-module.exports = sink('element/jmeterTestPlan')
+const sink = require('helper/sink');
+module.exports = sink('element/jmeterTestPlan');

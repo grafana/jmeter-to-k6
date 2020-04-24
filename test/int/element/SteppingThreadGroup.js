@@ -1,8 +1,8 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import document from 'document'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import document from 'document';
 
-test('comment', t => {
+test('comment', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -15,15 +15,18 @@ test('comment', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
-  t.deepEqual(result.prolog, `
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
+  t.deepEqual(
+    result.prolog,
+    `
 
-/* Step up to load */`)
-})
+/* Step up to load */`
+  );
+});
 
-test('basic', t => {
+test('basic', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -35,19 +38,19 @@ test('basic', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '0s' },
     { target: 4, duration: '0s' },
     { target: 6, duration: '0s' },
     { target: 8, duration: '0s' },
-    { target: 10, duration: '0s' }
-  ])
-})
+    { target: 10, duration: '0s' },
+  ]);
+});
 
-test('remainder', t => {
+test('remainder', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -59,19 +62,19 @@ test('remainder', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 23, duration: '0s' },
     { target: 46, duration: '0s' },
     { target: 69, duration: '0s' },
     { target: 92, duration: '0s' },
-    { target: 107, duration: '0s' }
-  ])
-})
+    { target: 107, duration: '0s' },
+  ]);
+});
 
-test('ramp', t => {
+test('ramp', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -84,19 +87,19 @@ test('ramp', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
-    { target: 10, duration: '5s' }
-  ])
-})
+    { target: 10, duration: '5s' },
+  ]);
+});
 
-test('burst', t => {
+test('burst', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -110,18 +113,18 @@ test('burst', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
-    { target: 10, duration: '5s' }
-  ])
-})
+    { target: 10, duration: '5s' },
+  ]);
+});
 
-test('start interval', t => {
+test('start interval', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -135,9 +138,9 @@ test('start interval', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 2, duration: '30s' },
@@ -147,11 +150,11 @@ test('start interval', t => {
     { target: 6, duration: '30s' },
     { target: 8, duration: '5s' },
     { target: 8, duration: '30s' },
-    { target: 10, duration: '5s' }
-  ])
-})
+    { target: 10, duration: '5s' },
+  ]);
+});
 
-test('presleep', t => {
+test('presleep', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -165,20 +168,20 @@ test('presleep', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 0, duration: '60s' },
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
     { target: 6, duration: '5s' },
     { target: 8, duration: '5s' },
-    { target: 10, duration: '5s' }
-  ])
-})
+    { target: 10, duration: '5s' },
+  ]);
+});
 
-test('stop', t => {
+test('stop', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -192,9 +195,9 @@ test('stop', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
@@ -202,11 +205,11 @@ test('stop', t => {
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' },
     { target: 12, duration: '5s' },
-    { target: 0, duration: '0s' }
-  ])
-})
+    { target: 0, duration: '0s' },
+  ]);
+});
 
-test('stop interval', t => {
+test('stop interval', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -221,9 +224,9 @@ test('stop interval', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
@@ -231,11 +234,11 @@ test('stop interval', t => {
     { target: 8, duration: '5s' },
     { target: 10, duration: '5s' },
     { target: 12, duration: '5s' },
-    { target: 0, duration: '60s' }
-  ])
-})
+    { target: 0, duration: '60s' },
+  ]);
+});
 
-test('flight', t => {
+test('flight', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.0 r1840935">
   <hashTree>
@@ -251,9 +254,9 @@ test('flight', t => {
     </TestPlan>
   </hashTree>
 </jmeterTestPlan>
-`
-  const tree = parseXml(xml)
-  const result = document(tree)
+`;
+  const tree = parseXml(xml);
+  const result = document(tree);
   t.deepEqual(result.steppingStages, [
     { target: 2, duration: '5s' },
     { target: 4, duration: '5s' },
@@ -262,6 +265,6 @@ test('flight', t => {
     { target: 10, duration: '5s' },
     { target: 12, duration: '5s' },
     { target: 12, duration: '120s' },
-    { target: 0, duration: '60s' }
-  ])
-})
+    { target: 0, duration: '60s' },
+  ]);
+});

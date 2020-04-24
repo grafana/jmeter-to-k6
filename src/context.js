@@ -1,8 +1,8 @@
-function makeContext () {
+function makeContext() {
   return {
     defaults: [],
-    vars: new Map()
-  }
+    vars: new Map(),
+  };
 }
 
-module.exports = makeContext
+module.exports = makeContext;

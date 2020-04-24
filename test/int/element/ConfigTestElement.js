@@ -1,22 +1,25 @@
-import test from 'ava'
-import parseXml from '@rgrove/parse-xml'
-import ConfigTestElement from 'element/ConfigTestElement'
+import test from 'ava';
+import parseXml from '@rgrove/parse-xml';
+import ConfigTestElement from 'element/ConfigTestElement';
 
-test('comment', t => {
+test('comment', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="SimpleConfigGui">
   <stringProp name="comments">Default to standard port</stringProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.logic, `
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(
+    result.logic,
+    `
 
-/* Default to standard port */`)
-})
+/* Default to standard port */`
+  );
+});
 
-test('FTPRequestDefaults', t => {
+test('FTPRequestDefaults', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="FtpConfigGui">
   <stringProp name="FTPSampler.server">localhost</stringProp>
@@ -27,22 +30,26 @@ test('FTPRequestDefaults', t => {
   <boolProp name="FTPSampler.saveresponse">false</boolProp>
   <boolProp name="FTPSampler.upload">false</boolProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { FTPRequestDefaults: {
-    server: 'localhost',
-    port: '765',
-    filename: 'WorldDominationPlan.txt',
-    localfilename: 'InnocentDocument.txt',
-    binarymode: 'false',
-    saveresponse: 'false',
-    upload: 'false'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      FTPRequestDefaults: {
+        server: 'localhost',
+        port: '765',
+        filename: 'WorldDominationPlan.txt',
+        localfilename: 'InnocentDocument.txt',
+        binarymode: 'false',
+        saveresponse: 'false',
+        upload: 'false',
+      },
+    },
+  ]);
+});
 
-test('HTTPRequestDefaults', t => {
+test('HTTPRequestDefaults', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="HttpDefaultsGui">
   <stringProp name="domain">httpbin.org</stringProp>
@@ -54,23 +61,27 @@ test('HTTPRequestDefaults', t => {
   <stringProp name="connect_timeout">1000</stringProp>
   <stringProp name="response_timeout">2000</stringProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { HTTPRequestDefaults: {
-    domain: 'httpbin.org',
-    port: '80',
-    protocol: 'http',
-    contentEncoding: 'gzip',
-    path: '/get',
-    concurrentPool: '6',
-    connect_timeout: '1000',
-    response_timeout: '2000'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      HTTPRequestDefaults: {
+        domain: 'httpbin.org',
+        port: '80',
+        protocol: 'http',
+        contentEncoding: 'gzip',
+        path: '/get',
+        concurrentPool: '6',
+        connect_timeout: '1000',
+        response_timeout: '2000',
+      },
+    },
+  ]);
+});
 
-test('LDAPExtendedRequestDefaults', t => {
+test('LDAPExtendedRequestDefaults', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="LdapExtConfigGui">
   <stringProp name="servername"></stringProp>
@@ -92,20 +103,24 @@ test('LDAPExtendedRequestDefaults', t => {
   <stringProp name="modddn"></stringProp>
   <stringProp name="newdn"></stringProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { LDAPExtendedRequestDefaults: {
-    scope: '2',
-    'return_object': 'false',
-    'deref_aliases': 'false',
-    parseflag: 'false',
-    secure: 'false'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      LDAPExtendedRequestDefaults: {
+        scope: '2',
+        return_object: 'false',
+        deref_aliases: 'false',
+        parseflag: 'false',
+        secure: 'false',
+      },
+    },
+  ]);
+});
 
-test('LDAPRequestDefaults', t => {
+test('LDAPRequestDefaults', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="LdapConfigGui">
   <stringProp name="servername">localhost</stringProp>
@@ -113,35 +128,43 @@ test('LDAPRequestDefaults', t => {
   <boolProp name="user_defined">false</boolProp>
   <stringProp name="test">add</stringProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { LDAPRequestDefaults: {
-    servername: 'localhost',
-    port: '767',
-    'user_defined': 'false',
-    test: 'add'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      LDAPRequestDefaults: {
+        servername: 'localhost',
+        port: '767',
+        user_defined: 'false',
+        test: 'add',
+      },
+    },
+  ]);
+});
 
-test('LoginConfigElement', t => {
+test('LoginConfigElement', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="LoginConfigGui">
   <stringProp name="ConfigTestElement.username">BoatRocker787</stringProp>
   <stringProp name="ConfigTestElement.password">rockthisboat</stringProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { LoginConfigElement: {
-    username: 'BoatRocker787',
-    password: 'rockthisboat'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      LoginConfigElement: {
+        username: 'BoatRocker787',
+        password: 'rockthisboat',
+      },
+    },
+  ]);
+});
 
-test('TCPSamplerConfig', t => {
+test('TCPSamplerConfig', (t) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <ConfigTestElement guiclass="TCPConfigGui">
   <stringProp name="TCPSampler.server">localhost</stringProp>
@@ -152,15 +175,19 @@ test('TCPSamplerConfig', t => {
   <stringProp name="TCPSampler.request"></stringProp>
   <boolProp name="TCPSampler.closeConnection">false</boolProp>
 </ConfigTestElement>
-`
-  const tree = parseXml(xml)
-  const node = tree.children[0]
-  const result = ConfigTestElement(node)
-  t.deepEqual(result.defaults, [ { TCPSamplerConfig: {
-    server: 'localhost',
-    reUseConnection: 'true',
-    port: '799',
-    nodelay: 'false',
-    closeConnection: 'false'
-  } } ])
-})
+`;
+  const tree = parseXml(xml);
+  const node = tree.children[0];
+  const result = ConfigTestElement(node);
+  t.deepEqual(result.defaults, [
+    {
+      TCPSamplerConfig: {
+        server: 'localhost',
+        reUseConnection: 'true',
+        port: '799',
+        nodelay: 'false',
+        closeConnection: 'false',
+      },
+    },
+  ]);
+});

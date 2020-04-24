@@ -1,2 +1,2 @@
-const sink = require('helper/sink')
-module.exports = sink('merge')
+const sink = require('helper/sink');
+module.exports = sink('merge');

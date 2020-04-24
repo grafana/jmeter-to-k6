@@ -1,7 +1,7 @@
-const variable = /(?:^|\\\\|[^\\])\${(.*)}/
-const variables = /(?:^|\\\\|[^\\])\${(.*)}/g
+const variable = /(?:^|\\\\|[^\\])\${(.*)}/;
+const variables = /(?:^|\\\\|[^\\])\${(.*)}/g;
 
 Object.assign(exports, {
   variable,
-  variables
-})
+  variables,
+});

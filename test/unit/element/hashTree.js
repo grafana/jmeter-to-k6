@@ -1,14 +1,14 @@
-import test from 'ava'
-import elements from 'sink/elements'
-import hashTree from 'element/hashTree'
+import test from 'ava';
+import elements from 'sink/elements';
+import hashTree from 'element/hashTree';
 
-test.beforeEach(t => {
-  elements.resetHistory()
-})
+test.beforeEach((t) => {
+  elements.resetHistory();
+});
 
-test.serial('elements', t => {
-  const node = { children: Symbol('TestToken') }
-  hashTree(node)
-  t.true(elements.calledOnce)
-  t.is(elements.firstCall.args[0], node.children)
-})
+test.serial('elements', (t) => {
+  const node = { children: Symbol('TestToken') };
+  hashTree(node);
+  t.true(elements.calledOnce);
+  t.is(elements.firstCall.args[0], node.children);
+});
