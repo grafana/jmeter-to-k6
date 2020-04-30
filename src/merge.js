@@ -104,6 +104,11 @@ function mergeOption(base, update, key) {
       }
       mergeStages(base.stages, update.stages);
       break;
+    case 'noVUConnectionReuse':
+      // eslint-disable-next-line no-param-reassign
+      base.noVUConnectionReuse =
+        base.noVUConnectionReuse || update.noVUConnectionReuse; // once true, always true
+      break;
     default:
       throw new Error(`Unrecognized option: ${key}`);
   }

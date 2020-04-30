@@ -272,6 +272,8 @@ function renderOption(options, key) {
       return `hosts: ${renderHosts(options.hosts)}`;
     case 'stages':
       return `stages: ${JSON.stringify(expand(options.stages))}`;
+    case 'noVUConnectionReuse':
+      return `noVUConnectionReuse: ${options.noVUConnectionReuse.toString()}`;
     default:
       throw new Error(`Unrecognized option: ${key}`);
   }

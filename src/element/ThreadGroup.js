@@ -97,6 +97,12 @@ function property(node, context, settings, result) {
       result.options.stages[0].duration = `${valueString}s`;
       break;
     }
+    case 'same_user_on_next_iteration': {
+      const val = value(node, context);
+      // eslint-disable-next-line no-param-reassign
+      result.options.noVUConnectionReuse = val === 'false';
+      break;
+    }
     default:
       throw new Error(`Unrecognized ThreadGroup property: ${name}`);
   }

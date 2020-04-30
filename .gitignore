@@ -16,3 +16,5 @@ _build/
 
 # Deploy dir
 libs/
+jmeter.log
+.DS_Store
