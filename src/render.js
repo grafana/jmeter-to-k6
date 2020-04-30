@@ -271,7 +271,7 @@ function renderOption(options, key) {
     case 'hosts':
       return `hosts: ${renderHosts(options.hosts)}`;
     case 'stages':
-      return `stages: ${JSON.stringify(expand(options.stages))}`;
+      return `stages: ${JSON.stringify(expand(options.stages), '', 2)}`;
     case 'noVUConnectionReuse':
       return `noVUConnectionReuse: ${options.noVUConnectionReuse.toString()}`;
     default:

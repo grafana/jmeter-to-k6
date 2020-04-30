@@ -31,7 +31,12 @@ csvPage["file.csv"] = 0;
 csvColumns["file.csv"] = { query: 0 };
 
 export let options = {
-  stages: [{ target: 1, duration: "1s" }],
+  stages: [
+    {
+      target: 1,
+      duration: "1s",
+    },
+  ],
 };
 
 export default function (data) {
