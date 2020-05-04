@@ -12,6 +12,7 @@ function ThreadGroup(node, context) {
   if (node.attributes.enabled === 'false') {
     return result;
   }
+
   result.options.stages = [{}];
   result.logic = '';
   const settings = {};
@@ -26,9 +27,15 @@ function ThreadGroup(node, context) {
   if (infinite(settings)) {
     merge(result, elements(els, context));
   } else {
+    if (settings.iterations) {
+      // eslint-disable-next-line no-param-reassign
+      context.iterations = settings.iterations;
+    }
+
     const childrenResult = elements(els, context);
     const childrenLogic = childrenResult.logic || '';
     delete childrenResult.logic;
+
     merge(result, childrenResult);
     result.logic +=
       '' +
@@ -37,6 +44,7 @@ ${ind(strip(childrenLogic))}
 }`;
   }
   result.user = true;
+
   return result;
 }
 

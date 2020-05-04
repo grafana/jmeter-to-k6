@@ -56,7 +56,7 @@
     "scripts": {
         "lint": "eslint ./src",
         "lint:fix": "eslint ./src --fix",
-        "format": "prettier . -c",
+        "format": "prettier ./src -c",
         "format:fix": "prettier . --write",
         "doc": "jsdoc -c .jsdoc.json --pedantic",
         "test-int": "cross-env NODE_PATH=src:test ava test/int",

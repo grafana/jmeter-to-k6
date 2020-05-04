@@ -36,6 +36,7 @@ const route = {
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),
   ThreadGroup: require('./element/ThreadGroup'),
+  ThroughputController: require('./element/ThroughputController'),
   TransactionController: require('./element/TransactionController'),
   WhileController: require('./element/WhileController'),
   XPath2Extractor: require('./element/XPath2Extractor'),
