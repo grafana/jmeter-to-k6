@@ -27,3 +27,5 @@ rules:
     - WithStatement
   no-continue:
     - 0
+  class-methods-use-this:
+    - 0

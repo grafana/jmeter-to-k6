@@ -174,10 +174,10 @@ function renderVariables(vars, state) {
   }
   const lines = [];
   lines.push(`const vars = {}`);
-
   // eslint-disable-next-line no-restricted-syntax
   for (const [name, { value, comment }] of vars) {
     let line = `vars[${JSON.stringify(name)}] = ${JSON.stringify(value)}`;
+
     if (comment) {
       line += ` /* ${comment} */`;
     }
