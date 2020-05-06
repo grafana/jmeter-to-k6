@@ -2,11 +2,13 @@
 /* eslint-disable no-underscore-dangle */
 
 const elements = require('../elements');
+const makeResult = require('../result');
 
 module.exports = class BaseElement {
   constructor(node, context) {
     this.node = node;
     this.context = context;
+    this.result = makeResult();
   }
 
   get emptyResponse() {
@@ -82,7 +84,7 @@ module.exports = class BaseElement {
       .map((x) => {
         return {
           name: x.attributes.name.split('.').pop(),
-          value: x.children.find((y) => y.type === 'text').text,
+          value: (x.children.find((y) => y.type === 'text') || {}).text,
         };
       });
   }

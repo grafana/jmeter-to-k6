@@ -90,7 +90,9 @@ class ThroughputController extends BaseElement {
         this.logic = this.getNumericThroughput(maxThroughput);
         break;
       default:
-        throw new Error('Invalid execution style for throughput controller');
+        throw new Error(
+          `Invalid execution style "${style}"for throughput controller`
+        );
     }
 
     const children = this.getDataForChildren();
