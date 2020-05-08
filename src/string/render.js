@@ -13,6 +13,8 @@ function evaluate(string) {
   }
 
   if (string.substring(0, 2) === '__') {
+    // console.log('here');
+
     return func(string);
   }
 
@@ -24,6 +26,8 @@ function func(string) {
   switch (name) {
     case 'threadNum':
       return '__VU';
+    case 'P':
+      return `vars["${string.replace(/__P\((.*)\)/, '$1')}"]`;
     default:
       throw new Error(`JMeter function not implemented: __${name}`);
   }

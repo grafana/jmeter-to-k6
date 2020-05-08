@@ -15,6 +15,7 @@ import { check } from "k6";
 import { buffer, iconv, papaparse } from "./libs/compat.js";
 
 const vars = {};
+vars["query"] = "CSV_PLACEHOLDER";
 
 const vus = 1;
 let csvPage = {},

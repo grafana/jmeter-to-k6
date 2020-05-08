@@ -68,7 +68,7 @@ module.exports = class BaseElement {
   }
 
   getDataForChildren() {
-    const result = elements(this.elements);
+    const result = elements(this.elements, this.context);
     const { logic } = result;
     delete result.logic;
 

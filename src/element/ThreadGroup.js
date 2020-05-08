@@ -111,6 +111,10 @@ function property(node, context, settings, result) {
       result.options.noVUConnectionReuse = val === 'false';
       break;
     }
+    case 'start_time':
+    case 'end_time':
+      // ignore these props.
+      break;
     default:
       throw new Error(`Unrecognized ThreadGroup property: ${name}`);
   }

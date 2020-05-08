@@ -40,6 +40,7 @@ const route = {
   ThreadGroup: require('./element/ThreadGroup'),
   ThroughputController: require('./element/ThroughputController'),
   TransactionController: require('./element/TransactionController'),
+  UniformRandomTimer: require('./element/UniformRandomTimer'),
   WhileController: require('./element/WhileController'),
   XPath2Extractor: require('./element/XPath2Extractor'),
   XPathAssertion: require('./element/XPathAssertion'),
@@ -53,6 +54,7 @@ const route = {
  *
  * @return {ConvertResult}
  */
+
 function element(node, context = makeContext()) {
   const { name } = node;
   if (!route[name]) {

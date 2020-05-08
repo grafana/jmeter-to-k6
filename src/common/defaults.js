@@ -4,11 +4,15 @@ const expand = require('../expand');
 const makeContext = require('../context');
 const merge = require('../merge');
 
+const requiresPreprocessing = ['CSVDataSet', 'Arguments'];
+
 const route = {
   AuthManager: require('../element/AuthManager'),
+  Arguments: require('../element/Arguments'),
   BoundaryExtractor: require('../element/BoundaryExtractor'),
   'com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion': require('../element/JSONPathAssertion'),
   'com.atlantbh.jmeter.plugins.jsonutils.jsonpathextractor.JSONPathExtractor': require('../element/JSONPathExtractor'),
+  CSVDataSet: require('../element/CSVDataSetPreProcessor'),
   ConfigTestElement: require('../element/ConfigTestElement'),
   ConstantTimer: require('../element/ConstantTimer'),
   DurationAssertion: require('../element/DurationAssertion'),
@@ -22,20 +26,15 @@ const route = {
 
 function extractDefaults(node, result, context = makeContext()) {
   const values = {};
-  const configs = expand(
-    node.children
-      .filter((item) => item.type === 'element')
-      .map((item) =>
-        item.name === 'hashTree'
-          ? item.children.filter((innerItem) => innerItem.type === 'element')
-          : item
-      )
-  ).filter((item) => item.name in route);
+
+  const configs = extractConfigs(node);
+
   for (const config of configs) {
     const configResult = route[config.name](config, context);
     const {
       defaults: [configValues],
     } = configResult;
+
     configResult.defaults = [];
     merge(result, configResult);
     if (!configValues) {
@@ -48,17 +47,42 @@ function extractDefaults(node, result, context = makeContext()) {
       mergeCategory(values, configValues, key);
     }
   }
-  for (const hashTree of node.children.filter(
-    (item) => item.name === 'hashTree'
-  )) {
-    hashTree.children = hashTree.children.filter(
-      (item) => !(item.type === 'element' && item.name in route)
-    );
-  }
-  node.children = node.children.filter(
-    (item) => !(item.type === 'element' && item.name in route)
-  );
+
+  processChildren(node);
+
   return [...context.defaults, values];
+}
+
+function processChildren(node) {
+  node.children
+    .filter((item) => item.name === 'hashTree')
+    .forEach((tree) => filterChildren(tree));
+
+  filterChildren(node);
+}
+
+function filterChildren(node) {
+  node.children = node.children.filter((item) => !isFilteredNode(item));
+}
+
+function isFilteredNode(item) {
+  return (
+    item.type === 'element' &&
+    item.name in route &&
+    !requiresPreprocessing.includes(item.name)
+  );
+}
+
+function extractConfigs(node) {
+  return expand(
+    node.children
+      .filter((item) => item.type === 'element')
+      .map((item) =>
+        item.name === 'hashTree'
+          ? item.children.filter((innerItem) => innerItem.type === 'element')
+          : item
+      )
+  ).filter((item) => item.name in route);
 }
 
 function mergeCategory(base, update, key) {

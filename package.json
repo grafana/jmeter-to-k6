@@ -24,7 +24,7 @@
         "@babel/runtime": "^7.3.1",
         "@rgrove/parse-xml": "^1.1.1",
         "browserify": "^16.2.3",
-        "buffer": "^5.2.1",
+        "buffer": "^4.2.0",
         "chalk": "^2.4.2",
         "fs-extra": "^7.0.1",
         "he": "^1.2.0",
@@ -62,7 +62,13 @@
         "test-int": "cross-env NODE_PATH=src:test ava test/int",
         "test-unit": "cross-env NODE_PATH=src:test ava test/unit",
         "test": "npm-run-all test-unit test-int",
-        "test-hoc": "cross-env NODE_PATH=src:test ava"
+        "test-hoc": "cross-env NODE_PATH=src:test ava",
+        "nyt": "yarn nyt:1 && yarn nyt:2 && yarn nyt:3 && yarn nyt:4 && yarn nyt:5",
+        "nyt:1": "./bin/jmeter-to-k6.js example/v2/1.jmx -o output",
+        "nyt:2": "./bin/jmeter-to-k6.js example/v2/2.jmx -o output",
+        "nyt:3": "./bin/jmeter-to-k6.js example/v2/3.jmx -o output",
+        "nyt:4": "./bin/jmeter-to-k6.js example/v2/4.jmx -o output",
+        "nyt:5": "./bin/jmeter-to-k6.js example/v2/5.jmx -o output"
     },
     "husky": {
         "hooks": {
