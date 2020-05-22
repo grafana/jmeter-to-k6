@@ -6,7 +6,9 @@ function Skipped(node, _context) {
     parts.unshift(current.name);
     current = current.parent;
   }
-  return { init: `\n // Element skipped: ${parts.join('.')}` };
+  return {
+    init: `\n// Element skipped: ${parts.join('.')}`,
+  };
 }
 
 module.exports = Skipped;

@@ -12,6 +12,7 @@ const route = {
   Arguments: require('./element/Arguments'),
   BeanShellPostProcessor: require('./element/BeanShellPostProcessor'),
   BeanShellPreProcessor: require('./element/BeanShellPreProcessor'),
+  CacheManager: require('./element/Skipped'),
   CookieManager: require('./element/CookieManager'),
   CSVDataSet: require('./element/CSVDataSet'),
   DNSCacheManager: require('./element/DNSCacheManager'),
