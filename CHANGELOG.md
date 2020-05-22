@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-05-22
+
+### Added
+
+-   CounterConfig element
+-   CSV variable support in HeaderManager
+-   RandomVariableConfig element
+-   ThroughputController element supporting both percentage and amount based throughput control.
+-   UniformRandomTimer support
+
+### Fixed
+
+-   CacheManager won't crash the converter, but instead skip it with a comment in the output.
+-   Pass iterations to context from threadgroups
+-   Consolidated some common functionailty for Elements into a baseclass
+-   Change Load Impact to k6 in comments
+-   Moved CI workflow from CircleCI to GitHub Actions and automated release and publish.
+
 ## [0.1.19] - 2020-04-24
 
 -   Switch from standardjs to prettier and eslint + airbnb
@@ -62,7 +80,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   All the initial code
 
-[unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...HEAD
+[unreleased]: https://github.com/loadimpact/jmeter-to-k6/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...v0.1.19
 [0.1.19]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.18...v0.1.19
 [0.1.18]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/loadimpact/jmeter-to-k6/compare/v0.1.16...v0.1.17
