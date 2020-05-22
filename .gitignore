@@ -19,3 +19,5 @@ libs/
 jmeter.log
 .DS_Store
 .vscode
+example/v2
+output
