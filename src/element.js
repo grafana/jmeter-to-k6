@@ -14,6 +14,7 @@ const route = {
   BeanShellPreProcessor: require('./element/BeanShellPreProcessor'),
   CacheManager: require('./element/Skipped'),
   CookieManager: require('./element/CookieManager'),
+  CounterConfig: require('./element/CounterConfig'),
   CSVDataSet: require('./element/CSVDataSet'),
   DNSCacheManager: require('./element/DNSCacheManager'),
   Fake: require('./element/Fake'),
@@ -31,12 +32,15 @@ const route = {
   OnceOnlyController: require('./element/OnceOnlyController'),
   PostThreadGroup: require('./element/PostThreadGroup'),
   RandomController: require('./element/RandomController'),
+  RandomVariableConfig: require('./element/RandomVariableConfig'),
   ResultCollector: require('./element/Skipped'),
   RunTime: require('./element/RunTime'),
   SetupThreadGroup: require('./element/SetupThreadGroup'),
   TestPlan: require('./element/TestPlan'),
   ThreadGroup: require('./element/ThreadGroup'),
+  ThroughputController: require('./element/ThroughputController'),
   TransactionController: require('./element/TransactionController'),
+  UniformRandomTimer: require('./element/UniformRandomTimer'),
   WhileController: require('./element/WhileController'),
   XPath2Extractor: require('./element/XPath2Extractor'),
   XPathAssertion: require('./element/XPathAssertion'),
@@ -50,6 +54,7 @@ const route = {
  *
  * @return {ConvertResult}
  */
+
 function element(node, context = makeContext()) {
   const { name } = node;
   if (!route[name]) {

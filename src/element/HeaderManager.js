@@ -19,6 +19,7 @@ function HeaderManager(node, context) {
   if (settings.size) {
     result.defaults.push({ [Header]: settings });
   }
+
   return result;
 }
 
@@ -55,11 +56,20 @@ function headers(node, context, settings) {
 }
 
 function header(node, context, settings) {
-  const props = properties(node, context);
+  const searchPattern = /^\$\{.*\}$/;
+  const replacePattern = /^\$\{(.*)\}$/;
+  const props = properties(node, context, true);
+
   if (!(props.name && props.value)) {
     throw new Error('Invalid header entry');
   }
-  settings.set(props.name, props.value);
+
+  settings.set(
+    `"${props.name}"`,
+    searchPattern.test(props.value)
+      ? props.value.replace(replacePattern, 'vars["$1"]')
+      : `"${props.value}"`
+  );
 }
 
 module.exports = HeaderManager;

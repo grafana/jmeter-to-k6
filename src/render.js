@@ -174,16 +174,22 @@ function renderVariables(vars, state) {
   }
   const lines = [];
   lines.push(`const vars = {}`);
-
   // eslint-disable-next-line no-restricted-syntax
   for (const [name, { value, comment }] of vars) {
-    let line = `vars[${JSON.stringify(name)}] = ${JSON.stringify(value)}`;
+    let line = `vars[${JSON.stringify(name)}] = ${
+      isGlobalVar(value) ? `__ENV["${name}"]` : JSON.stringify(value)
+    }`;
+
     if (comment) {
       line += ` /* ${comment} */`;
     }
     lines.push(line);
   }
   return lines.join('\n');
+}
+
+function isGlobalVar(value) {
+  return /\$\{__P/.test(value);
 }
 
 function renderFiles(files) {
