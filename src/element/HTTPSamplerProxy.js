@@ -130,7 +130,7 @@ function applyDefault(settings, key, val, context) {
       break;
     case 'path': {
       const path = runtimeString(val);
-      if (/^["`]https?:\/\//.test(path) || /^`\${vars[`.+`]}/.test(path)) {
+      if (isPrefixedWithSchema(path) || isReferencingVariable(path)) {
         settings.address = path;
       }
       break;
@@ -265,7 +265,7 @@ function property(node, context, settings) {
       break;
     case 'path': {
       const path = literal(node, context);
-      if (/^["`]https?:\/\//.test(path) || /^`\${vars[`.+`]}/.test(path)) {
+      if (isPrefixedWithSchema(path) || isReferencingVariable(path)) {
         settings.address = path;
       } else {
         settings.path = path;
@@ -291,6 +291,14 @@ function property(node, context, settings) {
     default:
       throw new Error(`Unrecognized HTTPSamplerProxy property: ${name}`);
   }
+}
+
+function isPrefixedWithSchema(path) {
+  return /^["`]https?:\/\//.test(path);
+}
+
+function isReferencingVariable(path) {
+  return /^`\${vars\[`.+`\]}/.test(path);
 }
 
 function sufficient(settings) {
