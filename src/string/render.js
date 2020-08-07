@@ -21,13 +21,15 @@ function evaluate(string) {
   return variable(string);
 }
 
-function func(string) {
-  const name = /^__([^(])\(/.exec(string)[1];
+function func(arg) {
+  const leftHand = /^__([^(|\s]+)\(/;
+  const name = leftHand.exec(arg)[1];
+
   switch (name) {
     case 'threadNum':
       return '__VU';
     case 'P':
-      return `vars["${string.replace(/__P\((.*)\)/, '$1')}"]`;
+      return `vars["${arg.replace(/__P\((.*)\)/, '$1')}"]`;
     default:
       throw new Error(`JMeter function not implemented: __${name}`);
   }
