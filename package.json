@@ -31,7 +31,7 @@
         "husky": "^4.2.5",
         "iconv-lite": "^0.4.24",
         "jsonpath": "1.0.1",
-        "papaparse": "^4.6.3",
+        "papaparse": "^5.2.0",
         "perl-regex": "^1.0.4",
         "prettier": "^2.0.5",
         "string.prototype.matchall": "^3.0.1",
