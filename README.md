@@ -1,14 +1,11 @@
-> ### ⚠️ This project is currently in hibernation mode
-> 
-> This means that all active development has been paused at this point. However, we still welcome pull requests and will work with any community contributors in integrating their changes upstream.
+## ⚠️ This project is no longer maintained. 
 
-# jmeter-to-k6
+> Development and maintenance of the JMeter-to-k6 converter  have been stopped in this repository.
 
-![npm](https://img.shields.io/npm/v/jmeter-to-k6.svg) ![npm](https://img.shields.io/npm/dw/jmeter-to-k6.svg) ![dockerhub](https://img.shields.io/docker/pulls/loadimpact/jmeter-to-k6.svg) ![build push status](https://github.com/loadimpact/jmeter-to-k6/workflows/Build%20on%20push/badge.svg) ![build tag status](https://github.com/loadimpact/jmeter-to-k6/workflows/Build%20on%20tag/badge.svg)
 
-Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
+If you are a JMeter user starting with k6, check out how [k6 compares to JMeter](https://k6.io/blog/k6-vs-jmeter/) and learn how to use k6 on the [documentation](https://k6.io/docs/). 
 
-## Usage
+-------------------------------------------------------------
 
 **Install**:
 
@@ -33,6 +30,8 @@ docker pull loadimpact/jmeter-to-k6
 ```
 
 **Convert**:
+
+Convert [JMeter](https://jmeter.apache.org/) JMX to [k6](https://k6.io/) JS.
 
 ```shell
 jmeter-to-k6 example/full.jmx -o full
@@ -64,7 +63,3 @@ k6 run /path/to/jmeter-files/MyTestOutput/test.js
 k6 run full/test.js
 ```
 
-## Other similar tools
-
--   [postman-to-k6](https://github.com/loadimpact/postman-to-k6/): Convert
-    Postman to k6 JS.
