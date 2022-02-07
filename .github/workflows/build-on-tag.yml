@@ -42,9 +42,9 @@ jobs:
             --username ${{ secrets.DOCKERHUB_USERNAME }} \
             --password-stdin
           export tag=${GITHUB_REF/refs\/tags\/v/}
-          docker build . -t loadimpact/jmeter-to-k6:$tag
+          docker build . -t grafana/jmeter-to-k6:$tag
           docker tag \
-            loadimpact/jmeter-to-k6:$tag \
-            loadimpact/jmeter-to-k6:latest
-          docker push loadimpact/jmeter-to-k6:$tag
-          docker push loadimpact/jmeter-to-k6:latest
+            grafana/jmeter-to-k6:$tag \
+            grafana/jmeter-to-k6:latest
+          docker push grafana/jmeter-to-k6:$tag
+          docker push grafana/jmeter-to-k6:latest

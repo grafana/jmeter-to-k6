@@ -26,7 +26,7 @@ Note that this will require you to run the converter with `node node_modules/jme
 Alternatively, you can install the tool from DockerHub:
 
 ```shell
-docker pull loadimpact/jmeter-to-k6
+docker pull grafana/jmeter-to-k6
 ```
 
 **Convert**:
@@ -48,7 +48,7 @@ npx jmeter-to-k6 example/full.jmx -o full
 Using the Docker image, you execute the tool as follows:
 
 ```shell
-docker run -it -v "/path/to/jmeter-files/:/output/" loadimpact/jmeter-to-k6 /output/MyTest.jmx -o /output/MyTestOutput/
+docker run -it -v "/path/to/jmeter-files/:/output/" grafana/jmeter-to-k6 /output/MyTest.jmx -o /output/MyTestOutput/
 ```
 
 and then execute the k6 test using:
